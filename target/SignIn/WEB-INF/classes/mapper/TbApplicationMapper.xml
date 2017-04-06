@@ -8,6 +8,8 @@
     <result column="Title" jdbcType="VARCHAR" property="title" />
     <result column="Remark" jdbcType="VARCHAR" property="remark" />
     <result column="ApplicationTime" jdbcType="TIMESTAMP" property="applicationtime" />
+    <result column="CorrectTime" jdbcType="TIMESTAMP" property="correcttime" />
+    <result column="Style" jdbcType="BIT" property="style" />
     <result column="Status" jdbcType="BIT" property="status" />
   </resultMap>
   <sql id="Example_Where_Clause">
@@ -69,7 +71,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    ApplicationId, EmployeeId, DailyAttendanceId, Title, Remark, ApplicationTime, Status
+    ApplicationId, EmployeeId, DailyAttendanceId, Title, Remark, ApplicationTime, CorrectTime, 
+    Style, Status
   </sql>
   <select id="selectByExample" parameterType="pojo.TbApplicationExample" resultMap="BaseResultMap">
     select
@@ -104,10 +107,12 @@
   <insert id="insert" parameterType="pojo.TbApplication">
     insert into tb_application (ApplicationId, EmployeeId, DailyAttendanceId, 
       Title, Remark, ApplicationTime, 
-      Status)
+      CorrectTime, Style, Status
+      )
     values (#{applicationid,jdbcType=CHAR}, #{employeeid,jdbcType=CHAR}, #{dailyattendanceid,jdbcType=CHAR}, 
       #{title,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{applicationtime,jdbcType=TIMESTAMP}, 
-      #{status,jdbcType=BIT})
+      #{correcttime,jdbcType=TIMESTAMP}, #{style,jdbcType=BIT}, #{status,jdbcType=BIT}
+      )
   </insert>
   <insert id="insertSelective" parameterType="pojo.TbApplication">
     insert into tb_application
@@ -129,6 +134,12 @@
       </if>
       <if test="applicationtime != null">
         ApplicationTime,
+      </if>
+      <if test="correcttime != null">
+        CorrectTime,
+      </if>
+      <if test="style != null">
+        Style,
       </if>
       <if test="status != null">
         Status,
@@ -152,6 +163,12 @@
       </if>
       <if test="applicationtime != null">
         #{applicationtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="correcttime != null">
+        #{correcttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="style != null">
+        #{style,jdbcType=BIT},
       </if>
       <if test="status != null">
         #{status,jdbcType=BIT},
@@ -185,6 +202,12 @@
       <if test="record.applicationtime != null">
         ApplicationTime = #{record.applicationtime,jdbcType=TIMESTAMP},
       </if>
+      <if test="record.correcttime != null">
+        CorrectTime = #{record.correcttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.style != null">
+        Style = #{record.style,jdbcType=BIT},
+      </if>
       <if test="record.status != null">
         Status = #{record.status,jdbcType=BIT},
       </if>
@@ -201,6 +224,8 @@
       Title = #{record.title,jdbcType=VARCHAR},
       Remark = #{record.remark,jdbcType=VARCHAR},
       ApplicationTime = #{record.applicationtime,jdbcType=TIMESTAMP},
+      CorrectTime = #{record.correcttime,jdbcType=TIMESTAMP},
+      Style = #{record.style,jdbcType=BIT},
       Status = #{record.status,jdbcType=BIT}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -224,6 +249,12 @@
       <if test="applicationtime != null">
         ApplicationTime = #{applicationtime,jdbcType=TIMESTAMP},
       </if>
+      <if test="correcttime != null">
+        CorrectTime = #{correcttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="style != null">
+        Style = #{style,jdbcType=BIT},
+      </if>
       <if test="status != null">
         Status = #{status,jdbcType=BIT},
       </if>
@@ -237,6 +268,8 @@
       Title = #{title,jdbcType=VARCHAR},
       Remark = #{remark,jdbcType=VARCHAR},
       ApplicationTime = #{applicationtime,jdbcType=TIMESTAMP},
+      CorrectTime = #{correcttime,jdbcType=TIMESTAMP},
+      Style = #{style,jdbcType=BIT},
       Status = #{status,jdbcType=BIT}
     where ApplicationId = #{applicationid,jdbcType=CHAR}
   </update>

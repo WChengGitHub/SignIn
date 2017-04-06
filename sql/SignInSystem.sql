@@ -8,12 +8,12 @@ create table tb_companyRepresentative /*公司负责人表*/
 	Name varchar(20) not null,#公司负责人名称
 	Password varchar(20) not null,#密码
 	Telephone char(12) not null,#手机号码
-	Email varchar(32) not null 
+	Email varchar(32) not null
 	#邮箱
-	
+
 );
 describe tb_companyRepresentative;
- 
+
 use SignInSystem; /*打开数据库*/
 create table tb_company /*公司表*/
 (
@@ -23,7 +23,7 @@ create table tb_company /*公司表*/
 	Del bit default 0 not null,#删除状态 1-已删除 0-未删除
 	CompanyRepresentativeId char(32) not null, #公司负责人id
 	foreign key(CompanyRepresentativeId)references tb_companyRepresentative(CompanyRepresentativeId) #外键
-	
+
 );
 describe tb_company;
 
@@ -86,7 +86,7 @@ create table tb_dailyAttendance /*日常出勤表*/
 	FrontTime timestamp not null,#签到前限 或者char?
 	AccumulatedTime timestamp not null,#累积时间 或者char?
 	#Status char(1) default 0 not null,
-	Status char(1)  not null,#状态 1-出勤 2-迟到 3-早退
+	Status char(1)  not null,#状态 1-出勤 2-迟到 3-早退 4-迟到&早退
 	EmployeeId char(32)not null,#员工id
 	foreign key(EmployeeId) references tb_employee(EmployeeId)#外键
 
@@ -94,9 +94,9 @@ create table tb_dailyAttendance /*日常出勤表*/
 describe tb_dailyAttendance;
 
 use SignInSystem; /*打开数据库*/
-create table tb_departmentSchedule /*员工上班时间表*/
+create table tb_departmentSchedule /*部门上班表*/
 (
-	ScheduleId char(32) primary key,#上班时间表记录id
+	ScheduleId char(32) primary key,#部门上班表id
 	DepartmentId char(32) not null,#部门id
 	foreign key(DepartmentId) references tb_department(DepartmentId),#外键
 	EnterTime varchar(12) not null,#上班时间
@@ -140,9 +140,11 @@ create table tb_application /*修改申请表*/
 	foreign key(EmployeeId) references tb_employee(EmployeeId),#外键
 	DailyAttendanceId char(32) not null,#日常出勤记录id
 	foreign key(DailyAttendanceId) references tb_dailyAttendance(DailyAttendanceId),#外键
-	Title varchar(50) not null,#题目
+	Title varchar(50) not null,#申请标题
 	Remark varchar(100) not null,#备注
 	ApplicationTime timestamp not null,#申请时间
+	CorrectTime timestamp not null, #正确时间
+	Style bit not null,#0-修改上班时间 1-修改下班时间
 	Status bit default 0  not null
 	#审核状态 0-未审核 1-已审核
 
@@ -154,7 +156,10 @@ create table tb_arriveAndLeave /*员工进出表*/
 (
 	ArriveAndLeaveId char(32) primary key,#员工进出记录id
 	EmployeeId char(32) not null,#员工id
+	DailyAttendanceId char(32) not null,#进出记录对应的出勤记录
+	foreign key(DailyAttendanceId) references tb_dailyAttendance(DailyAttendanceId),#外键
 	foreign key(EmployeeId) references tb_employee(EmployeeId),#外键
+
 	ArriveTime timestamp not null,#进入时间
 	LeaveTime timestamp not null
 	#离开时间
@@ -190,8 +195,8 @@ create table tb_activityAttendance /*活动出席表*/
 	EnterTime timestamp not null,#签到时间
 	OutTime timestamp not null,#签出时间
 	Status char(1) not null
-	#状态 1-出勤 2-迟到 3-缺勤 4-请假 5-早退
-	
+	#状态 1-出勤 2-迟到 3-缺勤 4-请假 5-早退 6-迟到&早退
+
 );
 describe tb_activityAttendance;
 
@@ -206,7 +211,7 @@ create table tb_advice /*意见表*/
 	Date timestamp not null,#发布时间
 	Style bit not null
 	#意见类型 0-软件意见 1-公司意见
-	
+
 );
 describe tb_advice;
 
@@ -214,18 +219,18 @@ use SignInSystem; /*打开数据库*/
 create table tb_notify /*通知表*/
 (
 	NotifyId char(32) primary key,#通知记录id
-	Title varchar(50) not null,#通知题目
+	Title varchar(50) not null,#通知标题
 	Content varchar(100) not null,#通知内容
 	NotifyTime timestamp not null,#发布通知时间
 	Adscription varchar(60) not null
 	#所属部门/公司
-	
+
 );
 describe tb_notify;
 
 use SignInSystem; /*打开数据库*/
 create table tb_employeeNotify /*员工的通知表*/
-(	
+(
 	NotifyId char(32) not null,#通知记录id
 	EmployeeId char(32) not null,#员工id
 	Status bit default 0  not null,#审阅状态 1-已读 0-未读
@@ -237,7 +242,7 @@ describe tb_employeeNotify;
 
 use SignInSystem; /*打开数据库*/
 create table tb_interim /*请假临时表*/
-(	
+(
 	EmployeeId char(32) not null,#员工id
 	DepartmentId char(32) not null,#部门id
 	foreign key(DepartmentId) references tb_department(DepartmentId),#外键

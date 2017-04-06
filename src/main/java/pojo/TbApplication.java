@@ -15,6 +15,10 @@ public class TbApplication {
 
     private Date applicationtime;
 
+    private Date correcttime;
+
+    private Boolean style;
+
     private Boolean status;
 
     public String getApplicationid() {
@@ -63,6 +67,22 @@ public class TbApplication {
 
     public void setApplicationtime(Date applicationtime) {
         this.applicationtime = applicationtime;
+    }
+
+    public Date getCorrecttime() {
+        return correcttime;
+    }
+
+    public void setCorrecttime(Date correcttime) {
+        this.correcttime = correcttime;
+    }
+
+    public Boolean getStyle() {
+        return style;
+    }
+
+    public void setStyle(Boolean style) {
+        this.style = style;
     }
 
     public Boolean getStatus() {

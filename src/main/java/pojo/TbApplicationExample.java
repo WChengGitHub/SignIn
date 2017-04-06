@@ -515,6 +515,126 @@ public class TbApplicationExample {
             return (Criteria) this;
         }
 
+        public Criteria andCorrecttimeIsNull() {
+            addCriterion("CorrectTime is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCorrecttimeIsNotNull() {
+            addCriterion("CorrectTime is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCorrecttimeEqualTo(Date value) {
+            addCriterion("CorrectTime =", value, "correcttime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCorrecttimeNotEqualTo(Date value) {
+            addCriterion("CorrectTime <>", value, "correcttime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCorrecttimeGreaterThan(Date value) {
+            addCriterion("CorrectTime >", value, "correcttime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCorrecttimeGreaterThanOrEqualTo(Date value) {
+            addCriterion("CorrectTime >=", value, "correcttime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCorrecttimeLessThan(Date value) {
+            addCriterion("CorrectTime <", value, "correcttime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCorrecttimeLessThanOrEqualTo(Date value) {
+            addCriterion("CorrectTime <=", value, "correcttime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCorrecttimeIn(List<Date> values) {
+            addCriterion("CorrectTime in", values, "correcttime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCorrecttimeNotIn(List<Date> values) {
+            addCriterion("CorrectTime not in", values, "correcttime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCorrecttimeBetween(Date value1, Date value2) {
+            addCriterion("CorrectTime between", value1, value2, "correcttime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCorrecttimeNotBetween(Date value1, Date value2) {
+            addCriterion("CorrectTime not between", value1, value2, "correcttime");
+            return (Criteria) this;
+        }
+
+        public Criteria andStyleIsNull() {
+            addCriterion("Style is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andStyleIsNotNull() {
+            addCriterion("Style is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andStyleEqualTo(Boolean value) {
+            addCriterion("Style =", value, "style");
+            return (Criteria) this;
+        }
+
+        public Criteria andStyleNotEqualTo(Boolean value) {
+            addCriterion("Style <>", value, "style");
+            return (Criteria) this;
+        }
+
+        public Criteria andStyleGreaterThan(Boolean value) {
+            addCriterion("Style >", value, "style");
+            return (Criteria) this;
+        }
+
+        public Criteria andStyleGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("Style >=", value, "style");
+            return (Criteria) this;
+        }
+
+        public Criteria andStyleLessThan(Boolean value) {
+            addCriterion("Style <", value, "style");
+            return (Criteria) this;
+        }
+
+        public Criteria andStyleLessThanOrEqualTo(Boolean value) {
+            addCriterion("Style <=", value, "style");
+            return (Criteria) this;
+        }
+
+        public Criteria andStyleIn(List<Boolean> values) {
+            addCriterion("Style in", values, "style");
+            return (Criteria) this;
+        }
+
+        public Criteria andStyleNotIn(List<Boolean> values) {
+            addCriterion("Style not in", values, "style");
+            return (Criteria) this;
+        }
+
+        public Criteria andStyleBetween(Boolean value1, Boolean value2) {
+            addCriterion("Style between", value1, value2, "style");
+            return (Criteria) this;
+        }
+
+        public Criteria andStyleNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("Style not between", value1, value2, "style");
+            return (Criteria) this;
+        }
+
         public Criteria andStatusIsNull() {
             addCriterion("Status is null");
             return (Criteria) this;

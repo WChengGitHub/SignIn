@@ -7,6 +7,8 @@ public class TbArriveandleave {
 
     private String employeeid;
 
+    private String dailyattendanceid;
+
     private Date arrivetime;
 
     private Date leavetime;
@@ -25,6 +27,14 @@ public class TbArriveandleave {
 
     public void setEmployeeid(String employeeid) {
         this.employeeid = employeeid == null ? null : employeeid.trim();
+    }
+
+    public String getDailyattendanceid() {
+        return dailyattendanceid;
+    }
+
+    public void setDailyattendanceid(String dailyattendanceid) {
+        this.dailyattendanceid = dailyattendanceid == null ? null : dailyattendanceid.trim();
     }
 
     public Date getArrivetime() {

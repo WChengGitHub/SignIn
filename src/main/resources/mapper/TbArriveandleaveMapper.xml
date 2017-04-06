@@ -4,6 +4,7 @@
   <resultMap id="BaseResultMap" type="pojo.TbArriveandleave">
     <id column="ArriveAndLeaveId" jdbcType="CHAR" property="arriveandleaveid" />
     <result column="EmployeeId" jdbcType="CHAR" property="employeeid" />
+    <result column="DailyAttendanceId" jdbcType="CHAR" property="dailyattendanceid" />
     <result column="ArriveTime" jdbcType="TIMESTAMP" property="arrivetime" />
     <result column="LeaveTime" jdbcType="TIMESTAMP" property="leavetime" />
   </resultMap>
@@ -66,7 +67,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    ArriveAndLeaveId, EmployeeId, ArriveTime, LeaveTime
+    ArriveAndLeaveId, EmployeeId, DailyAttendanceId, ArriveTime, LeaveTime
   </sql>
   <select id="selectByExample" parameterType="pojo.TbArriveandleaveExample" resultMap="BaseResultMap">
     select
@@ -99,10 +100,10 @@
     </if>
   </delete>
   <insert id="insert" parameterType="pojo.TbArriveandleave">
-    insert into tb_arriveandleave (ArriveAndLeaveId, EmployeeId, ArriveTime, 
-      LeaveTime)
-    values (#{arriveandleaveid,jdbcType=CHAR}, #{employeeid,jdbcType=CHAR}, #{arrivetime,jdbcType=TIMESTAMP}, 
-      #{leavetime,jdbcType=TIMESTAMP})
+    insert into tb_arriveandleave (ArriveAndLeaveId, EmployeeId, DailyAttendanceId, 
+      ArriveTime, LeaveTime)
+    values (#{arriveandleaveid,jdbcType=CHAR}, #{employeeid,jdbcType=CHAR}, #{dailyattendanceid,jdbcType=CHAR}, 
+      #{arrivetime,jdbcType=TIMESTAMP}, #{leavetime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="pojo.TbArriveandleave">
     insert into tb_arriveandleave
@@ -112,6 +113,9 @@
       </if>
       <if test="employeeid != null">
         EmployeeId,
+      </if>
+      <if test="dailyattendanceid != null">
+        DailyAttendanceId,
       </if>
       <if test="arrivetime != null">
         ArriveTime,
@@ -126,6 +130,9 @@
       </if>
       <if test="employeeid != null">
         #{employeeid,jdbcType=CHAR},
+      </if>
+      <if test="dailyattendanceid != null">
+        #{dailyattendanceid,jdbcType=CHAR},
       </if>
       <if test="arrivetime != null">
         #{arrivetime,jdbcType=TIMESTAMP},
@@ -150,6 +157,9 @@
       <if test="record.employeeid != null">
         EmployeeId = #{record.employeeid,jdbcType=CHAR},
       </if>
+      <if test="record.dailyattendanceid != null">
+        DailyAttendanceId = #{record.dailyattendanceid,jdbcType=CHAR},
+      </if>
       <if test="record.arrivetime != null">
         ArriveTime = #{record.arrivetime,jdbcType=TIMESTAMP},
       </if>
@@ -165,6 +175,7 @@
     update tb_arriveandleave
     set ArriveAndLeaveId = #{record.arriveandleaveid,jdbcType=CHAR},
       EmployeeId = #{record.employeeid,jdbcType=CHAR},
+      DailyAttendanceId = #{record.dailyattendanceid,jdbcType=CHAR},
       ArriveTime = #{record.arrivetime,jdbcType=TIMESTAMP},
       LeaveTime = #{record.leavetime,jdbcType=TIMESTAMP}
     <if test="_parameter != null">
@@ -176,6 +187,9 @@
     <set>
       <if test="employeeid != null">
         EmployeeId = #{employeeid,jdbcType=CHAR},
+      </if>
+      <if test="dailyattendanceid != null">
+        DailyAttendanceId = #{dailyattendanceid,jdbcType=CHAR},
       </if>
       <if test="arrivetime != null">
         ArriveTime = #{arrivetime,jdbcType=TIMESTAMP},
@@ -189,6 +203,7 @@
   <update id="updateByPrimaryKey" parameterType="pojo.TbArriveandleave">
     update tb_arriveandleave
     set EmployeeId = #{employeeid,jdbcType=CHAR},
+      DailyAttendanceId = #{dailyattendanceid,jdbcType=CHAR},
       ArriveTime = #{arrivetime,jdbcType=TIMESTAMP},
       LeaveTime = #{leavetime,jdbcType=TIMESTAMP}
     where ArriveAndLeaveId = #{arriveandleaveid,jdbcType=CHAR}

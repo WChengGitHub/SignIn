@@ -245,6 +245,76 @@ public class TbArriveandleaveExample {
             return (Criteria) this;
         }
 
+        public Criteria andDailyattendanceidIsNull() {
+            addCriterion("DailyAttendanceId is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDailyattendanceidIsNotNull() {
+            addCriterion("DailyAttendanceId is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDailyattendanceidEqualTo(String value) {
+            addCriterion("DailyAttendanceId =", value, "dailyattendanceid");
+            return (Criteria) this;
+        }
+
+        public Criteria andDailyattendanceidNotEqualTo(String value) {
+            addCriterion("DailyAttendanceId <>", value, "dailyattendanceid");
+            return (Criteria) this;
+        }
+
+        public Criteria andDailyattendanceidGreaterThan(String value) {
+            addCriterion("DailyAttendanceId >", value, "dailyattendanceid");
+            return (Criteria) this;
+        }
+
+        public Criteria andDailyattendanceidGreaterThanOrEqualTo(String value) {
+            addCriterion("DailyAttendanceId >=", value, "dailyattendanceid");
+            return (Criteria) this;
+        }
+
+        public Criteria andDailyattendanceidLessThan(String value) {
+            addCriterion("DailyAttendanceId <", value, "dailyattendanceid");
+            return (Criteria) this;
+        }
+
+        public Criteria andDailyattendanceidLessThanOrEqualTo(String value) {
+            addCriterion("DailyAttendanceId <=", value, "dailyattendanceid");
+            return (Criteria) this;
+        }
+
+        public Criteria andDailyattendanceidLike(String value) {
+            addCriterion("DailyAttendanceId like", value, "dailyattendanceid");
+            return (Criteria) this;
+        }
+
+        public Criteria andDailyattendanceidNotLike(String value) {
+            addCriterion("DailyAttendanceId not like", value, "dailyattendanceid");
+            return (Criteria) this;
+        }
+
+        public Criteria andDailyattendanceidIn(List<String> values) {
+            addCriterion("DailyAttendanceId in", values, "dailyattendanceid");
+            return (Criteria) this;
+        }
+
+        public Criteria andDailyattendanceidNotIn(List<String> values) {
+            addCriterion("DailyAttendanceId not in", values, "dailyattendanceid");
+            return (Criteria) this;
+        }
+
+        public Criteria andDailyattendanceidBetween(String value1, String value2) {
+            addCriterion("DailyAttendanceId between", value1, value2, "dailyattendanceid");
+            return (Criteria) this;
+        }
+
+        public Criteria andDailyattendanceidNotBetween(String value1, String value2) {
+            addCriterion("DailyAttendanceId not between", value1, value2, "dailyattendanceid");
+            return (Criteria) this;
+        }
+
         public Criteria andArrivetimeIsNull() {
             addCriterion("ArriveTime is null");
             return (Criteria) this;
