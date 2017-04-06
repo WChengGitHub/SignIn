@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.TbApplicationMapper">
+  <resultMap id="BaseResultMap" type="pojo.TbApplication">
+    <id column="ApplicationId" jdbcType="CHAR" property="applicationid" />
+    <result column="EmployeeId" jdbcType="CHAR" property="employeeid" />
+    <result column="DailyAttendanceId" jdbcType="CHAR" property="dailyattendanceid" />
+    <result column="Title" jdbcType="VARCHAR" property="title" />
+    <result column="Remark" jdbcType="VARCHAR" property="remark" />
+    <result column="ApplicationTime" jdbcType="TIMESTAMP" property="applicationtime" />
+    <result column="Status" jdbcType="BIT" property="status" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    ApplicationId, EmployeeId, DailyAttendanceId, Title, Remark, ApplicationTime, Status
+  </sql>
+  <select id="selectByExample" parameterType="pojo.TbApplicationExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from tb_application
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tb_application
+    where ApplicationId = #{applicationid,jdbcType=CHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from tb_application
+    where ApplicationId = #{applicationid,jdbcType=CHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="pojo.TbApplicationExample">
+    delete from tb_application
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="pojo.TbApplication">
+    insert into tb_application (ApplicationId, EmployeeId, DailyAttendanceId, 
+      Title, Remark, ApplicationTime, 
+      Status)
+    values (#{applicationid,jdbcType=CHAR}, #{employeeid,jdbcType=CHAR}, #{dailyattendanceid,jdbcType=CHAR}, 
+      #{title,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{applicationtime,jdbcType=TIMESTAMP}, 
+      #{status,jdbcType=BIT})
+  </insert>
+  <insert id="insertSelective" parameterType="pojo.TbApplication">
+    insert into tb_application
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="applicationid != null">
+        ApplicationId,
+      </if>
+      <if test="employeeid != null">
+        EmployeeId,
+      </if>
+      <if test="dailyattendanceid != null">
+        DailyAttendanceId,
+      </if>
+      <if test="title != null">
+        Title,
+      </if>
+      <if test="remark != null">
+        Remark,
+      </if>
+      <if test="applicationtime != null">
+        ApplicationTime,
+      </if>
+      <if test="status != null">
+        Status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="applicationid != null">
+        #{applicationid,jdbcType=CHAR},
+      </if>
+      <if test="employeeid != null">
+        #{employeeid,jdbcType=CHAR},
+      </if>
+      <if test="dailyattendanceid != null">
+        #{dailyattendanceid,jdbcType=CHAR},
+      </if>
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="applicationtime != null">
+        #{applicationtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="pojo.TbApplicationExample" resultType="java.lang.Long">
+    select count(*) from tb_application
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update tb_application
+    <set>
+      <if test="record.applicationid != null">
+        ApplicationId = #{record.applicationid,jdbcType=CHAR},
+      </if>
+      <if test="record.employeeid != null">
+        EmployeeId = #{record.employeeid,jdbcType=CHAR},
+      </if>
+      <if test="record.dailyattendanceid != null">
+        DailyAttendanceId = #{record.dailyattendanceid,jdbcType=CHAR},
+      </if>
+      <if test="record.title != null">
+        Title = #{record.title,jdbcType=VARCHAR},
+      </if>
+      <if test="record.remark != null">
+        Remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.applicationtime != null">
+        ApplicationTime = #{record.applicationtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.status != null">
+        Status = #{record.status,jdbcType=BIT},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update tb_application
+    set ApplicationId = #{record.applicationid,jdbcType=CHAR},
+      EmployeeId = #{record.employeeid,jdbcType=CHAR},
+      DailyAttendanceId = #{record.dailyattendanceid,jdbcType=CHAR},
+      Title = #{record.title,jdbcType=VARCHAR},
+      Remark = #{record.remark,jdbcType=VARCHAR},
+      ApplicationTime = #{record.applicationtime,jdbcType=TIMESTAMP},
+      Status = #{record.status,jdbcType=BIT}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="pojo.TbApplication">
+    update tb_application
+    <set>
+      <if test="employeeid != null">
+        EmployeeId = #{employeeid,jdbcType=CHAR},
+      </if>
+      <if test="dailyattendanceid != null">
+        DailyAttendanceId = #{dailyattendanceid,jdbcType=CHAR},
+      </if>
+      <if test="title != null">
+        Title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        Remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="applicationtime != null">
+        ApplicationTime = #{applicationtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        Status = #{status,jdbcType=BIT},
+      </if>
+    </set>
+    where ApplicationId = #{applicationid,jdbcType=CHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="pojo.TbApplication">
+    update tb_application
+    set EmployeeId = #{employeeid,jdbcType=CHAR},
+      DailyAttendanceId = #{dailyattendanceid,jdbcType=CHAR},
+      Title = #{title,jdbcType=VARCHAR},
+      Remark = #{remark,jdbcType=VARCHAR},
+      ApplicationTime = #{applicationtime,jdbcType=TIMESTAMP},
+      Status = #{status,jdbcType=BIT}
+    where ApplicationId = #{applicationid,jdbcType=CHAR}
+  </update>
+</mapper>

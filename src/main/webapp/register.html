@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+		<title>签到网站登录界面</title>
+
+		<!-- Bootstrap -->
+		<link href="css/bootstrap.min.css" rel="stylesheet">
+
+
+		<!--自己定义的css-->
+		<link href="css/mylogincss.css" rel="stylesheet" />
+		<link href="css/myfindpassword.css" rel="stylesheet" />
+
+		<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+		<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+		<!--[if lt IE 9]>
+      <script src="https://cdn.bootcss.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+	</head>
+
+	<body>
+		<form id="mypage" class="col-xs-11">
+			<ul id="myexit">
+				<li>
+					<a href="login.html" class=" pull-right"><span class="glyphicon glyphicon-circle-arrow-left"></span>&nbsp;返回</a>
+				</li>
+			</ul>
+			
+			<h1>公司注册</h1>
+			
+			<div id="myaccount_and_password">
+				<fieldset>
+					<div class="form-group">
+						<label for="mycompanyname" class="col-sm-3 control-label">*公司名称</label>
+						<div class="col-sm-9">
+							<input id="mycompanyname" type="text" placeholder="公司全称" class="form-control" autofocus="autofocus" required="required">
+						</div>
+					</div>
+					<br />
+					<div class="form-group">
+						<label for="mycompanymessage" class="col-sm-3 control-label">*公司信息</label>
+						<div class="col-sm-9">
+							<input id="mycompanymessage" type="text" placeholder="公司简介" class="form-control" required="required">
+						</div>
+					</div>
+					<br />
+					<div class="form-group">
+						<label for="mycompanyaddress" class="col-sm-3 control-label">*公司地址</label>
+						<div class="col-sm-9">
+							<input id="mycompanyaddress" type="text" placeholder="公司地址" class="form-control" required="required" onclick="getLocation()">
+						</div>
+					</div>
+					<br />
+					<div class="form-group">
+						<label for="mycompanyprove" class="col-sm-3 control-label">*上传营业执照</label>
+						<div class="col-sm-9">
+							<input id="mycompanyprove" type="file" class="form-control" required="required">
+						</div>
+					</div>
+					<br />
+					<div class="form-group">
+						<label for="mycompanyboss" class="col-sm-3 control-label">*公司负责人</label>
+						<div class="col-sm-9">
+							<input id="mycompanyboss" type="text" placeholder="公司负责人姓名" class="form-control" required="required">
+						</div>
+					</div>
+					<br />
+					<div class="form-group">
+						<label for="mycompanyidentity" class="col-sm-3 control-label">*上传身份证照片</label>
+						<div class="col-sm-9">
+							<input id="mycompanyidentity" type="file" class="form-control" required="required">
+						</div>
+					</div>
+					<br />
+					<div class="form-group">
+						<label for="mycompanypassword" class="col-sm-3 control-label">*设置密码</label>
+						<div class="col-sm-9">
+							<input id="mycompanypassword" type="password" placeholder="设置账号密码" class="form-control" required="required">
+						</div>
+					</div>
+					<br />
+					<div class="form-group">
+						<label for="mycompanyensurepassword" class="col-sm-3 control-label">*确认密码</label>
+						<div class="col-sm-9">
+							<input id="mycompanyensurepassword" type="password" placeholder="在输入一遍" class="form-control" required="required">
+						</div>
+					</div>
+					<br />
+					<div class="form-group">
+						<label for="mycompanyphone" class="col-sm-3 control-label">手机号码</label>
+						<div class="col-sm-9">
+							<input id="mycompanyphone" type="number" placeholder="输入手机号码" class="form-control">
+						</div>
+					</div>
+					<br />
+					<div class="form-group">
+						<label for="mycompanyemail" class="col-sm-3 control-label">邮箱号</label>
+						<div class="col-sm-9">
+							<input id="mycompanyemail" type="email" placeholder="输入邮箱号" class="form-control">
+						</div>
+					</div>
+					<br />
+					<br />
+					<div id="mystartregister">
+						<button  class="btn col-sm-4 pull-right" style="margin-right: 15px;" onclick="popwindow()">立即注册</button>
+					</div>
+					<dialog id="mydialog">
+						<div>
+							<h1>恭喜你注册成功！</h1>
+							<label>你的账号为：</label>
+							<label style="color: red;">123456789</label>
+							<label>不要忘记哦！</label>
+							<br />
+							<a href="login.html" class="pull-left">返回登录页面</a>
+							<a href="index.html" class="pull-right">进入后台管理系统</a>
+						</div>
+					</dialog>
+				</fieldset>
+
+			</div>
+
+		</form>
+
+		
+		
+		<script type="text/javascript">
+			function popwindow(){
+					mydialog.open="open";
+			}
+		</script>
+		
+		
+		<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+		<script src="js/jquery-3.1.1.min.js"></script>
+		<!-- Include all compiled plugins (below), or include individual files as needed -->
+		<script src="js/bootstrap.min.js"></script>
+	</body>
+
+</html>

@@ -1,0 +1,98 @@
+body{
+	background: rgb(230,230,230);
+}
+
+#mypage {
+    box-shadow: 0 0 2px rgba(0, 0, 0, 0.2),  
+                0 1px 1px rgba(0, 0, 0, .2),
+                0 3px 0 #fff,
+                0 4px 0 rgba(0, 0, 0, .2),
+                0 6px 0 #fff,  
+                0 7px 0 rgba(0, 0, 0, .2);
+                background: rgb(248,248,248);
+			    position: absolute;
+			    margin: 60px 40px;
+			    z-index: 0;
+			    
+}
+
+ /*大屏幕（大桌面显示器，大于等于 1200px）*/ 
+/*@media (min-width: @screen-lg-min) {
+	#mypage{
+	    margin: 300px 150px;
+	}
+}*/
+
+/* 中等屏幕（桌面显示器，大于等于 992px） */
+/*@media (min-width: @screen-md-min) and (max-width: @screen-md-max){
+	#mypage{
+	    margin: 150px 70px;
+	}
+}*/
+
+
+
+/* 小屏幕（平板，大于等于 768px）*/
+/*@media (min-width: @screen-sm-min) and (max-width: @screen-sm-max){
+	#mypage{
+	    margin: 20px 30px;
+	}
+}*/
+
+
+#myaccount_and_password{
+	margin: 15px 30px 66px ;
+}
+
+#myregisterbutton{
+	margin-top: 10px;
+}
+
+#myenterbutton{
+	margin-top: 10px;
+}
+
+#myidentitybutton{
+	
+}
+
+#mypage:before {
+    content: '';
+    position: absolute;
+    z-index: -1;
+    border: 1px dashed #ccc;
+    top: 5px;
+    bottom: 5px;
+    left: 5px;
+    right: 5px;
+    box-shadow: 0 0 0 1px #fff;
+}
+h1 {
+    text-shadow: 0 1px 0 rgba(255, 255, 255, .7), 0px 2px 0 rgba(0, 0, 0, .5);
+    text-transform: uppercase;
+    text-align: center;
+    color: #666;
+    margin: 8px 0 35px 0;
+    letter-spacing: 4px;
+    font: normal 26px/1 Verdana, Helvetica;
+    position: relative;
+}
+
+h1:after, 
+h1:before {
+    background-color: #777;
+    content: "";
+/*    height: 1px;*/
+    position: absolute;
+    top: 15px;
+    width: 120px;   
+}
+
+h1:after {      
+    right: 0;
+}
+
+h1:before {
+    background-image: linear-gradient(right, #777, #fff);
+    left: 0;
+}

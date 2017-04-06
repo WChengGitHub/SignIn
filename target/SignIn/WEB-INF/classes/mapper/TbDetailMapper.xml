@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.TbDetailMapper">
+  <resultMap id="BaseResultMap" type="pojo.TbDetail">
+    <id column="DetailId" jdbcType="CHAR" property="detailid" />
+    <result column="Status" jdbcType="CHAR" property="status" />
+    <result column="StartTime" jdbcType="TIMESTAMP" property="starttime" />
+    <result column="EndTime" jdbcType="TIMESTAMP" property="endtime" />
+    <result column="AcceptTime" jdbcType="TIMESTAMP" property="accepttime" />
+    <result column="Reason" jdbcType="VARCHAR" property="reason" />
+    <result column="EmployeeId" jdbcType="CHAR" property="employeeid" />
+    <result column="Date" jdbcType="TIMESTAMP" property="date" />
+    <result column="Address" jdbcType="VARCHAR" property="address" />
+    <result column="Style" jdbcType="BIT" property="style" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    DetailId, Status, StartTime, EndTime, AcceptTime, Reason, EmployeeId, Date, Address, 
+    Style
+  </sql>
+  <select id="selectByExample" parameterType="pojo.TbDetailExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from tb_detail
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tb_detail
+    where DetailId = #{detailid,jdbcType=CHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from tb_detail
+    where DetailId = #{detailid,jdbcType=CHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="pojo.TbDetailExample">
+    delete from tb_detail
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="pojo.TbDetail">
+    insert into tb_detail (DetailId, Status, StartTime, 
+      EndTime, AcceptTime, Reason, 
+      EmployeeId, Date, Address, 
+      Style)
+    values (#{detailid,jdbcType=CHAR}, #{status,jdbcType=CHAR}, #{starttime,jdbcType=TIMESTAMP}, 
+      #{endtime,jdbcType=TIMESTAMP}, #{accepttime,jdbcType=TIMESTAMP}, #{reason,jdbcType=VARCHAR}, 
+      #{employeeid,jdbcType=CHAR}, #{date,jdbcType=TIMESTAMP}, #{address,jdbcType=VARCHAR}, 
+      #{style,jdbcType=BIT})
+  </insert>
+  <insert id="insertSelective" parameterType="pojo.TbDetail">
+    insert into tb_detail
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="detailid != null">
+        DetailId,
+      </if>
+      <if test="status != null">
+        Status,
+      </if>
+      <if test="starttime != null">
+        StartTime,
+      </if>
+      <if test="endtime != null">
+        EndTime,
+      </if>
+      <if test="accepttime != null">
+        AcceptTime,
+      </if>
+      <if test="reason != null">
+        Reason,
+      </if>
+      <if test="employeeid != null">
+        EmployeeId,
+      </if>
+      <if test="date != null">
+        Date,
+      </if>
+      <if test="address != null">
+        Address,
+      </if>
+      <if test="style != null">
+        Style,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="detailid != null">
+        #{detailid,jdbcType=CHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=CHAR},
+      </if>
+      <if test="starttime != null">
+        #{starttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endtime != null">
+        #{endtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="accepttime != null">
+        #{accepttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="reason != null">
+        #{reason,jdbcType=VARCHAR},
+      </if>
+      <if test="employeeid != null">
+        #{employeeid,jdbcType=CHAR},
+      </if>
+      <if test="date != null">
+        #{date,jdbcType=TIMESTAMP},
+      </if>
+      <if test="address != null">
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="style != null">
+        #{style,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="pojo.TbDetailExample" resultType="java.lang.Long">
+    select count(*) from tb_detail
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update tb_detail
+    <set>
+      <if test="record.detailid != null">
+        DetailId = #{record.detailid,jdbcType=CHAR},
+      </if>
+      <if test="record.status != null">
+        Status = #{record.status,jdbcType=CHAR},
+      </if>
+      <if test="record.starttime != null">
+        StartTime = #{record.starttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.endtime != null">
+        EndTime = #{record.endtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.accepttime != null">
+        AcceptTime = #{record.accepttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.reason != null">
+        Reason = #{record.reason,jdbcType=VARCHAR},
+      </if>
+      <if test="record.employeeid != null">
+        EmployeeId = #{record.employeeid,jdbcType=CHAR},
+      </if>
+      <if test="record.date != null">
+        Date = #{record.date,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.address != null">
+        Address = #{record.address,jdbcType=VARCHAR},
+      </if>
+      <if test="record.style != null">
+        Style = #{record.style,jdbcType=BIT},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update tb_detail
+    set DetailId = #{record.detailid,jdbcType=CHAR},
+      Status = #{record.status,jdbcType=CHAR},
+      StartTime = #{record.starttime,jdbcType=TIMESTAMP},
+      EndTime = #{record.endtime,jdbcType=TIMESTAMP},
+      AcceptTime = #{record.accepttime,jdbcType=TIMESTAMP},
+      Reason = #{record.reason,jdbcType=VARCHAR},
+      EmployeeId = #{record.employeeid,jdbcType=CHAR},
+      Date = #{record.date,jdbcType=TIMESTAMP},
+      Address = #{record.address,jdbcType=VARCHAR},
+      Style = #{record.style,jdbcType=BIT}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="pojo.TbDetail">
+    update tb_detail
+    <set>
+      <if test="status != null">
+        Status = #{status,jdbcType=CHAR},
+      </if>
+      <if test="starttime != null">
+        StartTime = #{starttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endtime != null">
+        EndTime = #{endtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="accepttime != null">
+        AcceptTime = #{accepttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="reason != null">
+        Reason = #{reason,jdbcType=VARCHAR},
+      </if>
+      <if test="employeeid != null">
+        EmployeeId = #{employeeid,jdbcType=CHAR},
+      </if>
+      <if test="date != null">
+        Date = #{date,jdbcType=TIMESTAMP},
+      </if>
+      <if test="address != null">
+        Address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="style != null">
+        Style = #{style,jdbcType=BIT},
+      </if>
+    </set>
+    where DetailId = #{detailid,jdbcType=CHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="pojo.TbDetail">
+    update tb_detail
+    set Status = #{status,jdbcType=CHAR},
+      StartTime = #{starttime,jdbcType=TIMESTAMP},
+      EndTime = #{endtime,jdbcType=TIMESTAMP},
+      AcceptTime = #{accepttime,jdbcType=TIMESTAMP},
+      Reason = #{reason,jdbcType=VARCHAR},
+      EmployeeId = #{employeeid,jdbcType=CHAR},
+      Date = #{date,jdbcType=TIMESTAMP},
+      Address = #{address,jdbcType=VARCHAR},
+      Style = #{style,jdbcType=BIT}
+    where DetailId = #{detailid,jdbcType=CHAR}
+  </update>
+</mapper>

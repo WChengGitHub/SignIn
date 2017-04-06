@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.TbArriveandleaveMapper">
+  <resultMap id="BaseResultMap" type="pojo.TbArriveandleave">
+    <id column="ArriveAndLeaveId" jdbcType="CHAR" property="arriveandleaveid" />
+    <result column="EmployeeId" jdbcType="CHAR" property="employeeid" />
+    <result column="ArriveTime" jdbcType="TIMESTAMP" property="arrivetime" />
+    <result column="LeaveTime" jdbcType="TIMESTAMP" property="leavetime" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    ArriveAndLeaveId, EmployeeId, ArriveTime, LeaveTime
+  </sql>
+  <select id="selectByExample" parameterType="pojo.TbArriveandleaveExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from tb_arriveandleave
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tb_arriveandleave
+    where ArriveAndLeaveId = #{arriveandleaveid,jdbcType=CHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from tb_arriveandleave
+    where ArriveAndLeaveId = #{arriveandleaveid,jdbcType=CHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="pojo.TbArriveandleaveExample">
+    delete from tb_arriveandleave
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="pojo.TbArriveandleave">
+    insert into tb_arriveandleave (ArriveAndLeaveId, EmployeeId, ArriveTime, 
+      LeaveTime)
+    values (#{arriveandleaveid,jdbcType=CHAR}, #{employeeid,jdbcType=CHAR}, #{arrivetime,jdbcType=TIMESTAMP}, 
+      #{leavetime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="pojo.TbArriveandleave">
+    insert into tb_arriveandleave
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="arriveandleaveid != null">
+        ArriveAndLeaveId,
+      </if>
+      <if test="employeeid != null">
+        EmployeeId,
+      </if>
+      <if test="arrivetime != null">
+        ArriveTime,
+      </if>
+      <if test="leavetime != null">
+        LeaveTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="arriveandleaveid != null">
+        #{arriveandleaveid,jdbcType=CHAR},
+      </if>
+      <if test="employeeid != null">
+        #{employeeid,jdbcType=CHAR},
+      </if>
+      <if test="arrivetime != null">
+        #{arrivetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="leavetime != null">
+        #{leavetime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="pojo.TbArriveandleaveExample" resultType="java.lang.Long">
+    select count(*) from tb_arriveandleave
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update tb_arriveandleave
+    <set>
+      <if test="record.arriveandleaveid != null">
+        ArriveAndLeaveId = #{record.arriveandleaveid,jdbcType=CHAR},
+      </if>
+      <if test="record.employeeid != null">
+        EmployeeId = #{record.employeeid,jdbcType=CHAR},
+      </if>
+      <if test="record.arrivetime != null">
+        ArriveTime = #{record.arrivetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.leavetime != null">
+        LeaveTime = #{record.leavetime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update tb_arriveandleave
+    set ArriveAndLeaveId = #{record.arriveandleaveid,jdbcType=CHAR},
+      EmployeeId = #{record.employeeid,jdbcType=CHAR},
+      ArriveTime = #{record.arrivetime,jdbcType=TIMESTAMP},
+      LeaveTime = #{record.leavetime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="pojo.TbArriveandleave">
+    update tb_arriveandleave
+    <set>
+      <if test="employeeid != null">
+        EmployeeId = #{employeeid,jdbcType=CHAR},
+      </if>
+      <if test="arrivetime != null">
+        ArriveTime = #{arrivetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="leavetime != null">
+        LeaveTime = #{leavetime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where ArriveAndLeaveId = #{arriveandleaveid,jdbcType=CHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="pojo.TbArriveandleave">
+    update tb_arriveandleave
+    set EmployeeId = #{employeeid,jdbcType=CHAR},
+      ArriveTime = #{arrivetime,jdbcType=TIMESTAMP},
+      LeaveTime = #{leavetime,jdbcType=TIMESTAMP}
+    where ArriveAndLeaveId = #{arriveandleaveid,jdbcType=CHAR}
+  </update>
+</mapper>

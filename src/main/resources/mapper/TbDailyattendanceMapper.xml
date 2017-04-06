@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.TbDailyattendanceMapper">
+  <resultMap id="BaseResultMap" type="pojo.TbDailyattendance">
+    <id column="DailyAttendanceId" jdbcType="CHAR" property="dailyattendanceid" />
+    <result column="EnterTime" jdbcType="TIMESTAMP" property="entertime" />
+    <result column="OutTime" jdbcType="TIMESTAMP" property="outtime" />
+    <result column="FrontTime" jdbcType="TIMESTAMP" property="fronttime" />
+    <result column="AccumulatedTime" jdbcType="TIMESTAMP" property="accumulatedtime" />
+    <result column="Status" jdbcType="CHAR" property="status" />
+    <result column="EmployeeId" jdbcType="CHAR" property="employeeid" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    DailyAttendanceId, EnterTime, OutTime, FrontTime, AccumulatedTime, Status, EmployeeId
+  </sql>
+  <select id="selectByExample" parameterType="pojo.TbDailyattendanceExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from tb_dailyattendance
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tb_dailyattendance
+    where DailyAttendanceId = #{dailyattendanceid,jdbcType=CHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from tb_dailyattendance
+    where DailyAttendanceId = #{dailyattendanceid,jdbcType=CHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="pojo.TbDailyattendanceExample">
+    delete from tb_dailyattendance
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="pojo.TbDailyattendance">
+    insert into tb_dailyattendance (DailyAttendanceId, EnterTime, OutTime, 
+      FrontTime, AccumulatedTime, Status, 
+      EmployeeId)
+    values (#{dailyattendanceid,jdbcType=CHAR}, #{entertime,jdbcType=TIMESTAMP}, #{outtime,jdbcType=TIMESTAMP}, 
+      #{fronttime,jdbcType=TIMESTAMP}, #{accumulatedtime,jdbcType=TIMESTAMP}, #{status,jdbcType=CHAR}, 
+      #{employeeid,jdbcType=CHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="pojo.TbDailyattendance">
+    insert into tb_dailyattendance
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="dailyattendanceid != null">
+        DailyAttendanceId,
+      </if>
+      <if test="entertime != null">
+        EnterTime,
+      </if>
+      <if test="outtime != null">
+        OutTime,
+      </if>
+      <if test="fronttime != null">
+        FrontTime,
+      </if>
+      <if test="accumulatedtime != null">
+        AccumulatedTime,
+      </if>
+      <if test="status != null">
+        Status,
+      </if>
+      <if test="employeeid != null">
+        EmployeeId,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="dailyattendanceid != null">
+        #{dailyattendanceid,jdbcType=CHAR},
+      </if>
+      <if test="entertime != null">
+        #{entertime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="outtime != null">
+        #{outtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="fronttime != null">
+        #{fronttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="accumulatedtime != null">
+        #{accumulatedtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=CHAR},
+      </if>
+      <if test="employeeid != null">
+        #{employeeid,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="pojo.TbDailyattendanceExample" resultType="java.lang.Long">
+    select count(*) from tb_dailyattendance
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update tb_dailyattendance
+    <set>
+      <if test="record.dailyattendanceid != null">
+        DailyAttendanceId = #{record.dailyattendanceid,jdbcType=CHAR},
+      </if>
+      <if test="record.entertime != null">
+        EnterTime = #{record.entertime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.outtime != null">
+        OutTime = #{record.outtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.fronttime != null">
+        FrontTime = #{record.fronttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.accumulatedtime != null">
+        AccumulatedTime = #{record.accumulatedtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.status != null">
+        Status = #{record.status,jdbcType=CHAR},
+      </if>
+      <if test="record.employeeid != null">
+        EmployeeId = #{record.employeeid,jdbcType=CHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update tb_dailyattendance
+    set DailyAttendanceId = #{record.dailyattendanceid,jdbcType=CHAR},
+      EnterTime = #{record.entertime,jdbcType=TIMESTAMP},
+      OutTime = #{record.outtime,jdbcType=TIMESTAMP},
+      FrontTime = #{record.fronttime,jdbcType=TIMESTAMP},
+      AccumulatedTime = #{record.accumulatedtime,jdbcType=TIMESTAMP},
+      Status = #{record.status,jdbcType=CHAR},
+      EmployeeId = #{record.employeeid,jdbcType=CHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="pojo.TbDailyattendance">
+    update tb_dailyattendance
+    <set>
+      <if test="entertime != null">
+        EnterTime = #{entertime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="outtime != null">
+        OutTime = #{outtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="fronttime != null">
+        FrontTime = #{fronttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="accumulatedtime != null">
+        AccumulatedTime = #{accumulatedtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        Status = #{status,jdbcType=CHAR},
+      </if>
+      <if test="employeeid != null">
+        EmployeeId = #{employeeid,jdbcType=CHAR},
+      </if>
+    </set>
+    where DailyAttendanceId = #{dailyattendanceid,jdbcType=CHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="pojo.TbDailyattendance">
+    update tb_dailyattendance
+    set EnterTime = #{entertime,jdbcType=TIMESTAMP},
+      OutTime = #{outtime,jdbcType=TIMESTAMP},
+      FrontTime = #{fronttime,jdbcType=TIMESTAMP},
+      AccumulatedTime = #{accumulatedtime,jdbcType=TIMESTAMP},
+      Status = #{status,jdbcType=CHAR},
+      EmployeeId = #{employeeid,jdbcType=CHAR}
+    where DailyAttendanceId = #{dailyattendanceid,jdbcType=CHAR}
+  </update>
+</mapper>

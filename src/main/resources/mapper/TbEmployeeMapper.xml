@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.TbEmployeeMapper">
+  <resultMap id="BaseResultMap" type="pojo.TbEmployee">
+    <id column="EmployeeId" jdbcType="CHAR" property="employeeid" />
+    <result column="Name" jdbcType="VARCHAR" property="name" />
+    <result column="Account" jdbcType="VARCHAR" property="account" />
+    <result column="Password" jdbcType="VARCHAR" property="password" />
+    <result column="Del" jdbcType="BIT" property="del" />
+    <result column="Telephone" jdbcType="CHAR" property="telephone" />
+    <result column="Sex" jdbcType="BIT" property="sex" />
+    <result column="Email" jdbcType="VARCHAR" property="email" />
+    <result column="DepartmentId" jdbcType="CHAR" property="departmentid" />
+    <result column="Duties" jdbcType="VARCHAR" property="duties" />
+    <result column="Privilege" jdbcType="CHAR" property="privilege" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    EmployeeId, Name, Account, Password, Del, Telephone, Sex, Email, DepartmentId, Duties, 
+    Privilege
+  </sql>
+  <select id="selectByExample" parameterType="pojo.TbEmployeeExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from tb_employee
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tb_employee
+    where EmployeeId = #{employeeid,jdbcType=CHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from tb_employee
+    where EmployeeId = #{employeeid,jdbcType=CHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="pojo.TbEmployeeExample">
+    delete from tb_employee
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="pojo.TbEmployee">
+    insert into tb_employee (EmployeeId, Name, Account, 
+      Password, Del, Telephone, 
+      Sex, Email, DepartmentId, 
+      Duties, Privilege)
+    values (#{employeeid,jdbcType=CHAR}, #{name,jdbcType=VARCHAR}, #{account,jdbcType=VARCHAR}, 
+      #{password,jdbcType=VARCHAR}, #{del,jdbcType=BIT}, #{telephone,jdbcType=CHAR}, 
+      #{sex,jdbcType=BIT}, #{email,jdbcType=VARCHAR}, #{departmentid,jdbcType=CHAR}, 
+      #{duties,jdbcType=VARCHAR}, #{privilege,jdbcType=CHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="pojo.TbEmployee">
+    insert into tb_employee
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="employeeid != null">
+        EmployeeId,
+      </if>
+      <if test="name != null">
+        Name,
+      </if>
+      <if test="account != null">
+        Account,
+      </if>
+      <if test="password != null">
+        Password,
+      </if>
+      <if test="del != null">
+        Del,
+      </if>
+      <if test="telephone != null">
+        Telephone,
+      </if>
+      <if test="sex != null">
+        Sex,
+      </if>
+      <if test="email != null">
+        Email,
+      </if>
+      <if test="departmentid != null">
+        DepartmentId,
+      </if>
+      <if test="duties != null">
+        Duties,
+      </if>
+      <if test="privilege != null">
+        Privilege,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="employeeid != null">
+        #{employeeid,jdbcType=CHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="account != null">
+        #{account,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="del != null">
+        #{del,jdbcType=BIT},
+      </if>
+      <if test="telephone != null">
+        #{telephone,jdbcType=CHAR},
+      </if>
+      <if test="sex != null">
+        #{sex,jdbcType=BIT},
+      </if>
+      <if test="email != null">
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="departmentid != null">
+        #{departmentid,jdbcType=CHAR},
+      </if>
+      <if test="duties != null">
+        #{duties,jdbcType=VARCHAR},
+      </if>
+      <if test="privilege != null">
+        #{privilege,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="pojo.TbEmployeeExample" resultType="java.lang.Long">
+    select count(*) from tb_employee
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update tb_employee
+    <set>
+      <if test="record.employeeid != null">
+        EmployeeId = #{record.employeeid,jdbcType=CHAR},
+      </if>
+      <if test="record.name != null">
+        Name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.account != null">
+        Account = #{record.account,jdbcType=VARCHAR},
+      </if>
+      <if test="record.password != null">
+        Password = #{record.password,jdbcType=VARCHAR},
+      </if>
+      <if test="record.del != null">
+        Del = #{record.del,jdbcType=BIT},
+      </if>
+      <if test="record.telephone != null">
+        Telephone = #{record.telephone,jdbcType=CHAR},
+      </if>
+      <if test="record.sex != null">
+        Sex = #{record.sex,jdbcType=BIT},
+      </if>
+      <if test="record.email != null">
+        Email = #{record.email,jdbcType=VARCHAR},
+      </if>
+      <if test="record.departmentid != null">
+        DepartmentId = #{record.departmentid,jdbcType=CHAR},
+      </if>
+      <if test="record.duties != null">
+        Duties = #{record.duties,jdbcType=VARCHAR},
+      </if>
+      <if test="record.privilege != null">
+        Privilege = #{record.privilege,jdbcType=CHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update tb_employee
+    set EmployeeId = #{record.employeeid,jdbcType=CHAR},
+      Name = #{record.name,jdbcType=VARCHAR},
+      Account = #{record.account,jdbcType=VARCHAR},
+      Password = #{record.password,jdbcType=VARCHAR},
+      Del = #{record.del,jdbcType=BIT},
+      Telephone = #{record.telephone,jdbcType=CHAR},
+      Sex = #{record.sex,jdbcType=BIT},
+      Email = #{record.email,jdbcType=VARCHAR},
+      DepartmentId = #{record.departmentid,jdbcType=CHAR},
+      Duties = #{record.duties,jdbcType=VARCHAR},
+      Privilege = #{record.privilege,jdbcType=CHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="pojo.TbEmployee">
+    update tb_employee
+    <set>
+      <if test="name != null">
+        Name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="account != null">
+        Account = #{account,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        Password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="del != null">
+        Del = #{del,jdbcType=BIT},
+      </if>
+      <if test="telephone != null">
+        Telephone = #{telephone,jdbcType=CHAR},
+      </if>
+      <if test="sex != null">
+        Sex = #{sex,jdbcType=BIT},
+      </if>
+      <if test="email != null">
+        Email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="departmentid != null">
+        DepartmentId = #{departmentid,jdbcType=CHAR},
+      </if>
+      <if test="duties != null">
+        Duties = #{duties,jdbcType=VARCHAR},
+      </if>
+      <if test="privilege != null">
+        Privilege = #{privilege,jdbcType=CHAR},
+      </if>
+    </set>
+    where EmployeeId = #{employeeid,jdbcType=CHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="pojo.TbEmployee">
+    update tb_employee
+    set Name = #{name,jdbcType=VARCHAR},
+      Account = #{account,jdbcType=VARCHAR},
+      Password = #{password,jdbcType=VARCHAR},
+      Del = #{del,jdbcType=BIT},
+      Telephone = #{telephone,jdbcType=CHAR},
+      Sex = #{sex,jdbcType=BIT},
+      Email = #{email,jdbcType=VARCHAR},
+      DepartmentId = #{departmentid,jdbcType=CHAR},
+      Duties = #{duties,jdbcType=VARCHAR},
+      Privilege = #{privilege,jdbcType=CHAR}
+    where EmployeeId = #{employeeid,jdbcType=CHAR}
+  </update>
+</mapper>

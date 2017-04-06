@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+		<title>签到网站登录界面</title>
+
+		<!-- Bootstrap -->
+		<link href="css/bootstrap.min.css" rel="stylesheet">
+
+		<!--自己定义的css-->
+		<link href="css/mylogincss.css" rel="stylesheet" />
+
+		<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+		<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+		<!--[if lt IE 9]>
+      <script src="https://cdn.bootcss.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+	</head>
+
+	<body>
+		<form id="mypage" class="col-sm-6 col-xs-10" style="align-content: center;">
+			<br />
+			<h1>管理员登录</h1>
+			<div id="myaccount_and_password">
+				<fieldset>
+					<div class="input-group">
+						<span class="input-group-addon" id="account">
+			  			<span><img src="img/身份验证.png" /></span>
+						</span>
+						<!--<select class="identity_show">
+							<option value="identity_department">部门管理员</option>
+							<option value="identity_boss">公司负责人</option>
+						</select>-->
+						
+						 <!--Split button -->
+						<div class="btn-group">
+							<input id="myidentitybutton" type="button" class="btn btn-default" value="部门管理员"/>
+							<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				   			<span class="caret"></span>
+				  		</button>
+							<ul class="dropdown-menu">
+								<li>
+									<a href="#">部门管理员</a>
+								</li>
+								<li>
+									<a href="#">公司负责人</a>
+								</li>
+							</ul>
+						</div>
+					</div>
+					<br />
+					<div class="input-group">
+						<span class="input-group-addon" id="account">
+			  			<span class="glyphicon glyphicon-user"></span>
+						</span>
+						<input type="text" class="form-control" placeholder="账号/手机号/邮箱号" autofocus="autofocus" required="required">
+					</div>
+					<br />
+					<div class="input-group">
+						<span class="input-group-addon" id="password">
+			  		<span class="glyphicon glyphicon-lock"></span>
+						</span>
+						<input type="password" class="form-control" placeholder="密码" required="required">
+					</div>
+				</fieldset>
+				<fieldset>
+					<a href="findpassword.html" class="pull-left">忘记密码</a>
+					<a href="register.html" class="pull-right">公司注册</a>
+					<div>
+						<button id="myenterbutton" class="btn btn-block pull-right col-xs-4" onclick="enter()">登录</button>
+					</div>
+					<!--<div>
+							<button id="myregisterbutton" class="btn pull-right col-xs-4" onclick="register()">注册</button>
+						
+					</div>-->
+				</fieldset>
+			</div>
+
+		</form>
+		
+		<script>
+//			点击登录按钮跳转到主页函数
+			function enter() {
+				window.location.href = 'index.html';
+			}
+//			
+//			<!--点击注册按钮跳转到注册页面函数-->
+//			function register(){
+//				window.location.href = 'register.html';
+//			}
+		</script>
+		
+		
+
+		<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+		<script src="js/jquery-3.1.1.min.js"></script>
+		<!-- Include all compiled plugins (below), or include individual files as needed -->
+		<script src="js/bootstrap.min.js"></script>
+	</body>
+
+</html>

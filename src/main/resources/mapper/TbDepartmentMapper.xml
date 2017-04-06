@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.TbDepartmentMapper">
+  <resultMap id="BaseResultMap" type="pojo.TbDepartment">
+    <id column="DepartmentId" jdbcType="CHAR" property="departmentid" />
+    <result column="Name" jdbcType="VARCHAR" property="name" />
+    <result column="CompanyId" jdbcType="CHAR" property="companyid" />
+    <result column="Address" jdbcType="VARCHAR" property="address" />
+    <result column="Mac" jdbcType="CHAR" property="mac" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    DepartmentId, Name, CompanyId, Address, Mac
+  </sql>
+  <select id="selectByExample" parameterType="pojo.TbDepartmentExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from tb_department
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tb_department
+    where DepartmentId = #{departmentid,jdbcType=CHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from tb_department
+    where DepartmentId = #{departmentid,jdbcType=CHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="pojo.TbDepartmentExample">
+    delete from tb_department
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="pojo.TbDepartment">
+    insert into tb_department (DepartmentId, Name, CompanyId, 
+      Address, Mac)
+    values (#{departmentid,jdbcType=CHAR}, #{name,jdbcType=VARCHAR}, #{companyid,jdbcType=CHAR}, 
+      #{address,jdbcType=VARCHAR}, #{mac,jdbcType=CHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="pojo.TbDepartment">
+    insert into tb_department
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="departmentid != null">
+        DepartmentId,
+      </if>
+      <if test="name != null">
+        Name,
+      </if>
+      <if test="companyid != null">
+        CompanyId,
+      </if>
+      <if test="address != null">
+        Address,
+      </if>
+      <if test="mac != null">
+        Mac,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="departmentid != null">
+        #{departmentid,jdbcType=CHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="companyid != null">
+        #{companyid,jdbcType=CHAR},
+      </if>
+      <if test="address != null">
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="mac != null">
+        #{mac,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="pojo.TbDepartmentExample" resultType="java.lang.Long">
+    select count(*) from tb_department
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update tb_department
+    <set>
+      <if test="record.departmentid != null">
+        DepartmentId = #{record.departmentid,jdbcType=CHAR},
+      </if>
+      <if test="record.name != null">
+        Name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.companyid != null">
+        CompanyId = #{record.companyid,jdbcType=CHAR},
+      </if>
+      <if test="record.address != null">
+        Address = #{record.address,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mac != null">
+        Mac = #{record.mac,jdbcType=CHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update tb_department
+    set DepartmentId = #{record.departmentid,jdbcType=CHAR},
+      Name = #{record.name,jdbcType=VARCHAR},
+      CompanyId = #{record.companyid,jdbcType=CHAR},
+      Address = #{record.address,jdbcType=VARCHAR},
+      Mac = #{record.mac,jdbcType=CHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="pojo.TbDepartment">
+    update tb_department
+    <set>
+      <if test="name != null">
+        Name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="companyid != null">
+        CompanyId = #{companyid,jdbcType=CHAR},
+      </if>
+      <if test="address != null">
+        Address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="mac != null">
+        Mac = #{mac,jdbcType=CHAR},
+      </if>
+    </set>
+    where DepartmentId = #{departmentid,jdbcType=CHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="pojo.TbDepartment">
+    update tb_department
+    set Name = #{name,jdbcType=VARCHAR},
+      CompanyId = #{companyid,jdbcType=CHAR},
+      Address = #{address,jdbcType=VARCHAR},
+      Mac = #{mac,jdbcType=CHAR}
+    where DepartmentId = #{departmentid,jdbcType=CHAR}
+  </update>
+</mapper>

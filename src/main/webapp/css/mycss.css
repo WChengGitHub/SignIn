@@ -1,0 +1,83 @@
+#my_icon{
+	margin:1px 10px;
+}
+
+#my_title{
+	text-align: center;
+	color: #56ABE4;
+	font-weight: 900;
+}
+
+#my_navbar_heigth{
+	height: 80px;
+}
+
+#my_navbar-cancellation{
+	margin-right: 25px;
+}
+
+#my_navbar-sidefuncation{
+	margin-top: 52px;
+}
+
+/* 小屏幕（平板，大于等于 768px）*/
+@media (min-width: 768px) {
+	 
+	#my_navbar-sidefuncation{
+		width: 250px;
+		margin-top: 51px;
+		position: absolute;
+		z-index: 1;
+		height: 620px;
+	}
+	
+	#mysearch{
+		margin: 10px 1px;
+	}
+	
+	.mypage_main{
+		margin-left: 255px;
+	}
+}
+
+.my_breadcrumb{
+	margin-top: -20px;
+	margin-left: -5px;
+}
+
+.my_headerbuttonlist{
+	list-style-type: none;
+	position: relative;
+	left:-5%;
+	top: 5px;
+}
+
+.my_headerbuttonlist>li{
+	position: relative;
+	display: inline;
+	padding: 10px 15px
+}
+
+#my_checkbox{
+	width: 60px !important;
+	/*!important强制使用该样式*/
+}
+.my_searchname{
+	display: inline;
+	padding-right: 15px;
+	text-align: right;
+	border-right: 5px solid #eee;
+}
+.f0,
+.f2
+{
+	font-weight: bolder;
+}
+.modalTitle
+{
+	font-size:1.75em;
+}
+.modalContent
+{
+	font-size:1.125em;
+}
