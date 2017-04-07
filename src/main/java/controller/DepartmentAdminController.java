@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 import pojo.*;
 import service.departmentAdminService.DepartmentAdminService;
 
@@ -27,7 +28,7 @@ public class DepartmentAdminController {
     public @ResponseBody List<TbEmployee> queryEmployee(TbEmployee tbEmployee)
     {
         String departmentId=tbEmployee.getDepartmentid();
-        if(departmentId==null||departmentId=="")
+        if(departmentId==null||departmentId.equals(""))
             return null;
         List<TbEmployee> employeeList=departmentAdminService.queryEmployee(tbEmployee);
 
@@ -38,7 +39,7 @@ public class DepartmentAdminController {
     public @ResponseBody List<TbApplication> queryApplications(TbEmployee tbEmployee)
     {
         String departmentId=tbEmployee.getDepartmentid();
-        if(departmentId==null||departmentId=="")
+        if(departmentId==null||departmentId.equals(""))
             return null;
         List<TbApplication> applications=departmentAdminService.queryApplication(tbEmployee);
         return applications;
@@ -47,7 +48,7 @@ public class DepartmentAdminController {
     public @ResponseBody List<TbApplication> queryHistoryApplications(TbEmployee tbEmployee)
     {
         String departmentId=tbEmployee.getDepartmentid();
-        if(departmentId==null||departmentId=="")
+        if(departmentId==null||departmentId.equals(""))
             return null;
         List<TbApplication> applications=departmentAdminService.queryHistoryApplication(tbEmployee);
         return applications;
@@ -57,7 +58,7 @@ public class DepartmentAdminController {
     public @ResponseBody List<TbDepartmentschedule> queryDepartmentSchedules(TbEmployee tbEmployee)
     {
         String departmentId=tbEmployee.getDepartmentid();
-        if(departmentId==null||departmentId=="")
+        if(departmentId==null||departmentId.equals(""))
             return null;
         List<TbDepartmentschedule> departmentschedules=departmentAdminService.queryDepartmentSchedule(tbEmployee);
         return departmentschedules;
@@ -67,7 +68,7 @@ public class DepartmentAdminController {
     public @ResponseBody List<TbNotifyVo> queryNotifies(TbEmployee tbEmployee,boolean status)
     {
         String employId=tbEmployee.getEmployeeid();
-        if(employId==null||employId=="")
+        if(employId==null||employId.equals(""))
             return null;
         List<TbNotifyVo> notifies=departmentAdminService.queryNotifyVo(tbEmployee);
         return notifies;
@@ -77,7 +78,7 @@ public class DepartmentAdminController {
     public @ResponseBody List<TbActivity> queryActivites(TbEmployee tbEmployee)
     {
         String employId=tbEmployee.getEmployeeid();
-        if(employId==null||employId=="")
+        if(employId==null||employId.equals(""))
             return null;
         List<TbActivity> activities=departmentAdminService.queryActivites(tbEmployee);
         return activities;
@@ -88,35 +89,41 @@ public class DepartmentAdminController {
     {
         String employId=tbEmployeenotify.getEmployeeid();
         String notifyid=tbEmployeenotify.getNotifyid();
-        if(employId==null||employId==""||notifyid==null||notifyid=="")
+        if(employId==null||employId.equals("")||notifyid==null||notifyid.equals(""))
             return;
         departmentAdminService.updateNotifyStatus(tbEmployeenotify);
     }
 
     @RequestMapping("/uploadExcel")
-    public void uploadExcel(MultipartFile file)
+    public String uploadExcel(MultipartFile file,String departmentid)
     {
-        List<TbEmployee> employees=new LinkedList<TbEmployee>();
-        try {
-            Workbook wb= WorkbookFactory.create(file.getInputStream());
-            Sheet sheet=wb.getSheetAt(0);
-            int length=sheet.getLastRowNum();
-            System.out.println(length);
-            for(int i=2;i<=sheet.getLastRowNum();i++)
-            {
-                Row row=sheet.getRow(i);
-                TbEmployee employee=new TbEmployee();
-                row.getCell(0).setCellType(Cell.CELL_TYPE_STRING);
-                employee.setAccount(row.getCell(0).getStringCellValue());
-                row.getCell(1).setCellType(Cell.CELL_TYPE_STRING);
-                employee.setPassword(row.getCell(1).getStringCellValue());
-                employees.add(employee);
-            }
-        }catch (Exception e)
-        {
-            e.printStackTrace();
-        }
-        System.out.println(employees);
+        System.out.println(file);
+        if(file==null||departmentid==null||departmentid.equals(""))
+            return null;
+        departmentAdminService.addEmployee(file,departmentid);
+
+        return "redirect:/departmentAdmin.html";
+//        List<TbEmployee> employees=new LinkedList<TbEmployee>();
+//        try {
+//            Workbook wb= WorkbookFactory.create(file.getInputStream());
+//            Sheet sheet=wb.getSheetAt(0);
+//            int length=sheet.getLastRowNum();
+//            System.out.println(length);
+//            for(int i=2;i<=sheet.getLastRowNum();i++)
+//            {
+//                Row row=sheet.getRow(i);
+//                TbEmployee employee=new TbEmployee();
+//                row.getCell(0).setCellType(Cell.CELL_TYPE_STRING);
+//                employee.setAccount(row.getCell(0).getStringCellValue());
+//                row.getCell(1).setCellType(Cell.CELL_TYPE_STRING);
+//                employee.setPassword(row.getCell(1).getStringCellValue());
+//                employees.add(employee);
+//            }
+//        }catch (Exception e)
+//        {
+//            e.printStackTrace();
+//        }
+//        System.out.println(employees);
     }
 
     @RequestMapping("deleteEmployeeids")

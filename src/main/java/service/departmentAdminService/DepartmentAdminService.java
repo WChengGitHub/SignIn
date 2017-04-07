@@ -1,9 +1,11 @@
 package service.departmentAdminService;
 
 import mapper.*;
+import org.apache.poi.ss.usermodel.*;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import pojo.*;
 
 import java.util.*;
@@ -171,5 +173,88 @@ public class DepartmentAdminService {
         }
         return false;
     }
+    public List<TbEmployee> getExcelDataAndDealData(MultipartFile file,String departmentid)
+    {
+        List<TbEmployee> employees=new LinkedList<TbEmployee>();
+        try {
+            Workbook wb= WorkbookFactory.create(file.getInputStream());
+            Sheet sheet=wb.getSheetAt(0);
+            int length=sheet.getLastRowNum();
+            System.out.println(length);
+            for(int i=2;i<=sheet.getLastRowNum();i++)
+            {
+                Row row=sheet.getRow(i);
+                TbEmployee employee=new TbEmployee();
 
+                row.getCell(0).setCellType(Cell.CELL_TYPE_STRING);
+                employee.setEmployeeid(row.getCell(0).getStringCellValue());
+
+                row.getCell(1).setCellType(Cell.CELL_TYPE_STRING);
+                employee.setName(row.getCell(1).getStringCellValue());
+
+                row.getCell(2).setCellType(Cell.CELL_TYPE_STRING);
+                employee.setAccount(row.getCell(2).getStringCellValue());
+
+                row.getCell(3).setCellType(Cell.CELL_TYPE_STRING);
+                String Sex=row.getCell(3).getStringCellValue();
+                if(Sex.equals("男"))
+                    employee.setSex(true);
+                else
+                    employee.setSex(false);
+
+                row.getCell(4).setCellType(Cell.CELL_TYPE_STRING);
+                employee.setDuties(row.getCell(4).getStringCellValue());
+
+                row.getCell(5).setCellType(Cell.CELL_TYPE_STRING);
+                employee.setTelephone(row.getCell(5).getStringCellValue());
+
+                row.getCell(6).setCellType(Cell.CELL_TYPE_STRING);
+                employee.setEmail(row.getCell(6).getStringCellValue());
+
+                employee.setDepartmentid(departmentid);
+                employee.setDel(false);
+                employee.setPrivilege("0");
+                employee.setPassword("123456");
+
+                employees.add(employee);
+            }
+        }catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        System.out.println(employees);
+        return employees;
+    }
+    public void deleteAllEmployee(String departmentid)
+    {
+        TbEmployee employee=new TbEmployee();
+        employee.setDepartmentid(departmentid);
+        List<TbEmployee> employees=queryEmployee(employee);
+        int size=employees.size();
+        for(int i=0;i<size;i++)
+        {
+            TbEmployee tmp=employees.get(i);
+            tmp.setDel(true);
+            tbEmployeeMapper.updateByPrimaryKeySelective(tmp);
+        }
+    }
+    public void addEmployee(MultipartFile file,String departmentid)
+    {
+        List<TbEmployee> employees=getExcelDataAndDealData(file,departmentid);
+        deleteAllEmployee(departmentid);
+        int size=employees.size();
+        for(int i=0;i<size;i++)
+        {
+            TbEmployee employee=employees.get(i);
+            if(employee.getEmployeeid()==null||employee.getEmployeeid().equals(""))
+            {
+                employee.setEmployeeid(""+(i+1));
+                tbEmployeeMapper.insert(employee);
+            }
+            else
+            {
+                    tbEmployeeMapper.updateByPrimaryKey(employee);
+            }
+        }
+    }
 }

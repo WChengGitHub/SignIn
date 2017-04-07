@@ -81,3 +81,32 @@
 {
 	font-size:1.125em;
 }
+.myform
+{
+	background-color:#f1f1f1;
+}
+.row
+{
+	margin-top:2.5em;
+}
+.row label,.row input
+{
+	display:inline-block;
+}
+.row label
+{
+	width:13em;
+	text-align:right;
+	padding:0.5em;
+}
+.row input
+{
+	border:2px solid #bebebe;
+}
+.submit
+{
+
+	position:relative;
+	left:12.4em;
+	width:5em;
+}

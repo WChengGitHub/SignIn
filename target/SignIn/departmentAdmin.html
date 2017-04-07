@@ -541,8 +541,8 @@
 							<a onclick="getAndDeleteEmployeeids()"><img src="img/remove.png" alt="删除">&nbsp;<span>删除</span></a>
 						</li>
 						<li>
-							<a href="#">
-								<img src="img/inport_excel.png" alt="导入">&nbsp;<span>导入Excel</span>
+							<a onclick="uploadExcel()">
+								<img  src="img/inport_excel.png" alt="导入">&nbsp;<span>导入Excel</span>
 							</a>
 						</li>
 						<li>
@@ -615,11 +615,6 @@
 							<a onclick="getAndDeleteDepartmentSchedules()"><img src="img/remove.png" alt="删除">&nbsp;<span>删除</span></a>
 						</li>
 						<li>
-							<a href="#">
-								<img src="img/inport_excel.png" alt="导入">&nbsp;<span>导入Excel</span>
-							</a>
-						</li>
-						<li>
 							<div class="my_searchname navbar-right">
 								<input type="text" placeholder="请输入要查找的姓名" />
 								<a href="#"><img src="img/search_button.png" alt="搜索"></a>
@@ -680,12 +675,12 @@
 
 						<li>
 							<a id="f0">
-								<img src="img/inport_excel.png" alt="导入">&nbsp;<span>收到的通知</span>
+								<img src="img/inport_excel.png" alt="导入">&nbsp;<span>未读通知</span>
 							</a>
 						</li>
 						<li>
 							<a id="f1">
-								<img src="img/inport_excel.png" alt="导入">&nbsp;<span>历史通知</span>
+								<img src="img/inport_excel.png" alt="导入">&nbsp;<span>已读通知</span>
 							</a>
 						</li>
 						<li>
@@ -900,6 +895,25 @@
 		</div><!-- /.modal-content -->
 	</div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
+<div class="modal" id="themodal2"  tabindex="-1">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-body">
+				<form  method="post"  class="myfrom" action="DepartmentAdmin/uploadExcel"  enctype="multipart/form-data">
+					<p class="row">
+						<label for="excel">Excel:</label>
+						<input type="file" name="file" id="excel">
+					</p>
+					<input id="departmentid" name="departmentid"  value="1"type="text" hidden>
+					<input type="submit" class="submit" value="提交"/>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 
 
 
@@ -1058,6 +1072,10 @@
 		$("#content").text(content);
 		$("#themodal").modal();
 	}
+	function uploadExcel()
+	{
+		$("#themodal2").modal();
+	}
 	function show(title,content,id,style)
 	{
 		showContent(title,content);
@@ -1070,15 +1088,6 @@
 			notifyId="";
 		}
 	}
-	$(function(){
-
-		$(".btn").click(function(){
-
-			showContent("1","2");
-
-		});
-
-	})
 	$(document).ready(function(){
 		$("#f1").click(function(){
 			$(".f0").hide();
