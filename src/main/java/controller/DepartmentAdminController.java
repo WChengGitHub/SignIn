@@ -5,15 +5,22 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import pojo.*;
 import service.departmentAdminService.DepartmentAdminService;
 
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by user on 2017/3/26.
@@ -145,4 +152,21 @@ public class DepartmentAdminController {
         return "success";
         return null;
     }
+
+//    @RequestMapping(value="/exportExcel",method= RequestMethod.POST)
+//    public ModelAndView exportExcel(ModelMap model, HttpServletRequest request, HttpServletResponse response,TbEmployee employee) {
+//        ViewExcel viewExcel = new ViewExcel();
+//        Map<String, Object> obj = null;
+//
+//        //获取数据库表生成的workbook
+//        Map<String, Object> condition = new HashMap<String, Object>();
+//        HSSFWorkbook workbook = departmentAdminService.getEmployeeExcel(employee);
+//        try {
+//            viewExcel.buildExcelDocument(obj, workbook, request, response);
+//        } catch (Exception e) {
+//            // TODO Auto-generated catch block
+//            e.printStackTrace();
+//        }
+//        return new ModelAndView(viewExcel, model);
+//    }
 }
