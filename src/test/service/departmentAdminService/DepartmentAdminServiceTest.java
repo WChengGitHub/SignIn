@@ -109,4 +109,9 @@ public class DepartmentAdminServiceTest {
        tbDepartmentscheduleVo.getScheduleids().add("2");
         departmentAdminService.deleteSchedule(tbDepartmentscheduleVo);
     }
+
+    @Test
+    public void testAddOneEmployee() throws Exception {
+        DepartmentAdminService departmentAdminService= (DepartmentAdminService) applicationContext.getBean("departmentAdminService");
+    }
 }

@@ -133,7 +133,7 @@ public class DepartmentAdminController {
 //        System.out.println(employees);
     }
 
-    @RequestMapping("deleteEmployeeids")
+    @RequestMapping("/deleteEmployeeids")
     public  @ResponseBody String deleteEmployeeids(TbEmployeeVo tbEmployeeVo)
     {
         if(tbEmployeeVo==null||tbEmployeeVo.getEmployeeids()==null||tbEmployeeVo.getEmployeeids().size()==0)
@@ -143,13 +143,61 @@ public class DepartmentAdminController {
         return null;
     }
 
-    @RequestMapping("deleteDepartmentSchedules")
+    @RequestMapping("/deleteDepartmentSchedules")
     public  @ResponseBody String deleteDepartmentSchedules(TbDepartmentscheduleVo tbDepartmentscheduleVo)
     {
         if(tbDepartmentscheduleVo==null||tbDepartmentscheduleVo.getScheduleids()==null||tbDepartmentscheduleVo.getScheduleids().size()==0)
             return null;
         if(departmentAdminService.deleteSchedule(tbDepartmentscheduleVo))
         return "success";
+        return null;
+    }
+    @RequestMapping("/addOneEmployee")
+    public  @ResponseBody String addOneEmployee(TbEmployee tbEmployee)
+    {
+            String name=tbEmployee.getName();
+            String accout=tbEmployee.getAccount();
+            String duties=tbEmployee.getDuties();
+            String telephone=tbEmployee.getTelephone();
+            String email=tbEmployee.getEmail();
+            String departmentid=tbEmployee.getDepartmentid();
+            if(tbEmployee==null||name==null||accout==null||duties==null||telephone==null||email==null||departmentid==null||name.equals("")||accout.equals("")||duties.equals("")||telephone.equals("")||email.equals("")||departmentid.equals(""))
+                return null;
+            if(departmentAdminService.addOneEmployee(tbEmployee))
+            return "success";
+        return null;
+    }
+    @RequestMapping("/changeEmployee")
+    public  @ResponseBody String changeEmployee(TbEmployeeVo tbEmployeeVo)
+    {
+            String duties=tbEmployeeVo.getDuties();
+            if(tbEmployeeVo==null||tbEmployeeVo.getEmployeeids()==null||tbEmployeeVo.getEmployeeids().size()==0||duties==null||duties.equals(""))
+            return null;
+            if(departmentAdminService.changeEmployee(tbEmployeeVo))
+            return "success";
+        return null;
+
+    }
+    @RequestMapping("/addSchedule")
+    public  @ResponseBody String addSchedule(TbDepartmentschedule tbDepartmentschedule)
+    {
+            String entertime=tbDepartmentschedule.getEntertime();
+            String outtime=tbDepartmentschedule.getOuttime();
+            if(entertime==null||entertime.equals("")||outtime==null||outtime.equals(""))
+                return null;
+            if(departmentAdminService.addSchedules(tbDepartmentschedule))
+            return "success";
+        return null;
+    }
+    @RequestMapping("/changeSchedule")
+    public  @ResponseBody String changeSchedule(TbDepartmentscheduleVo tbDepartmentscheduleVo)
+    {
+            String entertime=tbDepartmentscheduleVo.getEntertime();
+            String outtime=tbDepartmentscheduleVo.getOuttime();
+            if(tbDepartmentscheduleVo==null||tbDepartmentscheduleVo.getScheduleids()==null||tbDepartmentscheduleVo.getScheduleids().size()==0||entertime==null||entertime.equals("")||outtime==null||outtime.equals(""))
+            return null;
+            if(departmentAdminService.changeSchedule(tbDepartmentscheduleVo))
+            return "success";
         return null;
     }
 

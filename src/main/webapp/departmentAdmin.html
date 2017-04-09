@@ -217,7 +217,7 @@
 										$("#departmentSchedules")
 												.append(
 												'<tr><td><input type="checkbox" class="'+data[i].scheduleid+'" id="my_employeeslist_checkbox_'+s+'"/></td><td>'
-												+ data[i].scheduleid
+												+s
 												+ '</td><td>'
 												+ data[i].entertime
 												+ '</td><td>'
@@ -332,9 +332,7 @@
 										var s=i+1;
 										$("#activities")
 												.append(
-												'<tr><td><input type="checkbox" id="my_business_trip_checkbox_'+s+'"/></td><td>'
-												+ data[i].activityid
-												+ '</td><td onclick=show("'+data[i].activityname+'","'+data[i].content+'","'+data[i].activityid+'",0)><a>'
+												'<tr><td><input type="checkbox" id="my_business_trip_checkbox_'+s+'"/></td><td onclick=show("'+data[i].activityname+'","'+data[i].content+'","'+data[i].activityid+'",0)><a>'
 												+ data[i].activityname
 												+ '</a></td><td>'
 												+ (new Date(data[i].starttime)).toLocaleString()
@@ -365,6 +363,94 @@
 				},
 				error : function() {
 					queryNotifies();
+				}
+
+			});
+		}
+		
+		function addOneEmployee()
+		{
+			var name=$("#name").val();
+			var account=$("#account").val();
+			var duty=$("#duty").val();
+			var telephone=$("#telephone").val();
+			var sex=$("#sex").val();
+			if(sex=="男")
+				sex=true;
+			else
+				sex=false;
+			var telephone=$("#telephone").val();
+			var email=$("#email").val();
+			$.ajax({
+				type : 'post',
+				url : "DepartmentAdmin/addOneEmployee",
+				data: 'name='+name+'&account='+account+'&duties='+duty+'&telephone='+telephone+'&sex='+sex+'&email='+email+'&departmentid='+departmentId,
+				success : function(data) {
+					getEmployee();
+				},
+				error : function() {
+					alert("添加失败");
+				}
+
+			});
+		}
+		
+		function changeEmployee()
+		{
+			var duty=$("#duty1").val();
+			var employids=new Array();
+			$("#employee input:checked").each(function(i,element)
+			{
+				employids[i]=$(element).attr("class");
+			});
+			$.ajax({
+				type : 'post',
+				url : "DepartmentAdmin/changeEmployee",
+				data: 'employeeids='+employids+'&duties='+duty+'&departmentid='+departmentId,
+				success : function(data) {
+					getEmployee();
+				},
+				error : function() {
+					alert("失败");
+				}
+
+			});
+		}
+		function addSchedule()
+		{
+			var entertime=$("#entertime").val();
+			var outtime=$("#outtime").val();
+			$.ajax({
+				type : 'post',
+				url : "DepartmentAdmin/addSchedule",
+				data: 'entertime='+entertime+'&outtime='+outtime+'&departmentid='+departmentId,
+				success : function(data) {
+					queryDepartmentSchedules();
+				},
+				error : function() {
+					queryDepartmentSchedules();
+				}
+
+			});
+		}
+		function changeSchedule()
+		{
+			var entertime=$("#entertime1").val();
+			var outtime=$("#outtime1").val();
+			var scheduleids=new Array();
+			$("#departmentSchedules input:checked").each(function(i,element)
+			{
+				scheduleids[i]=$(element).attr("class");
+			});
+			$.ajax({
+				type : 'post',
+				url : "DepartmentAdmin/changeSchedule",
+				data: 'entertime='+entertime+'&outtime='+outtime+'&departmentid='+departmentId+'&scheduleids='+scheduleids,
+				success : function(data) {
+					queryDepartmentSchedules();
+				},
+				error : function() {
+					queryDepartmentSchedules();
 				}
 
 			});
@@ -532,10 +618,10 @@
 				<div class="panel-heading">
 					<ul class="my_headerbuttonlist">
 						<li>
-							<a href="#"><img src="img/add.png" alt="添加">&nbsp;<span>添加</span></a>
+							<a onclick="showAddOneEmployee()"><img src="img/add.png" alt="添加">&nbsp;<span>添加</span></a>
 						</li>
 						<li>
-							<a href="#"><img src="img/reverse.png" alt="修改">&nbsp;<span>修改</span></a>
+							<a onclick="showChangeEmployee()"><img src="img/reverse.png" alt="修改">&nbsp;<span>修改</span></a>
 						</li>
 						<li>
 							<a onclick="getAndDeleteEmployeeids()"><img src="img/remove.png" alt="删除">&nbsp;<span>删除</span></a>
@@ -606,10 +692,10 @@
 				<div class="panel-heading">
 					<ul class="my_headerbuttonlist">
 						<li>
-							<a href="#"><img src="img/add.png" alt="添加">&nbsp;<span>添加</span></a>
+							<a onclick="showAddDepartmentSchedule()"><img src="img/add.png" alt="添加">&nbsp;<span>添加</span></a>
 						</li>
 						<li>
-							<a href="#"><img src="img/reverse.png" alt="修改">&nbsp;<span>修改</span></a>
+							<a onclick="showChangeDepartmentSchedule()"><img src="img/reverse.png" alt="修改">&nbsp;<span>修改</span></a>
 						</li>
 						<li>
 							<a onclick="getAndDeleteDepartmentSchedules()"><img src="img/remove.png" alt="删除">&nbsp;<span>删除</span></a>
@@ -848,7 +934,6 @@
 						<tr>
 							<!--调用全选js函数-->
 							<th><input type="checkbox" id="my_business_trip_checkbox_selectall" onclick="business_trip_select_all()"/></th>
-							<th>Id</th>
 							<th>主题</th>
 							<th>开始时间</th>
 							<th>结束时间</th>
@@ -899,7 +984,7 @@
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-body">
-				<form  method="post"  class="myfrom" action="DepartmentAdmin/uploadExcel"  enctype="multipart/form-data">
+				<form  method="post"  class="myform" action="DepartmentAdmin/uploadExcel"  enctype="multipart/form-data">
 					<p class="row">
 						<label for="excel">Excel:</label>
 						<input type="file" name="file" id="excel">
@@ -914,10 +999,108 @@
 		</div><!-- /.modal-content -->
 	</div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
+<div class="modal" id="themodal3"  tabindex="-1">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-body">
+				<form  method="post" class="myform">
+					<p class="row row1">
+						<label for="name">姓名:</label>
+						<input type="text" name="file" id="name" required>
+					</p>
+					<p class="row row1">
+						<label for="account">用户名:</label>
+						<input type="text" name="file" id="account" required>
+					</p>
+					<p class="row row1">
+						<label for="duty">职位:</label>
+						<input type="text" name="sex" id="duty" required>
+					</p>
+					<p class="row row1">
+						<label for="sex">性别:</label>
+						<input type="text" name="sex" id="sex" required>
+					</p>
+					<p class="row row1">
+						<label for="telephone">联系电话:</label>
+						<input type="text" name="telephone" id="telephone" required>
+					</p>
+					<p class="row row1">
+						<label for="email">邮箱号码:</label>
+						<input type="text" name="email" id="email" required>
+					</p>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" onclick="addOneEmployee()">提交</button>
+				<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
+</div>
 
+<div class="modal" id="themodal4"  tabindex="-1">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-body">
+				<form  method="post" class="myform">
+					<p class="row row1">
+						<label for="entertime">上班时间:</label>
+						<input type="text" name="entertime" id="entertime" required>
+					</p>
+					<p class="row row1">
+						<label for="outtime">下班时间:</label>
+						<input type="text" name="outtime" id="outtime" required>
+					</p>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" onclick="addSchedule()">提交</button>
+				<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
+</div>
 
-
-
+<div class="modal" id="themodal5"  tabindex="-1">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-body">
+				<form  method="post" class="myform">
+					<p class="row row1">
+						<label for="duty1">职位:</label>
+						<input type="text" name="sex" id="duty1" required>
+					</p>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" onclick="changeEmployee()">提交</button>
+				<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
+</div>
+<div class="modal" id="themodal6"  tabindex="-1">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-body">
+				<form  method="post" class="myform">
+					<p class="row row1">
+						<label for="entertime1">上班时间:</label>
+						<input type="text" name="entertime" id="entertime1" required>
+					</p>
+					<p class="row row1">
+						<label for="outtime1">下班时间:</label>
+						<input type="text" name="outtime" id="outtime1" required>
+					</p>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" onclick="changeSchedule()">提交</button>
+				<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
+</div>
 
 
 
@@ -1071,6 +1254,22 @@
 		$("#title").text(title);
 		$("#content").text(content);
 		$("#themodal").modal();
+	}
+	function showAddOneEmployee()
+	{
+		$("#themodal3").modal();
+	}
+	function showAddDepartmentSchedule()
+	{
+		$("#themodal4").modal();
+	}
+	function showChangeEmployee()
+	{
+		$("#themodal5").modal();
+	}
+	function showChangeDepartmentSchedule()
+	{
+		$("#themodal6").modal();
 	}
 	function uploadExcel()
 	{

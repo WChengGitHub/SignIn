@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import pojo.*;
+import utils.GetId;
 
 import java.util.*;
 
@@ -246,6 +247,77 @@ public class DepartmentAdminService {
             tbEmployeeMapper.updateByPrimaryKeySelective(tmp);
         }
     }
+    public boolean addOneEmployee(TbEmployee employee)
+    {
+        employee.setEmployeeid(GetId.getId());
+        employee.setDel(false);
+        employee.setPrivilege("0");
+        employee.setPassword("123456");
+        try {
+            tbEmployeeMapper.insert(employee);
+            return  true;
+        }catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        return false;
+    }
+    public boolean changeEmployee(TbEmployeeVo tbemployeeVo)
+    {
+        TbEmployee employee=new TbEmployee();
+        List<String>employeeids=tbemployeeVo.getEmployeeids();
+        int size=employeeids.size();
+        try
+        {
+            for(int i=0;i<size;i++)
+            {
+                employee.setEmployeeid(employeeids.get(i));
+                employee.setDuties(tbemployeeVo.getDuties());
+                tbEmployeeMapper.updateByPrimaryKeySelective(employee);
+            }
+            return true;
+        }catch (Exception e)
+        {
+            e.printStackTrace();
+
+        }
+
+        return false;
+    }
+    public boolean addSchedules(TbDepartmentschedule departmentschedule)
+    {
+        departmentschedule.setScheduleid(GetId.getId());
+        try
+        {
+            tbDepartmentscheduleMapper.insert(departmentschedule);
+            return true;
+        }catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        return false;
+    }
+    public boolean changeSchedule(TbDepartmentscheduleVo departmentscheduleVo)
+    {
+        TbDepartmentschedule departmentschedule=new TbDepartmentschedule();
+        departmentschedule.setDepartmentid(departmentscheduleVo.getDepartmentid());
+        departmentschedule.setEntertime(departmentscheduleVo.getEntertime());
+        departmentschedule.setOuttime(departmentscheduleVo.getOuttime());
+        List<String> scheduleids=departmentscheduleVo.getScheduleids();
+        try
+        {
+            for(int i=0;i<scheduleids.size();i++)
+            {
+                departmentschedule.setScheduleid(scheduleids.get(i));
+                tbDepartmentscheduleMapper.updateByPrimaryKeySelective(departmentschedule);
+            }
+            return true;
+        } catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        return  false;
+    }
     public void addEmployee(MultipartFile file,String departmentid)
     {
         List<TbEmployee> employees=getExcelDataAndDealData(file,departmentid);
@@ -254,7 +326,7 @@ public class DepartmentAdminService {
         for(int i=0;i<size;i++)
         {
             TbEmployee employee=employees.get(i);
-            employee.setEmployeeid(""+(i+1));
+            employee.setEmployeeid(GetId.getId());
             tbEmployeeMapper.insert(employee);
 //            if(employee.getEmployeeid()==null||employee.getEmployeeid().equals(""))
 //            {
