@@ -200,6 +200,15 @@ public class DepartmentAdminController {
             return "success";
         return null;
     }
+    @RequestMapping("/checkApplication")
+    public  @ResponseBody String checkApplication(TbApplication application)
+    {
+        if(application.getApplicationid()==null||application.getApplicationid().equals("")||application.getDailyattendanceid()==null||application.getDailyattendanceid().equals(""))
+            return null;
+        if(departmentAdminService.agreeApplicaion(application))
+            return "success";
+        return null;
+    }
 
 //    @RequestMapping(value="/exportExcel",method= RequestMethod.POST)
 //    public ModelAndView exportExcel(ModelMap model, HttpServletRequest request, HttpServletResponse response,TbEmployee employee) {

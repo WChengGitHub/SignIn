@@ -19,6 +19,8 @@
 		var privilege="";
 		var employeeId="";
 		var notifyId="";
+		var DailyAttendanceId="";
+		var ApplicationId="";
 		function getCookie() {
 			var strCookie = document.cookie;
 			var arrCookie = strCookie.split(";");
@@ -173,9 +175,9 @@
 												.append(
 												'<tr class="f'+num+'"><td><input type="checkbox" id="my_departmentAttendlist_checkbox_'+s+'"/></td><td>'
 												+ data[i].applicationid
-												+ '</td><td >'
+												+ '</td><td onclick=showApplication("'+data[i].title+'","'+data[i].remark+'","'+data[i].dailyattendanceid+'","'+data[i].applicationid+'")><a>'
 												+ data[i].title
-												+ '</td><td>'
+												+ '</a></td><td>'
 												+ (new Date(data[i].applicationtime)).toLocaleString()
 												+ '</td></tr>');
 
@@ -183,6 +185,24 @@
 									return false;
 								}
 							});
+						},
+						error : function() {
+							return;
+						}
+					});
+		}
+
+		function checkApplication() {
+
+			$
+					.ajax({
+						type : 'post',
+						url : "DepartmentAdmin/checkApplication",
+						data: 'dailyattendanceid='+DailyAttendanceId+'&applicationid='+ApplicationId,
+						success : function(data) {
+							getApplications();
+							DailyAttendanceId="";
+							ApplicationId="";
 						},
 						error : function() {
 							return;
@@ -1101,7 +1121,23 @@
 		</div><!-- /.modal-content -->
 	</div><!-- /.modal-dialog -->
 </div>
-
+<div class="modal" id="themodal7"  tabindex="-1">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+				<h4 class="modal-title modalTitle" id="applicationTitle">模态弹出窗标题</h4>
+			</div>
+			<div class="modal-body">
+				<p id="applicationContent" class="modalContent">内容</p>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" onclick="checkApplication()">通过</button>
+				<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
+</div><!-- /.mo
 
 
 
@@ -1249,6 +1285,14 @@
 <script>
 	setCookie();
 	judge();
+	function showApplication(title,content,dailyAttendanceId,applicationId)
+	{
+		$("#applicationTitle").text(title);
+		$("#applicationContent").text(content);
+		DailyAttendanceId=dailyAttendanceId;
+		ApplicationId=applicationId;
+		$("#themodal7").modal();
+	}
 	function showContent(title,content)
 	{
 		$("#title").text(title);

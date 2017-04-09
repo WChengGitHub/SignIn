@@ -46,6 +46,8 @@ public class DepartmentAdminService {
     @Autowired
     private MultiFormMapper multiFormMapper;
 
+    @Autowired
+    private TbDailyattendanceMapper dailyattendanceMapper;
 
     public List<TbEmployee>  queryEmployee(TbEmployee tbEmployee)
     {
@@ -338,6 +340,57 @@ public class DepartmentAdminService {
 //                    tbEmployeeMapper.updateByPrimaryKey(employee);
 //            }
         }
+    }
+    public boolean agreeApplicaion(TbApplication application)
+    {
+        application=getApplicationByid(application);
+        application.setStatus(true);
+        if(updateApplicaion(application))
+        {
+            TbDailyattendance dailyattendance=new TbDailyattendance();
+            dailyattendance.setDailyattendanceid(application.getDailyattendanceid());
+            dailyattendance.setStatus("1");
+            if(application.getStyle()==false)
+               dailyattendance.setEntertime(application.getCorrecttime());
+            else
+                dailyattendance.setOuttime(application.getCorrecttime());
+            return updateDailyAttendance(dailyattendance);
+        }
+        return false;
+    }
+    public boolean updateApplicaion(TbApplication application)
+    {
+        try
+        {
+            tbApplicationMapper.updateByPrimaryKeySelective(application);
+            return true;
+        }catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        return false;
+    }
+    public TbDailyattendance getDailyAttendanceById(TbDailyattendance dailyattendance)
+    {
+        dailyattendance=dailyattendanceMapper.selectByPrimaryKey(dailyattendance.getDailyattendanceid());
+        return dailyattendance;
+    }
+    public TbApplication getApplicationByid(TbApplication application)
+    {
+        application=tbApplicationMapper.selectByPrimaryKey(application.getApplicationid());
+        return application;
+    }
+    public boolean updateDailyAttendance(TbDailyattendance dailyattendance)
+    {
+        try
+        {
+            dailyattendanceMapper.updateByPrimaryKeySelective(dailyattendance);
+            return true;
+        }catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        return false;
     }
 //    public HSSFWorkbook getEmployeeExcel(TbEmployee employee)
 //    {
