@@ -114,4 +114,11 @@ public class DepartmentAdminServiceTest {
     public void testAddOneEmployee() throws Exception {
         DepartmentAdminService departmentAdminService= (DepartmentAdminService) applicationContext.getBean("departmentAdminService");
     }
+
+    @Test
+    public void testGetScheduleEmployee() throws Exception {
+
+        DepartmentAdminService departmentAdminService= (DepartmentAdminService) applicationContext.getBean("departmentAdminService");
+        departmentAdminService.getScheduleEmployee("20170409133823114");
+    }
 }

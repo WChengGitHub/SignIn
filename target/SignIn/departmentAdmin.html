@@ -117,6 +117,61 @@
 						}
 					});
 		}
+		
+		function getScheduleEmployee(scheduleid) {
+
+			$
+					.ajax({
+						type : 'post',
+						url : "DepartmentAdmin/getScheduleEmployee",
+						data: 'scheduleid='+scheduleid,
+						success : function(data) {
+							$(function() {
+
+								var length = data.length;
+								$("#scheduleEmployeePagination").pagination(length, {
+									items_per_page : 5,
+									callback : pageselectCallback
+								});
+
+								function pageselectCallback(page_index, jq) {
+									var items_per_page = 5;
+									var max_elem = Math.min((page_index + 1)
+											* items_per_page, length);
+
+									$("#scheduleEmployee").html("");//html() 方法返回或设置被选元素的内容 (inner HTML)。
+									for (var i = page_index * items_per_page; i < max_elem; i++) {
+										var s=i+1;
+										var sex="";
+										if(data[i].sex==true)
+											sex='男';
+										else
+											sex="女";
+										$("#scheduleEmployee")
+												.append(
+												'<tr><td>'
+												+ data[i].name
+												+ '</td><td>'
+												+ data[i].duties
+												+ '</td><td>'
+												+ sex
+												+ '</td><td>'
+												+ data[i].telephone
+												+ '</td><td>'
+												+ data[i].email
+												+ '</td></tr>');
+
+									}
+									$("#themodal8").modal();
+								}
+							});
+							$("#themodal8").modal();
+						},
+						error : function() {
+							$("#themodal8").modal();
+						}
+					});
+		}
 		function getAndDeleteEmployeeids()
 		{
 			var employids=new Array();
@@ -236,9 +291,9 @@
 										var s=i+1;
 										$("#departmentSchedules")
 												.append(
-												'<tr><td><input type="checkbox" class="'+data[i].scheduleid+'" id="my_employeeslist_checkbox_'+s+'"/></td><td>'
+												'<tr><td><input type="checkbox" class="'+data[i].scheduleid+'" id="my_employeeslist_checkbox_'+s+'"/></td><td><a onclick=showScheduleEmployee("'+s+'","'+data[i].scheduleid+'")>'
 												+s
-												+ '</td><td>'
+												+ '</a></td><td>'
 												+ data[i].entertime
 												+ '</td><td>'
 												+ data[i].outtime
@@ -1137,7 +1192,51 @@
 			</div>
 		</div><!-- /.modal-content -->
 	</div><!-- /.modal-dialog -->
-</div><!-- /.mo
+</div>
+<div class="modal" id="themodal8"  tabindex="-1">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+				<h4 class="modal-title modalTitle" id="scheduleEmployeeTitle">班次1</h4>
+			</div>
+			<div class="modal-body">
+				<div  class="panel-body">
+					<table class="table table-striped table-hover table-bordered">
+						<thead>
+						<tr>
+							<!--调用全选js函数-->
+							<th>姓名</th>
+							<th>职位</th>
+							<th>性别</th>
+							<th>联系电话</th>
+							<th>邮箱号码</th>
+						</tr>
+						</thead>
+
+						<tbody id="scheduleEmployee">
+						<tr>
+							<td>1213123</td>
+							<td>张三</td>
+							<td>男</td>
+							<td>13428003404</td>
+							<td>13428003404@139.com</td>
+						</tr>
+						</tbody>
+					</table>
+					<!--分页-->
+
+					<div id="scheduleEmployeePagination" class="pagination">
+					</div>
+
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
+</div>
 
 
 
@@ -1283,8 +1382,13 @@
 <script src="js/bootstrap.min.js"></script>
 <script type="text/javascript" src="js/jquery.pagination.js"></script>
 <script>
-	setCookie();
+    setCookie();
 	judge();
+	function showScheduleEmployee(i,scheduleid)
+	{
+		$("#scheduleEmployeeTitle").text("班次"+i);
+		getScheduleEmployee(scheduleid);
+	}
 	function showApplication(title,content,dailyAttendanceId,applicationId)
 	{
 		$("#applicationTitle").text(title);

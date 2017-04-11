@@ -392,6 +392,12 @@ public class DepartmentAdminService {
         }
         return false;
     }
+    public List<TbEmployee> getScheduleEmployee(String scheduleid)
+    {
+        List<TbEmployee> employees=null;
+        employees=multiFormMapper.queryScheduleEmployee(scheduleid);
+        return employees;
+    }
 //    public HSSFWorkbook getEmployeeExcel(TbEmployee employee)
 //    {
 //        List<TbEmployee> employees=queryEmployee(employee);

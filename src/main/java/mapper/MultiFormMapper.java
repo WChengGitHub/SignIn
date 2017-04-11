@@ -1,5 +1,6 @@
 package mapper;
 
+import pojo.TbEmployee;
 import pojo.TbNotifyVo;
 
 import java.util.List;
@@ -9,4 +10,5 @@ import java.util.List;
  */
 public interface MultiFormMapper {
     public List<TbNotifyVo> selectNotifyVoByEmployeeid(String employeeid);
+    public List<TbEmployee> queryScheduleEmployee(String scheduleid);
 }

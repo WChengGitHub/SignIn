@@ -41,6 +41,15 @@ public class DepartmentAdminController {
 
         return employeeList;
     }
+    @RequestMapping("/getScheduleEmployee")
+    public @ResponseBody List<TbEmployee> getSheduleEmployee(String scheduleid)
+    {
+        if(scheduleid==null||scheduleid.equals(""))
+            return null;
+        List<TbEmployee> employees=null;
+        employees=departmentAdminService.getScheduleEmployee(scheduleid);
+       return employees;
+    }
 
     @RequestMapping("/queryApplications")
     public @ResponseBody List<TbApplication> queryApplications(TbEmployee tbEmployee)
