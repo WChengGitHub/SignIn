@@ -255,11 +255,13 @@
 						url : "DepartmentAdmin/checkApplication",
 						data: 'dailyattendanceid='+DailyAttendanceId+'&applicationid='+ApplicationId,
 						success : function(data) {
+							alert("修改成功");
 							getApplications();
 							DailyAttendanceId="";
 							ApplicationId="";
 						},
 						error : function() {
+							alert("修改失败");
 							return;
 						}
 					});
