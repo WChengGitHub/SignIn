@@ -11,13 +11,17 @@
     <file url="file://$PROJECT_DIR$/src/main/resources/spring/applicationContext-transaction.xml" charset="GBK" />
     <file url="file://$PROJECT_DIR$/src/main/resources/spring/springmvc.xml" charset="GBK" />
     <file url="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/web.xml" charset="GBK" />
-    <file url="file://$PROJECT_DIR$/src/main/webapp/compaterAdmin.html" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/webapp/companyAdmin.html" charset="GBK" />
     <file url="file://$PROJECT_DIR$/src/main/webapp/css" charset="GBK" />
     <file url="file://$PROJECT_DIR$/src/main/webapp/css/pagination.css" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/webapp/departmentAdmin.html" charset="GBK" />
     <file url="file://$PROJECT_DIR$/src/main/webapp/findpassword.html" charset="GBK" />
     <file url="file://$PROJECT_DIR$/src/main/webapp/fonts" charset="GBK" />
     <file url="file://$PROJECT_DIR$/src/main/webapp/img" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/webapp/img/document_letter_edit.png" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/webapp/img/document_letter_new.png" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/webapp/img/document_letter_okay.png" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/webapp/img/export_excel.png" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/webapp/index.html" charset="GBK" />
     <file url="file://$PROJECT_DIR$/src/main/webapp/js" charset="GBK" />
     <file url="file://$PROJECT_DIR$/src/main/webapp/login.html" charset="GBK" />

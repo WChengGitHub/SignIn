@@ -1,12 +1,14 @@
 package service.adminAccountManagementService;
 
-import mapper.TbEmployeeMapper;
+import mapper.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import pojo.TbEmployee;
-import pojo.TbEmployeeExample;
+import pojo.*;
 
-import java.util.List;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * Created by ZGM on 2017/3/30.
@@ -15,6 +17,19 @@ import java.util.List;
 public class AdminAccountManagementService {
     @Autowired
     private TbEmployeeMapper tbEmployeeMapper;
+    @Autowired
+    private TbCompanyMapper tbCompanyMapper;
+    @Autowired
+    private TbDepartmentMapper tbDepartmentMapper;
+    @Autowired
+    private TbNotifyMapper tbNotifyMapper;
+    @Autowired
+    private TbEmployeenotifyMapper tbEmployeenotifyMapper;
+    @Autowired
+    private MultiFormMapper multiFormMapper;
+    @Autowired
+    private TbActivityMapper tbActivityMapper;
+
 
     //验证旧密码是否正确
     public List<TbEmployee> verification(TbEmployee tbEmployee)
@@ -88,5 +103,126 @@ public class AdminAccountManagementService {
             tmp.setPassword(null);
         }
         return employeeList;
+    }
+    //查询该公司的部门列表
+    public List<TbDepartment>  queryDepartment(TbDepartment tbDepartment)
+    {
+        TbDepartmentExample departmentExample=new TbDepartmentExample();
+        TbDepartmentExample.Criteria criteria=departmentExample.createCriteria();
+        criteria.andCompanyidEqualTo(tbDepartment.getCompanyid());
+        List<TbDepartment> departmentList=tbDepartmentMapper.selectByExample(departmentExample);
+        return departmentList;
+    }
+
+    //查看公司列表
+    public List<TbCompany>  queryCompany(TbCompany tbCompany)
+    {
+        TbCompanyExample companyExample=new TbCompanyExample();
+        TbCompanyExample.Criteria criteria=companyExample.createCriteria();
+        criteria.andCompanyrepresentativeidEqualTo(tbCompany.getCompanyrepresentativeid());
+        List<TbCompany> companyList=tbCompanyMapper.selectByExample(companyExample);
+        return companyList;
+    }
+
+    //添加通知表记录
+    public boolean addNotify(TbNotify tbNotify,HttpServletRequest request){
+        try {
+            //生成NotifyId
+            Calendar cal1 = Calendar.getInstance();
+            TimeZone.setDefault(TimeZone.getTimeZone("GMT+8:00"));
+            java.text.SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddkkmmss");
+            int randomNumber = (int)(Math.random() * 10 );
+            tbNotify.setNotifyid(sdf.format(cal1.getTime())+randomNumber);
+
+            HttpSession session = request.getSession();
+            session.setMaxInactiveInterval(1 * 60);//Session1分钟失效
+            session.setAttribute("Notifyid", (sdf.format(cal1.getTime())+randomNumber));
+
+            tbNotifyMapper.insert(tbNotify);
+            return true;
+        }
+        catch(Exception e) {
+            return false;
+        }
+    }
+
+    //批量添加员工通知表记录
+    public boolean addEmployeeNotify(TbEmployeenotify tbEmployeenotify,HttpServletRequest request) {
+        try {
+            HttpSession session = request.getSession();
+            List<String> employeeIds=tbEmployeenotify.getEmployeeIds();
+            int len=employeeIds.size();
+            System.out.println(len+"test   length                                     test");
+//            List<String> newNotifyIdsList = new ArrayList();//存放生成的NotifyId
+//            String[] newNotifyIds=new String[len];
+//            for(int i=0;i<len;i++){
+//                Calendar cal1 = Calendar.getInstance();
+//                TimeZone.setDefault(TimeZone.getTimeZone("GMT+8:00"));
+//                java.text.SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddkkmmss");
+//                int randomNumber = (int)(Math.random() * 10 );
+////                newNotifyIds.add(sdf.format(cal1.getTime())+randomNumber);
+//                newNotifyIds[i]=sdf.format(cal1.getTime())+randomNumber;
+//            }
+//            List<String> newNotifyIdsList = Arrays.asList(newNotifyIds);//存放生成的NotifyId
+//            tbEmployeenotify.setNotifyIds(newNotifyIdsList);
+            for (int i=0;i<len;i++){
+                TbEmployeenotify tbEmployeenotify2 = new TbEmployeenotify();
+                System.out.println((String)session.getAttribute("Notifyid"));
+                tbEmployeenotify2.setEmployeeid(tbEmployeenotify.getEmployeeIds().get(i));
+                tbEmployeenotify2.setNotifyid((String)session.getAttribute("Notifyid"));
+                tbEmployeenotifyMapper.insert(tbEmployeenotify2);
+            }
+//            tbEmployeenotifyMapper.insert(tbEmployeenotify);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    public List<TbEmployee> getDepartmentEmployeeId(TbEmployeeVo tbEmployeeVo){
+        int length=tbEmployeeVo.getDepartmentids().size();
+        System.out.println(length);
+        List<String> departmentids=tbEmployeeVo.getDepartmentids();
+//        List<TbEmployee> tbEmployeeList = null;
+        TbEmployee[] Eid=new TbEmployee[length];
+        try {
+            for (int i = 0; i < length; i++) {
+                TbEmployee tbEmployee = new TbEmployee();
+                System.out.println("test7");
+                //根据部门的id查到该部门管理员的id
+                String employeeId = multiFormMapper.selectDepartmentEmployeeIds(departmentids.get(i));
+                System.out.println(employeeId + "test2                                     test2");
+                tbEmployee.setEmployeeid(employeeId);
+//                tbEmployeeList.add(tbEmployee);
+                Eid[i]=tbEmployee;
+            }
+            List<TbEmployee> tbEmployeeList = Arrays.asList(Eid);
+            return tbEmployeeList;
+        }
+        catch (Exception e){
+            return null;
+        }
+    }
+
+    //添加活动表记录
+    public boolean addActivity(TbActivity tbActivity,HttpServletRequest request){
+        try {
+            //生成NotifyId
+            Calendar cal1 = Calendar.getInstance();
+            TimeZone.setDefault(TimeZone.getTimeZone("GMT+8:00"));
+            java.text.SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddkkmmss");
+            int randomNumber = (int)(Math.random() * 10 );
+            tbActivity.setActivityid(sdf.format(cal1.getTime()) + randomNumber);
+
+            HttpSession session = request.getSession();
+            session.setMaxInactiveInterval(1 * 60);//Session1分钟失效
+            session.setAttribute("Activityid", (sdf.format(cal1.getTime())+randomNumber));
+
+            tbActivityMapper.insert(tbActivity);
+            return true;
+        }
+        catch(Exception e) {
+            return false;
+        }
     }
 }

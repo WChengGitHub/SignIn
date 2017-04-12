@@ -9,11 +9,23 @@ import java.util.List;
 public class TbEmployeeVo extends TbEmployee{
     private List<String> employeeids = new LinkedList<String>();
 
+    //存放部门id集合
+    private List<String> departmentids = new LinkedList<String>();
+
     public List<String> getEmployeeids() {
         return employeeids;
     }
 
+    public List<String> getDepartmentids() {
+        return departmentids;
+    }
+
+    public void setDepartmentids(List<String> departmentids) {
+        this.departmentids = departmentids;
+    }
+
     public void setEmployeeids(List<String> employeeids) {
+
         this.employeeids = employeeids;
     }
 }
