@@ -3,11 +3,12 @@ package controller;
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import otherFunction.binding.bindTelephone;
 import otherFunction.binding.bindEmail;
-import pojo.TbEmployee;
+import pojo.*;
 import service.adminAccountManagementService.AdminAccountManagementService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -192,6 +193,68 @@ public class AdminAccountManagementController {
             if (password .equals(tbEmployee2.getPassword()) )json.put("status", true);
             else json.put("status", false);
         }
+        return json;
+    }
+
+    //公司管理员查看该公司的部门列表
+    @RequestMapping("/selectDepartment")
+    public @ResponseBody List<TbDepartment> selectDepartment(TbDepartment tbDepartment){
+        String companyId=tbDepartment.getCompanyid();
+        if(companyId==null||companyId=="")
+            return null;
+        List<TbDepartment> departmentList=adminAccountManagementService.queryDepartment(tbDepartment);
+
+        return departmentList;
+    }
+
+    //查看公司列表
+    @RequestMapping("/selectCompany")
+    public @ResponseBody List<TbCompany> selectCompany(TbCompany tbCompany){
+        String companyrepResentativeId=tbCompany.getCompanyrepresentativeid();
+        if(companyrepResentativeId==null||companyrepResentativeId=="")
+            return null;
+        List<TbCompany> companyList=adminAccountManagementService.queryCompany(tbCompany);
+
+        return companyList;
+    }
+
+    //公司管理员新增通知
+    @RequestMapping("/addNotify")
+    public @ResponseBody JSONObject addNotify(TbNotify tbNotify,HttpServletRequest request){
+        JSONObject json = new JSONObject();
+        if(adminAccountManagementService.addNotify(tbNotify,request))
+            json.put("status", true);
+        else
+            json.put("status", false);
+        return json;
+    }
+
+    @RequestMapping("/addEmployeeNotify")
+    public @ResponseBody JSONObject addEmployeeNotify(TbEmployeenotify tbEmployeenotify,HttpServletRequest request){
+        JSONObject json = new JSONObject();
+        if(adminAccountManagementService.addEmployeeNotify(tbEmployeenotify,request))
+            json.put("status", true);
+        else
+            json.put("status", false);
+        return json;
+    }
+
+    @RequestMapping("/getDepartmentEmployeeId")
+    public @ResponseBody List<TbEmployee> getDepartmentEmployeeId(TbEmployeeVo tbEmployeeVo){
+        System.out.println(tbEmployeeVo.getDepartmentids());
+        System.out.println("test4");
+        List<TbEmployee> employeeList=adminAccountManagementService.getDepartmentEmployeeId(tbEmployeeVo);
+
+        return employeeList;
+    }
+
+    @RequestMapping("/addActivity")
+    public @ResponseBody JSONObject addActivity(TbActivity tbActivity,HttpServletRequest request) {
+        JSONObject json = new JSONObject();
+        if (adminAccountManagementService.addActivity(tbActivity, request))
+            json.put("status", true);
+        else
+            json.put("status", false);
         return json;
     }
 }
