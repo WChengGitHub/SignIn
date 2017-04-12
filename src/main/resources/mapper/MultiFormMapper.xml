@@ -4,4 +4,8 @@
     <select id="selectNotifyVoByEmployeeid" parameterType="java.lang.String" resultType="TbNotifyVo">
         select tb_notify.*,tb_employeenotify.`Status`,tb_employeenotify.EmployeeId from tb_notify,tb_employeenotify where tb_notify.NotifyId=tb_employeenotify.NotifyId and EmployeeId=#{VALUE } ORDER BY tb_notify.NotifyTime desc
     </select>
+    <select id="queryScheduleEmployee" parameterType="java.lang.String" resultType="TbEmployee">
+        select tb_employee.`Name`,tb_employee.Account,tb_employee.Duties,tb_employee.Sex,tb_employee.Telephone,tb_employee.Email from tb_employee where tb_employee.EmployeeId in
+        (select EmployeeId from tb_employeeschedule where tb_employeeschedule.ScheduleId =#{scheduleid}) and tb_employee.del=0
+    </select>
  </mapper>
