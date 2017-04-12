@@ -320,10 +320,14 @@ public class DepartmentAdminService {
         }
         return  false;
     }
+    public boolean judgeTelephone(String telephone)
+    {
+        return false;
+    }
     public void addEmployee(MultipartFile file,String departmentid)
     {
         List<TbEmployee> employees=getExcelDataAndDealData(file,departmentid);
-        deleteAllEmployee(departmentid);
+        //deleteAllEmployee(departmentid);
         int size=employees.size();
         for(int i=0;i<size;i++)
         {
