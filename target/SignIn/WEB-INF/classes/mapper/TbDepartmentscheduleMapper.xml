@@ -6,6 +6,7 @@
     <result column="DepartmentId" jdbcType="CHAR" property="departmentid" />
     <result column="EnterTime" jdbcType="VARCHAR" property="entertime" />
     <result column="OutTime" jdbcType="VARCHAR" property="outtime" />
+    <result column="Del" jdbcType="BIT" property="del" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -66,7 +67,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    ScheduleId, DepartmentId, EnterTime, OutTime
+    ScheduleId, DepartmentId, EnterTime, OutTime, Del
   </sql>
   <select id="selectByExample" parameterType="pojo.TbDepartmentscheduleExample" resultMap="BaseResultMap">
     select
@@ -100,9 +101,9 @@
   </delete>
   <insert id="insert" parameterType="pojo.TbDepartmentschedule">
     insert into tb_departmentschedule (ScheduleId, DepartmentId, EnterTime, 
-      OutTime)
+      OutTime, Del)
     values (#{scheduleid,jdbcType=CHAR}, #{departmentid,jdbcType=CHAR}, #{entertime,jdbcType=VARCHAR}, 
-      #{outtime,jdbcType=VARCHAR})
+      #{outtime,jdbcType=VARCHAR}, #{del,jdbcType=BIT})
   </insert>
   <insert id="insertSelective" parameterType="pojo.TbDepartmentschedule">
     insert into tb_departmentschedule
@@ -119,6 +120,9 @@
       <if test="outtime != null">
         OutTime,
       </if>
+      <if test="del != null">
+        Del,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="scheduleid != null">
@@ -132,6 +136,9 @@
       </if>
       <if test="outtime != null">
         #{outtime,jdbcType=VARCHAR},
+      </if>
+      <if test="del != null">
+        #{del,jdbcType=BIT},
       </if>
     </trim>
   </insert>
@@ -156,6 +163,9 @@
       <if test="record.outtime != null">
         OutTime = #{record.outtime,jdbcType=VARCHAR},
       </if>
+      <if test="record.del != null">
+        Del = #{record.del,jdbcType=BIT},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -166,7 +176,8 @@
     set ScheduleId = #{record.scheduleid,jdbcType=CHAR},
       DepartmentId = #{record.departmentid,jdbcType=CHAR},
       EnterTime = #{record.entertime,jdbcType=VARCHAR},
-      OutTime = #{record.outtime,jdbcType=VARCHAR}
+      OutTime = #{record.outtime,jdbcType=VARCHAR},
+      Del = #{record.del,jdbcType=BIT}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -183,6 +194,9 @@
       <if test="outtime != null">
         OutTime = #{outtime,jdbcType=VARCHAR},
       </if>
+      <if test="del != null">
+        Del = #{del,jdbcType=BIT},
+      </if>
     </set>
     where ScheduleId = #{scheduleid,jdbcType=CHAR}
   </update>
@@ -190,7 +204,8 @@
     update tb_departmentschedule
     set DepartmentId = #{departmentid,jdbcType=CHAR},
       EnterTime = #{entertime,jdbcType=VARCHAR},
-      OutTime = #{outtime,jdbcType=VARCHAR}
+      OutTime = #{outtime,jdbcType=VARCHAR},
+      Del = #{del,jdbcType=BIT}
     where ScheduleId = #{scheduleid,jdbcType=CHAR}
   </update>
 </mapper>

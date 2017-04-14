@@ -11,6 +11,8 @@ public class TbDepartment {
 
     private String mac;
 
+    private Boolean del;
+
     public String getDepartmentid() {
         return departmentid;
     }
@@ -49,5 +51,13 @@ public class TbDepartment {
 
     public void setMac(String mac) {
         this.mac = mac == null ? null : mac.trim();
+    }
+
+    public Boolean getDel() {
+        return del;
+    }
+
+    public void setDel(Boolean del) {
+        this.del = del;
     }
 }

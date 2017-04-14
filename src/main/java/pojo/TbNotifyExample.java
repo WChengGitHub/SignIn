@@ -444,6 +444,76 @@ public class TbNotifyExample {
             addCriterion("Adscription not between", value1, value2, "adscription");
             return (Criteria) this;
         }
+
+        public Criteria andCompanyrepresentativeidIsNull() {
+            addCriterion("CompanyRepresentativeId is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCompanyrepresentativeidIsNotNull() {
+            addCriterion("CompanyRepresentativeId is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCompanyrepresentativeidEqualTo(String value) {
+            addCriterion("CompanyRepresentativeId =", value, "companyrepresentativeid");
+            return (Criteria) this;
+        }
+
+        public Criteria andCompanyrepresentativeidNotEqualTo(String value) {
+            addCriterion("CompanyRepresentativeId <>", value, "companyrepresentativeid");
+            return (Criteria) this;
+        }
+
+        public Criteria andCompanyrepresentativeidGreaterThan(String value) {
+            addCriterion("CompanyRepresentativeId >", value, "companyrepresentativeid");
+            return (Criteria) this;
+        }
+
+        public Criteria andCompanyrepresentativeidGreaterThanOrEqualTo(String value) {
+            addCriterion("CompanyRepresentativeId >=", value, "companyrepresentativeid");
+            return (Criteria) this;
+        }
+
+        public Criteria andCompanyrepresentativeidLessThan(String value) {
+            addCriterion("CompanyRepresentativeId <", value, "companyrepresentativeid");
+            return (Criteria) this;
+        }
+
+        public Criteria andCompanyrepresentativeidLessThanOrEqualTo(String value) {
+            addCriterion("CompanyRepresentativeId <=", value, "companyrepresentativeid");
+            return (Criteria) this;
+        }
+
+        public Criteria andCompanyrepresentativeidLike(String value) {
+            addCriterion("CompanyRepresentativeId like", value, "companyrepresentativeid");
+            return (Criteria) this;
+        }
+
+        public Criteria andCompanyrepresentativeidNotLike(String value) {
+            addCriterion("CompanyRepresentativeId not like", value, "companyrepresentativeid");
+            return (Criteria) this;
+        }
+
+        public Criteria andCompanyrepresentativeidIn(List<String> values) {
+            addCriterion("CompanyRepresentativeId in", values, "companyrepresentativeid");
+            return (Criteria) this;
+        }
+
+        public Criteria andCompanyrepresentativeidNotIn(List<String> values) {
+            addCriterion("CompanyRepresentativeId not in", values, "companyrepresentativeid");
+            return (Criteria) this;
+        }
+
+        public Criteria andCompanyrepresentativeidBetween(String value1, String value2) {
+            addCriterion("CompanyRepresentativeId between", value1, value2, "companyrepresentativeid");
+            return (Criteria) this;
+        }
+
+        public Criteria andCompanyrepresentativeidNotBetween(String value1, String value2) {
+            addCriterion("CompanyRepresentativeId not between", value1, value2, "companyrepresentativeid");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

@@ -19,6 +19,8 @@ public class TbActivity {
 
     private Boolean style;
 
+    private String companyrepresentativeid;
+
     public String getActivityid() {
         return activityid;
     }
@@ -81,5 +83,13 @@ public class TbActivity {
 
     public void setStyle(Boolean style) {
         this.style = style;
+    }
+
+    public String getCompanyrepresentativeid() {
+        return companyrepresentativeid;
+    }
+
+    public void setCompanyrepresentativeid(String companyrepresentativeid) {
+        this.companyrepresentativeid = companyrepresentativeid == null ? null : companyrepresentativeid.trim();
     }
 }
