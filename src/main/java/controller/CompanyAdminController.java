@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import pojo.TbDepartment;
 import pojo.TbDepartmentVo;
+import pojo.TbEmployee;
 import service.companyAdminService.CompanyAdminService;
 
 import java.util.List;
@@ -27,7 +28,7 @@ public class CompanyAdminController {
         System.out.println(file);
         if(companyid==null||companyid.equals("")||file==null)
             return null;
-        companyAdminService.addCompany(file,companyid);
+        companyAdminService.addDepartments(file,companyid);
         return "redirect:/companyAdmin1.html";
     }
 
@@ -39,7 +40,28 @@ public class CompanyAdminController {
         List<TbDepartment> departments=companyAdminService.getDepartments(companyid);
         return departments;
     }
+    @RequestMapping("/addDepartment")
+      public @ResponseBody String addDepartment(TbDepartment department)
+    {
+        if(department==null)
+            return null;
+        String name=department.getName();
+        String address=department.getAddress();
+        String mac=department.getMac();
+        if(name==null&&name.equals("")||address==null&&address.equals("")||mac==null&&mac.equals(""))
+            return null;
+        if(companyAdminService.addOneDepartment(department))
+            return "success";
 
+        return null;
+    }
+    @RequestMapping("/getDepartmentAdmin")
+    public @ResponseBody List<TbEmployee> getDepartmentAdmins(String departmentid)
+    {
+        if(departmentid==null&&departmentid.equals(""))
+            return null;
+        return companyAdminService.getDepartmentAdmin(departmentid);
+    }
     @RequestMapping("/deleteDepartments")
     public @ResponseBody String deleteDeparments(TbDepartmentVo departmentVo)
     {

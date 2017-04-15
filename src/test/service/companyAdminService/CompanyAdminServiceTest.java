@@ -21,6 +21,17 @@ public class CompanyAdminServiceTest {
 
     @Test
     public void testGetDepartments() throws Exception {
-       companyAdminService.getDepartments("1");
+       companyAdminService.getDepartments("2017041516325013");
+    }
+
+    @Test
+    public void testGetDepartmentAdmin() throws Exception {
+
+        companyAdminService.getDepartmentAdmin("2017041516325013");
+    }
+
+    @Test
+    public void testGetDepartmentAdmin1() throws Exception {
+
     }
 }

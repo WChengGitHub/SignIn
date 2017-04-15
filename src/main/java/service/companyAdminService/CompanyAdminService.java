@@ -2,6 +2,8 @@ package service.companyAdminService;
 
 import mapper.TbCompanyMapper;
 import mapper.TbDepartmentMapper;
+import mapper.TbEmployeeMapper;
+import mapper.TbEmployeenotifyMapper;
 import org.apache.poi.ss.usermodel.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,6 +24,9 @@ public class CompanyAdminService {
 
     @Autowired
     private TbDepartmentMapper tbDepartmentMapper;
+
+    @Autowired
+    private TbEmployeeMapper tbEmployeeMapper;
 
     public List<TbDepartment> getExcelDataAndDealData(MultipartFile file,String companyid)
     {
@@ -59,7 +64,7 @@ public class CompanyAdminService {
         System.out.println(departments);
         return departments;
     }
-    public void addCompany(MultipartFile file,String companyid)
+    public void addDepartments(MultipartFile file, String companyid)
     {
        List<TbDepartment>departments=getExcelDataAndDealData(file,companyid);
         //deleteAllEmployee(departmentid);
@@ -69,6 +74,7 @@ public class CompanyAdminService {
             TbDepartment department=departments.get(i);
             department.setDepartmentid(GetId.getId());
             tbDepartmentMapper.insert(department);
+            autoAddDepartmentAdmin(department.getDepartmentid());
 //            if(employee.getEmployeeid()==null||employee.getEmployeeid().equals(""))
 //            {
 //                employee.setEmployeeid(""+(i+1));
@@ -80,7 +86,21 @@ public class CompanyAdminService {
 //            }
         }
     }
-
+    public boolean addOneDepartment(TbDepartment department)
+    {
+        department.setDepartmentid(GetId.getId());
+        department.setDel(false);
+        try
+        {
+            tbDepartmentMapper.insert(department);
+            autoAddDepartmentAdmin(department.getDepartmentid());
+            return true;
+        }catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        return false;
+    }
     public List<TbDepartment> getDepartments(String companyid)
     {
         TbDepartmentExample departmentExample=new TbDepartmentExample();
@@ -90,6 +110,40 @@ public class CompanyAdminService {
         List<TbDepartment> departments=null;
         departments=tbDepartmentMapper.selectByExample(departmentExample);
         return departments;
+    }
+    public void autoAddDepartmentAdmin(String departmentid)
+    {
+        TbEmployee employee=new TbEmployee();
+        employee.setEmployeeid(GetId.getId());
+        employee.setName("管理员");
+        employee.setAccount(GetId.getId());
+        employee.setPassword("123456");
+        employee.setDel(false);
+        employee.setDuties("部门管理员");
+        employee.setSex(true);
+        employee.setPrivilege("1");
+        employee.setDepartmentid(departmentid);
+        employee.setTelephone("无");
+        employee.setEmail("无");
+        tbEmployeeMapper.insert(employee);
+
+    }
+    public List<TbEmployee> getDepartmentAdmin(String departmentid)
+    {
+        TbEmployeeExample employeeExample=new TbEmployeeExample();
+        TbEmployeeExample.Criteria criteria=employeeExample.createCriteria();
+        criteria.andDepartmentidEqualTo(departmentid);
+        criteria.andDelEqualTo(false);
+        List<TbEmployee> employees=tbEmployeeMapper.selectByExample(employeeExample);
+        if(employees!=null&&employees.size()!=0)
+        {
+            int size=employees.size();
+            for(int i=0;i<size;i++)
+            {
+                employees.get(i).setPassword("");
+            }
+        }
+        return employees;
     }
     public boolean deleteDepartments(TbDepartmentVo tbDepartmentVo)
     {
