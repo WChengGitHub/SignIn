@@ -145,6 +145,26 @@ public class CompanyAdminService {
         }
         return employees;
     }
+    public boolean updateDepartment(TbDepartmentVo tbDepartmentVo)
+    {
+        TbDepartment department=new TbDepartment();
+        department.setAddress(tbDepartmentVo.getAddress());
+        department.setName(tbDepartmentVo.getName());
+        department.setMac(tbDepartmentVo.getMac());
+        List<String> departmentids=tbDepartmentVo.getDepartmentids();
+        int size=departmentids.size();
+        try {
+            for (int i = 0; i < size; i++) {
+                department.setDepartmentid(departmentids.get(i));
+                tbDepartmentMapper.updateByPrimaryKeySelective(department);
+            }
+            return true;
+        }catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        return false;
+    }
     public boolean deleteDepartments(TbDepartmentVo tbDepartmentVo)
     {
         List<String> departmentids=tbDepartmentVo.getDepartmentids();

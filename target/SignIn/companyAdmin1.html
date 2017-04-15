@@ -326,7 +326,7 @@
 									<a onclick="showAddDepartment()"><img src="img/add.png" alt="添加">&nbsp;<span>添加</span></a>
 								</li>
 								<li>
-									<a href="#"><img src="img/reverse.png" alt="修改">&nbsp;<span>修改</span></a>
+									<a onclick="showUpdateDepartment()"><img src="img/reverse.png" alt="修改">&nbsp;<span>修改</span></a>
 								</li>
 								<li>
 									<a onclick="getAndDeleteDepartment()"><img src="img/remove.png" alt="删除">&nbsp;<span>删除</span></a>
@@ -731,6 +731,32 @@
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-default" onclick="addDepartment()">提交</button>
+						<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+					</div>
+				</div><!-- /.modal-content -->
+			</div><!-- /.modal-dialog -->
+		</div>
+		<div class="modal" id="themodal5"  tabindex="-1">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-body">
+						<form  method="post" class="myform">
+							<p class="row row1">
+								<label for="departmentName2">部门:</label>
+								<input type="text" name="departmentName2" id="departmentName2" required>
+							</p>
+							<p class="row row1">
+								<label for="address1">地址:</label>
+								<input type="text" name="address1" id="address1" required>
+							</p>
+							<p class="row row1">
+								<label for="mac1">Mac:</label>
+								<input type="text" name="mac1" id="mac1" required>
+							</p>
+						</form>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" onclick="updateDepartment()">提交</button>
 						<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
 					</div>
 				</div><!-- /.modal-content -->
@@ -1210,6 +1236,46 @@
 
 			});
 		}
+		function showUpdateDepartment()
+		{
+			$("#themodal5").modal();
+		}
+		function updateDepartment()
+		{
+			var name=$("#departmentName2").val();
+			var address=$("#address1").val();
+			var mac=$("#mac1").val();
+			var departmentids=new Array();
+			var sign=0;
+			$("#departments input:checked").each(function(i,element)
+			{
+				departmentids[i]=$(element).attr("class");
+				sign++;
+			});
+			if(sign!=0)
+			$.ajax({
+				type : 'post',
+				url : "CompanyAdmin/updateDepartment",
+				data: 'name='+name+'&address='+address+'&mac='+mac+'&companyid='+companyId+'&departmentids='+departmentids,
+				success : function(data) {
+					if(data=="")
+						alert("更改失败");
+					else
+						alert("更改成功");
+					getDepartments();
+				},
+				error : function() {
+					alert("添加失败");
+					getDepartments();
+				}
+
+			});
+			else
+			{
+				alert("请选择要修改的部门");
+			}
+		}
+
 		function showDepartmentAdmin(departmentid,name)
 		{
 			$("#departmentName").text(name);

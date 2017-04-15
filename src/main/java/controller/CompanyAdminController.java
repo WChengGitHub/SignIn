@@ -55,6 +55,22 @@ public class CompanyAdminController {
 
         return null;
     }
+
+    @RequestMapping("/updateDepartment")
+    public @ResponseBody String updateDepartment(TbDepartmentVo departmentVo)
+    {
+        if(departmentVo==null)
+            return null;
+        String name=departmentVo.getName();
+        String address=departmentVo.getAddress();
+        String mac=departmentVo.getMac();
+        List<String>departmentids=departmentVo.getDepartmentids();
+        if(name==null&&name.equals("")||address==null&&address.equals("")||mac==null&&mac.equals("")||departmentids==null&&departmentids.size()<1)
+            return null;
+        if(companyAdminService.updateDepartment(departmentVo))
+            return "success";
+        return null;
+    }
     @RequestMapping("/getDepartmentAdmin")
     public @ResponseBody List<TbEmployee> getDepartmentAdmins(String departmentid)
     {
