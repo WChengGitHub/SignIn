@@ -241,8 +241,8 @@ public class AdminAccountManagementController {
 
     @RequestMapping("/getDepartmentEmployeeId")
     public @ResponseBody List<TbEmployee> getDepartmentEmployeeId(TbEmployeeVo tbEmployeeVo){
-        System.out.println(tbEmployeeVo.getDepartmentids());
-        System.out.println("test4");
+//        System.out.println(tbEmployeeVo.getDepartmentids());
+//        System.out.println("test4");
         List<TbEmployee> employeeList=adminAccountManagementService.getDepartmentEmployeeId(tbEmployeeVo);
 
         return employeeList;
@@ -256,5 +256,19 @@ public class AdminAccountManagementController {
         else
             json.put("status", false);
         return json;
+    }
+
+    @RequestMapping("/departmentGetCompanyId")
+    public @ResponseBody List<TbDepartment> departmentGetCompanyId(TbDepartment tbDepartment){
+        List<TbDepartment> departmentList = adminAccountManagementService.departmentGetCompanyId(tbDepartment);
+        return departmentList;
+    }
+
+    @RequestMapping("/getEmployeeList")
+    public @ResponseBody List<TbEmployee> getEmployeeList(TbEmployee tbEmployee){
+//        System.out.println(tbEmployee.getDepartmentid());
+        List<TbEmployee> employeeList = adminAccountManagementService.getEmployeeList(tbEmployee);
+
+        return employeeList;
     }
 }
