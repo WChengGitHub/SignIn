@@ -1,9 +1,6 @@
 package service.companyAdminService;
 
-import mapper.TbCompanyMapper;
-import mapper.TbDepartmentMapper;
-import mapper.TbEmployeeMapper;
-import mapper.TbEmployeenotifyMapper;
+import mapper.*;
 import org.apache.poi.ss.usermodel.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,6 +24,12 @@ public class CompanyAdminService {
 
     @Autowired
     private TbEmployeeMapper tbEmployeeMapper;
+
+    @Autowired
+    private TbActivityMapper tbActivityMapper;
+
+    @Autowired
+    private TbNotifyMapper notifyMapper;
 
     public List<TbDepartment> getExcelDataAndDealData(MultipartFile file,String companyid)
     {
@@ -185,5 +188,21 @@ public class CompanyAdminService {
         }
 
         return false;
+    }
+
+    public List<TbActivity> queryActivities( String companyrepresentativeid)
+    {
+        TbActivityExample activityExample=new TbActivityExample();
+        TbActivityExample.Criteria criteria=activityExample.createCriteria();
+        criteria.andCompanyrepresentativeidEqualTo(companyrepresentativeid);
+        return tbActivityMapper.selectByExample(activityExample);
+    }
+
+    public List<TbNotify> queryNotifies(String companyrepresentativeid)
+    {
+        TbNotifyExample notifyExample=new TbNotifyExample();
+        TbNotifyExample.Criteria criteria=notifyExample.createCriteria();
+        criteria.andCompanyrepresentativeidEqualTo(companyrepresentativeid);
+        return notifyMapper.selectByExample(notifyExample);
     }
 }

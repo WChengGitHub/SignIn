@@ -5,9 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-import pojo.TbDepartment;
-import pojo.TbDepartmentVo;
-import pojo.TbEmployee;
+import pojo.*;
 import service.companyAdminService.CompanyAdminService;
 
 import java.util.List;
@@ -86,6 +84,20 @@ public class CompanyAdminController {
         if(companyAdminService.deleteDepartments(departmentVo))
             return "success";
         return null;
+    }
+    @RequestMapping("/queryActivities")
+    public @ResponseBody List<TbActivity> queryActivities(String companyrepresentativeid)
+    {
+        if(companyrepresentativeid==null&&companyrepresentativeid.equals(""))
+            return null;
+        return  companyAdminService.queryActivities(companyrepresentativeid);
+    }
+    @RequestMapping("/queryNotifies")
+    public @ResponseBody List<TbNotify> queryNotifies(String companyrepresentativeid)
+    {
+        if(companyrepresentativeid==null&&companyrepresentativeid.equals(""))
+            return null;
+        return  companyAdminService.queryNotifies(companyrepresentativeid);
     }
 }
 

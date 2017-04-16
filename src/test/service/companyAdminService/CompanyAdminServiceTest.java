@@ -34,4 +34,14 @@ public class CompanyAdminServiceTest {
     public void testGetDepartmentAdmin1() throws Exception {
 
     }
+
+    @Test
+    public void testQueryActivities() throws Exception {
+        companyAdminService.queryActivities("1");
+    }
+
+    @Test
+    public void testQueryNotifies() throws Exception {
+        companyAdminService.queryNotifies("1");
+    }
 }
