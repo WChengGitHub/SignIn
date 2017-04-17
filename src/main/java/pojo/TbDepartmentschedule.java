@@ -9,6 +9,8 @@ public class TbDepartmentschedule {
 
     private String outtime;
 
+    private Boolean del;
+
     public String getScheduleid() {
         return scheduleid;
     }
@@ -39,5 +41,13 @@ public class TbDepartmentschedule {
 
     public void setOuttime(String outtime) {
         this.outtime = outtime == null ? null : outtime.trim();
+    }
+
+    public Boolean getDel() {
+        return del;
+    }
+
+    public void setDel(Boolean del) {
+        this.del = del;
     }
 }

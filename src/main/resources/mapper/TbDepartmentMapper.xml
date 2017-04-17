@@ -7,6 +7,7 @@
     <result column="CompanyId" jdbcType="CHAR" property="companyid" />
     <result column="Address" jdbcType="VARCHAR" property="address" />
     <result column="Mac" jdbcType="CHAR" property="mac" />
+    <result column="Del" jdbcType="BIT" property="del" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -67,7 +68,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    DepartmentId, Name, CompanyId, Address, Mac
+    DepartmentId, Name, CompanyId, Address, Mac, Del
   </sql>
   <select id="selectByExample" parameterType="pojo.TbDepartmentExample" resultMap="BaseResultMap">
     select
@@ -101,9 +102,9 @@
   </delete>
   <insert id="insert" parameterType="pojo.TbDepartment">
     insert into tb_department (DepartmentId, Name, CompanyId, 
-      Address, Mac)
+      Address, Mac, Del)
     values (#{departmentid,jdbcType=CHAR}, #{name,jdbcType=VARCHAR}, #{companyid,jdbcType=CHAR}, 
-      #{address,jdbcType=VARCHAR}, #{mac,jdbcType=CHAR})
+      #{address,jdbcType=VARCHAR}, #{mac,jdbcType=CHAR}, #{del,jdbcType=BIT})
   </insert>
   <insert id="insertSelective" parameterType="pojo.TbDepartment">
     insert into tb_department
@@ -123,6 +124,9 @@
       <if test="mac != null">
         Mac,
       </if>
+      <if test="del != null">
+        Del,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="departmentid != null">
@@ -139,6 +143,9 @@
       </if>
       <if test="mac != null">
         #{mac,jdbcType=CHAR},
+      </if>
+      <if test="del != null">
+        #{del,jdbcType=BIT},
       </if>
     </trim>
   </insert>
@@ -166,6 +173,9 @@
       <if test="record.mac != null">
         Mac = #{record.mac,jdbcType=CHAR},
       </if>
+      <if test="record.del != null">
+        Del = #{record.del,jdbcType=BIT},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -177,7 +187,8 @@
       Name = #{record.name,jdbcType=VARCHAR},
       CompanyId = #{record.companyid,jdbcType=CHAR},
       Address = #{record.address,jdbcType=VARCHAR},
-      Mac = #{record.mac,jdbcType=CHAR}
+      Mac = #{record.mac,jdbcType=CHAR},
+      Del = #{record.del,jdbcType=BIT}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -197,6 +208,9 @@
       <if test="mac != null">
         Mac = #{mac,jdbcType=CHAR},
       </if>
+      <if test="del != null">
+        Del = #{del,jdbcType=BIT},
+      </if>
     </set>
     where DepartmentId = #{departmentid,jdbcType=CHAR}
   </update>
@@ -205,7 +219,8 @@
     set Name = #{name,jdbcType=VARCHAR},
       CompanyId = #{companyid,jdbcType=CHAR},
       Address = #{address,jdbcType=VARCHAR},
-      Mac = #{mac,jdbcType=CHAR}
+      Mac = #{mac,jdbcType=CHAR},
+      Del = #{del,jdbcType=BIT}
     where DepartmentId = #{departmentid,jdbcType=CHAR}
   </update>
 </mapper>

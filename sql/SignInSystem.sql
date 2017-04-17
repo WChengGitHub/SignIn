@@ -35,6 +35,7 @@ create table tb_department /*部门表*/
 	CompanyId char(32) not null,#公司id
 	Address varchar(100) not null, #部门地址
 	Mac char(18) not null,#Wifi-mac
+	Del bit default 0 not null,#删除状态 1-已删除 0-未删除
 	foreign key(CompanyId) references tb_company(CompanyId)#外键
 );
 describe tb_department;
@@ -100,8 +101,8 @@ create table tb_departmentSchedule /*部门上班表*/
 	DepartmentId char(32) not null,#部门id
 	foreign key(DepartmentId) references tb_department(DepartmentId),#外键
 	EnterTime varchar(12) not null,#上班时间
-	OutTime varchar(12) not null
-	#下班时间
+	OutTime varchar(12) not null,#下班时间
+	Del bit default 0 not null#删除状态 1-已删除 0-未删除
 
 );
 describe tb_departmentSchedule;
@@ -178,8 +179,9 @@ create table tb_activity /*活动表*/
 	EmployeeId char(32) not null,#发起人id
 	foreign key(EmployeeId) references tb_employee(EmployeeId),#外键
 	Address varchar(30) not null,#活动地点
-	Style bit default 0 not null
-	#0-活动 1-会议
+	Style bit default 0 not null,#0-活动 1-会议
+	CompanyRepresentativeId char(32) not null, #公司负责人id
+	foreign key(CompanyRepresentativeId)references tb_companyRepresentative(CompanyRepresentativeId) #外键
 
 );
 describe tb_activity;
@@ -222,8 +224,9 @@ create table tb_notify /*通知表*/
 	Title varchar(50) not null,#通知标题
 	Content varchar(100) not null,#通知内容
 	NotifyTime timestamp not null,#发布通知时间
-	Adscription varchar(60) not null
-	#所属部门/公司
+	Adscription varchar(60) not null,#所属部门/公司
+	CompanyRepresentativeId char(32) not null, #公司负责人id
+	foreign key(CompanyRepresentativeId)references tb_companyRepresentative(CompanyRepresentativeId) #外键
 
 );
 describe tb_notify;
