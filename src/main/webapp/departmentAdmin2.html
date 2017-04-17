@@ -1760,8 +1760,11 @@
                             success: function (data) {
                                 alert("test getDepartmentEmployeeId");
                                 var length = data.length;
+                                alert(length);
                                 for(var i=0;i<length;i++) {
+                                    alert(data[i].employeeid);
                                     departmentEmployeeId[i] = data[i].employeeid;//部门负责人的员工id
+                                    alert(departmentEmployeeId[i]+"test departmentEmployeeId");
                                 }
 
                                 //都置为未选中
@@ -1934,6 +1937,8 @@
 
     //中间表
     function addEmployeeNotify(){
+        for(var i=0;i<sendNotifyGetEmployeeId.length;i++)
+        alert(sendNotifyGetEmployeeId[i]+" test eid");
         alert("test addEmployeeNotify");
         $.ajax({
             type: 'post',
@@ -1960,7 +1965,7 @@
                 type: 'post',
                 url: "AdminAccountManagement/addNotify",
                 data: 'content=' + notufyContent + '&title=' + notifyTip
-                + '&adscription=' + adscription,
+                + '&adscription=' + adscription + '&employeeids=' + employeeId,
                 //'&departmentids=' + departmentId +
                 success: function (data) {
                     alert(data["status"]);
