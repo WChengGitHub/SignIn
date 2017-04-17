@@ -225,6 +225,8 @@ create table tb_notify /*通知表*/
 	Content varchar(100) not null,#通知内容
 	NotifyTime timestamp not null,#发布通知时间
 	Adscription varchar(60) not null,#所属部门/公司
+	EmployeeId char(32) not null,#员工id
+	foreign key(EmployeeId) references tb_employee(EmployeeId),#外键
 	CompanyRepresentativeId char(32) not null, #公司负责人id
 	foreign key(CompanyRepresentativeId)references tb_companyRepresentative(CompanyRepresentativeId) #外键
 

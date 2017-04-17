@@ -13,6 +13,8 @@ public class TbNotify {
 
     private String adscription;
 
+    private String employeeid;
+
     private String companyrepresentativeid;
 
     public String getNotifyid() {
@@ -53,6 +55,14 @@ public class TbNotify {
 
     public void setAdscription(String adscription) {
         this.adscription = adscription == null ? null : adscription.trim();
+    }
+
+    public String getEmployeeid() {
+        return employeeid;
+    }
+
+    public void setEmployeeid(String employeeid) {
+        this.employeeid = employeeid == null ? null : employeeid.trim();
     }
 
     public String getCompanyrepresentativeid() {
