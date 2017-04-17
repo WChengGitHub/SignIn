@@ -225,4 +225,26 @@ public class AdminAccountManagementService {
             return false;
         }
     }
+
+    //部门管理员获取所属公司的id
+    public List<TbDepartment> departmentGetCompanyId(TbDepartment tbDepartment){
+        TbDepartmentExample departmentExample=new TbDepartmentExample();
+        TbDepartmentExample.Criteria criteria=departmentExample.createCriteria();
+        criteria.andDepartmentidEqualTo(tbDepartment.getDepartmentid());
+        List<TbDepartment> departmentList=tbDepartmentMapper.selectByExample(departmentExample);
+        return departmentList;
+    }
+
+    //加载该部门的员工列表
+    public List<TbEmployee> getEmployeeList(TbEmployee tbEmployee){
+        TbEmployeeExample employeeExample=new TbEmployeeExample();
+        TbEmployeeExample.Criteria criteria=employeeExample.createCriteria();
+        criteria.andDepartmentidEqualTo(tbEmployee.getDepartmentid());
+        List<TbEmployee> employeeList=tbEmployeeMapper.selectByExample(employeeExample);
+        for(TbEmployee tmp:employeeList)
+        {
+            tmp.setPassword(null);
+        }
+        return employeeList;
+    }
 }

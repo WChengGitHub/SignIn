@@ -68,7 +68,7 @@ public class DepartmentAdminServiceTest {
     public void testQueryActivites() throws Exception {
         DepartmentAdminService departmentAdminService= (DepartmentAdminService) applicationContext.getBean("departmentAdminService");
         TbEmployee tbEmployee=new TbEmployee();
-        tbEmployee.setEmployeeid("2");
+        tbEmployee.setEmployeeid("1");
         departmentAdminService.queryActivites(tbEmployee);
     }
 
