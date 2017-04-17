@@ -445,6 +445,76 @@ public class TbNotifyExample {
             return (Criteria) this;
         }
 
+        public Criteria andEmployeeidIsNull() {
+            addCriterion("EmployeeId is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andEmployeeidIsNotNull() {
+            addCriterion("EmployeeId is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andEmployeeidEqualTo(String value) {
+            addCriterion("EmployeeId =", value, "employeeid");
+            return (Criteria) this;
+        }
+
+        public Criteria andEmployeeidNotEqualTo(String value) {
+            addCriterion("EmployeeId <>", value, "employeeid");
+            return (Criteria) this;
+        }
+
+        public Criteria andEmployeeidGreaterThan(String value) {
+            addCriterion("EmployeeId >", value, "employeeid");
+            return (Criteria) this;
+        }
+
+        public Criteria andEmployeeidGreaterThanOrEqualTo(String value) {
+            addCriterion("EmployeeId >=", value, "employeeid");
+            return (Criteria) this;
+        }
+
+        public Criteria andEmployeeidLessThan(String value) {
+            addCriterion("EmployeeId <", value, "employeeid");
+            return (Criteria) this;
+        }
+
+        public Criteria andEmployeeidLessThanOrEqualTo(String value) {
+            addCriterion("EmployeeId <=", value, "employeeid");
+            return (Criteria) this;
+        }
+
+        public Criteria andEmployeeidLike(String value) {
+            addCriterion("EmployeeId like", value, "employeeid");
+            return (Criteria) this;
+        }
+
+        public Criteria andEmployeeidNotLike(String value) {
+            addCriterion("EmployeeId not like", value, "employeeid");
+            return (Criteria) this;
+        }
+
+        public Criteria andEmployeeidIn(List<String> values) {
+            addCriterion("EmployeeId in", values, "employeeid");
+            return (Criteria) this;
+        }
+
+        public Criteria andEmployeeidNotIn(List<String> values) {
+            addCriterion("EmployeeId not in", values, "employeeid");
+            return (Criteria) this;
+        }
+
+        public Criteria andEmployeeidBetween(String value1, String value2) {
+            addCriterion("EmployeeId between", value1, value2, "employeeid");
+            return (Criteria) this;
+        }
+
+        public Criteria andEmployeeidNotBetween(String value1, String value2) {
+            addCriterion("EmployeeId not between", value1, value2, "employeeid");
+            return (Criteria) this;
+        }
+
         public Criteria andCompanyrepresentativeidIsNull() {
             addCriterion("CompanyRepresentativeId is null");
             return (Criteria) this;

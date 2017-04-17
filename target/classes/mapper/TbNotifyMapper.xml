@@ -7,6 +7,7 @@
     <result column="Content" jdbcType="VARCHAR" property="content" />
     <result column="NotifyTime" jdbcType="TIMESTAMP" property="notifytime" />
     <result column="Adscription" jdbcType="VARCHAR" property="adscription" />
+    <result column="EmployeeId" jdbcType="CHAR" property="employeeid" />
     <result column="CompanyRepresentativeId" jdbcType="CHAR" property="companyrepresentativeid" />
   </resultMap>
   <sql id="Example_Where_Clause">
@@ -68,7 +69,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    NotifyId, Title, Content, NotifyTime, Adscription, CompanyRepresentativeId
+    NotifyId, Title, Content, NotifyTime, Adscription, EmployeeId, CompanyRepresentativeId
   </sql>
   <select id="selectByExample" parameterType="pojo.TbNotifyExample" resultMap="BaseResultMap">
     select
@@ -102,11 +103,11 @@
   </delete>
   <insert id="insert" parameterType="pojo.TbNotify">
     insert into tb_notify (NotifyId, Title, Content, 
-      NotifyTime, Adscription, CompanyRepresentativeId
-      )
+      NotifyTime, Adscription, EmployeeId, 
+      CompanyRepresentativeId)
     values (#{notifyid,jdbcType=CHAR}, #{title,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, 
-      #{notifytime,jdbcType=TIMESTAMP}, #{adscription,jdbcType=VARCHAR}, #{companyrepresentativeid,jdbcType=CHAR}
-      )
+      #{notifytime,jdbcType=TIMESTAMP}, #{adscription,jdbcType=VARCHAR}, #{employeeid,jdbcType=CHAR}, 
+      #{companyrepresentativeid,jdbcType=CHAR})
   </insert>
   <insert id="insertSelective" parameterType="pojo.TbNotify">
     insert into tb_notify
@@ -125,6 +126,9 @@
       </if>
       <if test="adscription != null">
         Adscription,
+      </if>
+      <if test="employeeid != null">
+        EmployeeId,
       </if>
       <if test="companyrepresentativeid != null">
         CompanyRepresentativeId,
@@ -145,6 +149,9 @@
       </if>
       <if test="adscription != null">
         #{adscription,jdbcType=VARCHAR},
+      </if>
+      <if test="employeeid != null">
+        #{employeeid,jdbcType=CHAR},
       </if>
       <if test="companyrepresentativeid != null">
         #{companyrepresentativeid,jdbcType=CHAR},
@@ -175,6 +182,9 @@
       <if test="record.adscription != null">
         Adscription = #{record.adscription,jdbcType=VARCHAR},
       </if>
+      <if test="record.employeeid != null">
+        EmployeeId = #{record.employeeid,jdbcType=CHAR},
+      </if>
       <if test="record.companyrepresentativeid != null">
         CompanyRepresentativeId = #{record.companyrepresentativeid,jdbcType=CHAR},
       </if>
@@ -190,6 +200,7 @@
       Content = #{record.content,jdbcType=VARCHAR},
       NotifyTime = #{record.notifytime,jdbcType=TIMESTAMP},
       Adscription = #{record.adscription,jdbcType=VARCHAR},
+      EmployeeId = #{record.employeeid,jdbcType=CHAR},
       CompanyRepresentativeId = #{record.companyrepresentativeid,jdbcType=CHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -210,6 +221,9 @@
       <if test="adscription != null">
         Adscription = #{adscription,jdbcType=VARCHAR},
       </if>
+      <if test="employeeid != null">
+        EmployeeId = #{employeeid,jdbcType=CHAR},
+      </if>
       <if test="companyrepresentativeid != null">
         CompanyRepresentativeId = #{companyrepresentativeid,jdbcType=CHAR},
       </if>
@@ -222,6 +236,7 @@
       Content = #{content,jdbcType=VARCHAR},
       NotifyTime = #{notifytime,jdbcType=TIMESTAMP},
       Adscription = #{adscription,jdbcType=VARCHAR},
+      EmployeeId = #{employeeid,jdbcType=CHAR},
       CompanyRepresentativeId = #{companyrepresentativeid,jdbcType=CHAR}
     where NotifyId = #{notifyid,jdbcType=CHAR}
   </update>
