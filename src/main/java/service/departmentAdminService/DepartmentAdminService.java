@@ -108,6 +108,7 @@ public class DepartmentAdminService {
         TbDepartmentscheduleExample tbDepartmentscheduleExample=new TbDepartmentscheduleExample();
         TbDepartmentscheduleExample.Criteria criteria=tbDepartmentscheduleExample.createCriteria();
         criteria.andDepartmentidEqualTo(tbEmployee.getDepartmentid());
+        criteria.andDelEqualTo(false);
         List<TbDepartmentschedule> departmentschedules=tbDepartmentscheduleMapper.selectByExample(tbDepartmentscheduleExample);
         return departmentschedules;
     }
@@ -172,10 +173,13 @@ public class DepartmentAdminService {
     public boolean deleteSchedule(TbDepartmentscheduleVo tbDepartmentscheduleVo)
     {
         int length=tbDepartmentscheduleVo.getScheduleids().size();
+        TbDepartmentschedule departmentschedule=new TbDepartmentschedule();
         List<String> sheduleids=tbDepartmentscheduleVo.getScheduleids();
         try {
             for (int i = 0; i < length; i++) {
-                tbDepartmentscheduleMapper.deleteByPrimaryKey(sheduleids.get(i));
+                departmentschedule.setScheduleid(sheduleids.get(i));
+                departmentschedule.setDel(true);
+                tbDepartmentscheduleMapper.updateByPrimaryKeySelective(departmentschedule);
             }
             return true;
         }catch (Exception e)
@@ -289,6 +293,7 @@ public class DepartmentAdminService {
     public boolean addSchedules(TbDepartmentschedule departmentschedule)
     {
         departmentschedule.setScheduleid(GetId.getId());
+        departmentschedule.setDel(false);
         try
         {
             tbDepartmentscheduleMapper.insert(departmentschedule);
