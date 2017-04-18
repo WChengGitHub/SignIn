@@ -11,6 +11,6 @@
 
     <!--根据部门id查询员工id @zhang-->
     <select id="selectDepartmentEmployeeIds" parameterType="java.lang.String" resultType="java.lang.String">
-        select tb_employee.EmployeeId FROM tb_employee WHERE tb_employee.DepartmentId=#{departmentid }
+        select tb_employee.EmployeeId FROM tb_employee WHERE tb_employee.DepartmentId=#{departmentid } AND tb_employee.Privilege='1'<!-- 权限应该为‘1’既管理员权限-->
     </select>
  </mapper>
