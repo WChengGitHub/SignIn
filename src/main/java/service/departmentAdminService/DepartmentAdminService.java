@@ -125,8 +125,28 @@ public class DepartmentAdminService {
     public List<TbNotifyVo> queryNotifyVo(TbEmployee employee)
     {
         List<TbNotifyVo> tbNotifyVos=multiFormMapper.selectNotifyVoByEmployeeid(employee.getEmployeeid());
+        tbNotifyVos=queryNotifyVo1(employee.getEmployeeid(),tbNotifyVos);
         return tbNotifyVos;
     }
+   public List<TbNotifyVo> queryNotifyVo1(String employeeid,List<TbNotifyVo> tbNotifyVos)
+   {
+       TbNotifyExample notifyExample=new TbNotifyExample();
+       TbNotifyExample.Criteria criteria=notifyExample.createCriteria();
+       criteria.andEmployeeidEqualTo(employeeid);
+       List<TbNotify> notifies=notifyMapper.selectByExample(notifyExample);
+       TbNotifyVo notifyVo=new TbNotifyVo();
+       notifyVo.setStatus("2");
+       if(notifies!=null)
+       {
+           int size=notifies.size();
+           for(int i=0;i<size;i++)
+           {
+               BeanUtils.copyProperties(notifies.get(i),notifyVo);
+               tbNotifyVos.add(notifyVo);
+           }
+       }
+       return tbNotifyVos;
+   }
     public List<TbActivity> queryActivites(TbEmployee employee)
     {
         TbActivityExample activityExample=new TbActivityExample();

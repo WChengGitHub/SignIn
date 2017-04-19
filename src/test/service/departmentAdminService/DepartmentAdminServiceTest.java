@@ -78,7 +78,7 @@ public class DepartmentAdminServiceTest {
     public void testQueryNotifyVo() throws Exception {
         DepartmentAdminService departmentAdminService= (DepartmentAdminService) applicationContext.getBean("departmentAdminService");
         TbEmployee tbEmployee=new TbEmployee();
-        tbEmployee.setEmployeeid("2");
+        tbEmployee.setEmployeeid("1");
         List<TbNotifyVo> tbNotifyVos=departmentAdminService.queryNotifyVo(tbEmployee);
         System.out.println(tbNotifyVos);
     }
@@ -120,5 +120,10 @@ public class DepartmentAdminServiceTest {
 
         DepartmentAdminService departmentAdminService= (DepartmentAdminService) applicationContext.getBean("departmentAdminService");
         departmentAdminService.getScheduleEmployee("20170409133823114");
+    }
+
+    @Test
+    public void testQueryNotifyVo1() throws Exception {
+
     }
 }
