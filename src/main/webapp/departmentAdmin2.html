@@ -623,7 +623,7 @@
         </button>
 
         <div>
-            <img id="my_icon" src="img/logo.png" alt="我们的图标" />
+            <img id="my_icon" src="img/SignInLogo.png" alt="我们的图标" />
         </div>
 
     </div>
@@ -631,9 +631,9 @@
     <h1 id="my_title">签到网站后台管理</h1>
 
     <ul class="nav navbar-nav navbar-right" id="my_navbar-cancellation">
-        <li>
-            <a href="#">我的消息<span class="badge" style="background:#C12E2A ;">20</span></a>
-        </li>
+        <!--<li>-->
+            <!--<a href="#">我的消息<span class="badge" style="background:#C12E2A ;">20</span></a>-->
+        <!--</li>-->
         <li>
             <a href="login.html"><span class="glyphicon glyphicon-off"></span>&nbsp;注销</a>
         </li>
@@ -680,20 +680,32 @@
                     <li>
                         <a href="#employeeTitle"><span class="glyphicon glyphicon-list"></span>&nbsp;员工列表</a>
                     </li>
-                    <li>
-                        <a href="#"><span class="glyphicon glyphicon-pencil"></span>&nbsp;出差登记/查询（暂无界面）</a>
-                    </li>
-                    <li>
-                        <a href="#departmentSchedulesTitle"><span class="glyphicon glyphicon-list-alt"></span>&nbsp;上班时间表</a>
-                    </li>
+                    <!--<li>-->
+                        <!--<a href="#"><span class="glyphicon glyphicon-pencil"></span>&nbsp;出差登记/查询（暂无界面）</a>-->
+                    <!--</li>-->
+                    <!--<li>-->
+                        <!--<a href="#departmentSchedulesTitle"><span class="glyphicon glyphicon-list-alt"></span>&nbsp;上班时间表</a>-->
+                    <!--</li>-->
 
                 </ul>
             </li>
             <li>
-                <a href="#sub2" data-toggle="collapse"><b>通知信息</b><span class="glyphicon glyphicon-chevron-down pull-right"></span></a>
+                <a href="#sub2" data-toggle="collapse"><b>班次管理</b><span class="glyphicon glyphicon-chevron-down pull-right"></span></a>
                 <ul id="sub2" class="nav collapse">
                     <li>
-                        <a href="#"><span class="glyphicon glyphicon-info-sign"></span>&nbsp;发布通知信息（暂无界面）</a>
+                        <a href="#departmentSchedulesTitle"><span class="glyphicon glyphicon-info-sign"></span>&nbsp;班次表</a>
+                    </li>
+                    <!--<li>-->
+                        <!--<a href="#notifyTitle"><span class="glyphicon glyphicon-list-alt"></span>&nbsp;查看通知信息</a>-->
+                    <!--</li>-->
+                </ul>
+            </li>
+            <li>
+                <a href="#sub3" data-toggle="collapse"><b>通知信息</b><span class="glyphicon glyphicon-chevron-down pull-right"></span></a>
+                <ul id="sub3" class="nav collapse">
+                    <li>
+                        <!--<a href="#">&nbsp;<span data-toggle="modal" data-target="#myModal" class="glyphicon glyphicon-info-sign"></span>&nbsp;发布通知信息</a>-->
+                        <a href="#"><span data-toggle="modal" data-target="#myModal"  class="glyphicon glyphicon-info-sign"  onclick="getDepartmentAndEmployee()">发布通知信息</span></a>
                     </li>
                     <li>
                         <a href="#notifyTitle"><span class="glyphicon glyphicon-list-alt"></span>&nbsp;查看通知信息</a>
@@ -701,44 +713,45 @@
                 </ul>
             </li>
             <li>
-                <a href="#sub3" data-toggle="collapse"><b>修改审核</b><span class="glyphicon glyphicon-chevron-down pull-right"></span></a>
-                <ul id="sub3" class="nav collapse">
+                <a href="#sub4" data-toggle="collapse"><b>修改审核</b><span class="glyphicon glyphicon-chevron-down pull-right"></span></a>
+                <ul id="sub4" class="nav collapse">
                     <li>
                         <a href="#checkTitle"><span class="glyphicon glyphicon-info-sign"></span>&nbsp;审核信息</a>
                     </li>
                 </ul>
             </li>
             <li>
-                <a href="#sub4" data-toggle="collapse"><b>活动/会议</b><span class="glyphicon glyphicon-chevron-down pull-right"></span></a>
-                <ul id="sub4" class="nav collapse">
-                    <li>
-                        <a href="#"><span class="glyphicon glyphicon-info-sign"></span>&nbsp;发布活动/会议（暂无界面）</a>
-                    </li>
-                    <li>
-                        <a href="#activities"><span class="glyphicon glyphicon-list-alt"></span>&nbsp;查看活动/会议</a>
-                    </li>
-                </ul>
-            </li>
-            <li>
-                <a href="#sub5" data-toggle="collapse"><b>员工工作情况记录</b><span class="glyphicon glyphicon-chevron-down pull-right"></span></a>
+                <a href="#sub5" data-toggle="collapse"><b>活动/会议</b><span class="glyphicon glyphicon-chevron-down pull-right"></span></a>
                 <ul id="sub5" class="nav collapse">
                     <li>
-                        <a href="#"><span class="glyphicon glyphicon-list-alt"></span>&nbsp;员工出勤情况记录表（暂无界面）</a>
+                        <!--<a href="#activityTitle"><span class="glyphicon glyphicon-info-sign"></span>&nbsp;发布活动/会议</a>-->
+                        <a href="#"><span data-toggle="modal" data-target="#myModalActivity"  class="glyphicon glyphicon-info-sign"  onclick="getDepartmentAndEmployee()">添加活动/会议</span></a>
                     </li>
                     <li>
-                        <a href="#"><span class="glyphicon glyphicon-signal"></span>&nbsp;员工出勤情况曲线图（暂无界面）</a>
+                        <a href="#activityTitle"><span class="glyphicon glyphicon-list-alt"></span>&nbsp;查看活动/会议</a>
                     </li>
                 </ul>
             </li>
+            <!--<li>-->
+                <!--<a href="#sub6" data-toggle="collapse"><b>员工工作情况记录</b><span class="glyphicon glyphicon-chevron-down pull-right"></span></a>-->
+                <!--<ul id="sub6" class="nav collapse">-->
+                    <!--<li>-->
+                        <!--<a href="#"><span class="glyphicon glyphicon-list-alt"></span>&nbsp;员工出勤情况记录表（暂无界面）</a>-->
+                    <!--</li>-->
+                    <!--<li>-->
+                        <!--<a href="#"><span class="glyphicon glyphicon-signal"></span>&nbsp;员工出勤情况曲线图（暂无界面）</a>-->
+                    <!--</li>-->
+                <!--</ul>-->
+            <!--</li>-->
 
             <li>
-                <a href="#sub6" data-toggle="collapse"><b>账户设置</b><span class="glyphicon glyphicon-chevron-down pull-right"></span></a>
-                <ul id="sub6" class="nav collapse">
+                <a href="#sub7" data-toggle="collapse"><b>账户设置</b><span class="glyphicon glyphicon-chevron-down pull-right"></span></a>
+                <ul id="sub7" class="nav collapse">
                     <li>
-                        <a href="#"><span class="glyphicon glyphicon-cog"></span>&nbsp;密码修改（暂无界面）</a>
+                        <a href="adminBinding.html"><span class="glyphicon glyphicon-cog"></span>&nbsp;密码修改</a>
                     </li>
                     <li>
-                        <a href="#"><span class="glyphicon glyphicon-phone"></span>&nbsp;手机号/邮箱号绑定（暂无界面）</a>
+                        <a href="adminChangePassword.html"><span class="glyphicon glyphicon-phone"></span>&nbsp;手机号/邮箱号绑定</a>
                     </li>
                 </ul>
             </li>
@@ -746,8 +759,7 @@
     </div>
 </nav>
 
-<!--此为公司负责人时才显示-->
-<!--部门管理->部门列表界面-->
+<!--部门管理->员工列表界面-->
 <div class="mypage_main" id="employeeTitle">
     <!--部门列表面包屑导航-->
     <ol class="breadcrumb my_breadcrumb">
@@ -946,16 +958,16 @@
                         </thead>
 
                         <tbody id="notifies">
-                        <tr>
-                            <td><input type="checkbox" id="my_prepare_notify_checkbox_1"/></td>
-                            <td>123456789</td>
-                            <td>赵匡胤</td>
-                            <td>2017年3月17日02:32:48</td>
-                            <td>惠州市</td>
-                            <td>开会</td>
-                            <td>13428003404</td>
-                            <td>13428003404@139.com</td>
-                        </tr>
+                        <!--<tr>-->
+                            <!--<td><input type="checkbox" id="my_prepare_notify_checkbox_1"/></td>-->
+                            <!--<td>123456789</td>-->
+                            <!--<td>赵匡胤</td>-->
+                            <!--<td>2017年3月17日02:32:48</td>-->
+                            <!--<td>惠州市</td>-->
+                            <!--<td>开会</td>-->
+                            <!--<td>13428003404</td>-->
+                            <!--<td>13428003404@139.com</td>-->
+                        <!--</tr>-->
                         </tbody>
                     </table>
                     <!--分页-->
@@ -1049,7 +1061,7 @@
 
 
 <!--员工管理->出差登记/查询界面-->
-<div class="mypage_main" >
+<div class="mypage_main" id="activityTitle">
     <!--出差登记/查询面包屑导航-->
     <ol class="breadcrumb my_breadcrumb">
         <li>
@@ -1321,7 +1333,7 @@
 
 <!-----------------------------------------------发布通知模态框------------------------------------------------->
 
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"  data-backdrop="static"  data-keyboard="false">
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"  data-backdrop="static" >
     <!--data-backdrop="static"指定一个静态的背景，当用户点击模态框外部时不会关闭模态框-->
     <!--data-keyboard是指当按下ESC键时关闭模态框，设置为 false 时则按键无效-->
 
@@ -1408,7 +1420,7 @@
 
 <!--------------------------------------新增活动/会议的模态框------------------------------------------------>
 
-<div class="modal fade" id="myModalActivity" tabindex="-1" role="dialog" aria-labelledby="myModalActivityLabel"  data-backdrop="static"  data-keyboard="false">
+<div class="modal fade" id="myModalActivity" tabindex="-1" role="dialog" aria-labelledby="myModalActivityLabel"  data-backdrop="static"  >
     <!--data-backdrop="static"指定一个静态的背景，当用户点击模态框外部时不会关闭模态框-->
     <!--data-keyboard是指当按下ESC键时关闭模态框，设置为 false 时则按键无效-->
 
@@ -1728,7 +1740,7 @@
             data: 'departmentid=' + departmentId,
             success: function (data) {
                 companyId=data[0].companyid;
-                alert(companyId+" companyId");
+//                alert(companyId+" companyId");
 
                 <!-----------根据公司id查到其他部门----------->
                 $.ajax({
@@ -1736,7 +1748,7 @@
                     url: "AdminAccountManagement/selectDepartment",
                     data: 'companyid=' + companyId,
                     success: function (data) {
-                        alert("test getDepartmentList");
+//                        alert("test getDepartmentList");
                         var length = data.length;
                         var flag = 0;//遍历到当前部门则置1,，当前部门不需要再部门列表显示
                         for (var i = 0; i < length; i++) {
@@ -1758,19 +1770,19 @@
                             url: "AdminAccountManagement/getDepartmentEmployeeId",
                             data: 'departmentids=' + departmentIds,
                             success: function (data) {
-                                alert("test getDepartmentEmployeeId");
+//                                alert("test getDepartmentEmployeeId");
                                 var length = data.length;
-                                alert(length);
+//                                alert(length);
                                 for(var i=0;i<length;i++) {
-                                    alert(data[i].employeeid);
+//                                    alert(data[i].employeeid);
                                     departmentEmployeeId[i] = data[i].employeeid;//部门负责人的员工id
-                                    alert(departmentEmployeeId[i]+"test departmentEmployeeId");
+//                                    alert(departmentEmployeeId[i]+"test departmentEmployeeId");
                                 }
 
                                 //都置为未选中
                                 departmentSelectall=false;employeeSelectall=false;
-                                alert(departmentNameList.length+"test len1");
-                                alert(employeeNameList.length+"test len2");
+//                                alert(departmentNameList.length+"test len1");
+//                                alert(employeeNameList.length+"test len2");
 
                                 for(var i=0;i<departmentNameList.length;i++)departmentChecked[i]=false;
                                 for(var i=0;i<employeeNameList.length;i++)employeeChecked[i]=false;
@@ -1804,7 +1816,7 @@
             url: "AdminAccountManagement/getEmployeeList",
             data: 'departmentid=' + departmentId,
             success: function (data) {
-                alert("test getEmployeeList");
+//                alert("test getEmployeeList");
                 var length = data.length;
 
                 for (var i = 0; i < length; i++) {
@@ -1869,7 +1881,7 @@
 //        alert(cbox_id);
         if(document.getElementById(cbox_id).checked)departmentChecked[j]=true;
         else departmentChecked[j]=false;
-        alert(departmentChecked[j]+"  departmentChecked");
+//        alert(departmentChecked[j]+"  departmentChecked");
     }
 
     function employeesChecked(j,k){
@@ -1877,7 +1889,7 @@
 //        alert(cbox_id);
         if(document.getElementById(cbox_id).checked)employeeChecked[j]=true;
         else employeeChecked[j]=false;
-        alert(employeeChecked[j]+"  employeeChecked");
+//        alert(employeeChecked[j]+"  employeeChecked");
     }
 
     //部门全选
@@ -1938,8 +1950,8 @@
     //中间表
     function addEmployeeNotify(){
         for(var i=0;i<sendNotifyGetEmployeeId.length;i++)
-        alert(sendNotifyGetEmployeeId[i]+" test eid");
-        alert("test addEmployeeNotify");
+//        alert(sendNotifyGetEmployeeId[i]+" test eid");
+//        alert("test addEmployeeNotify");
         $.ajax({
             type: 'post',
             url: "AdminAccountManagement/addEmployeeNotify",
@@ -1958,7 +1970,7 @@
     function sendNotify() {
         checkedEmployeeId();
         if(sendNotifyGetEmployeeId.length!=0) {//有选中发送的部门或员工才发送
-            alert("test sendNotify");
+//            alert("test sendNotify");
             var notifyTip = document.getElementById("tip_input").value;
             var notufyContent = document.getElementById("reason_input").value;
             $.ajax({
