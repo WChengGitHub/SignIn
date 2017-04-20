@@ -6,7 +6,7 @@ package pojo;
 public class TbNotifyVo extends  TbNotify{
     private String status;
     private String employeeid;
-
+    private String name;
     public String getStatus() {
         return status;
     }
@@ -21,5 +21,13 @@ public class TbNotifyVo extends  TbNotify{
 
     public void setEmployeeid(String employeeid) {
         this.employeeid = employeeid;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }
