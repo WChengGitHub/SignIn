@@ -2,13 +2,18 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="mapper.MultiFormMapper">
     <select id="selectNotifyVoByEmployeeid" parameterType="java.lang.String" resultType="TbNotifyVo">
-        select tb_notify.*,tb_employeenotify.`Status`,tb_employeenotify.EmployeeId from tb_notify,tb_employeenotify where tb_notify.NotifyId=tb_employeenotify.NotifyId and EmployeeId=#{VALUE } ORDER BY tb_notify.NotifyTime desc
+        select tb_notify.*,tb_employeenotify.`Status`,tb_employeenotify.EmployeeId from tb_notify,tb_employeenotify where tb_notify.NotifyId=tb_employeenotify.NotifyId and tb_employeenotify.EmployeeId=#{VALUE } ORDER BY tb_notify.NotifyTime desc
     </select>
     <select id="queryScheduleEmployee" parameterType="java.lang.String" resultType="TbEmployee">
         select tb_employee.`Name`,tb_employee.Account,tb_employee.Duties,tb_employee.Sex,tb_employee.Telephone,tb_employee.Email from tb_employee where tb_employee.EmployeeId in
         (select EmployeeId from tb_employeeschedule where tb_employeeschedule.ScheduleId =#{scheduleid}) and tb_employee.del=0
     </select>
-
+    <select id="selectActivityByEmployeeid" parameterType="java.lang.String" resultType="pojo.TbActivityVo">
+        select *,(SELECT name from tb_employee where tb_employee.EmployeeId=#{VALUE}) as name from tb_activity where tb_activity.ActivityId in (select tb_activityattendance.ActivityAttendanceId from tb_activityattendance where tb_activityattendance.EmployeeId=#{VALUE} and tb_activityattendance.`Status`='0') and tb_activity.StartTime BETWEEN DATE_SUB(NOW(),INTERVAL 365 DAY) and now() ORDER BY tb_activity.StartTime desc
+    </select>
+    <select id="selectNotify" parameterType="java.lang.String" resultType="pojo.TbNotifyVo">
+        select tb_notify.*,(select name from tb_employee where EmployeeId=#{VALUE})as name from tb_notify where tb_notify.NotifyId in (select tb_employeenotify.NotifyId from tb_employeenotify where tb_employeenotify.EmployeeId=#{VALUE} and tb_employeenotify.`Status`='0') and tb_notify.NotifyTime BETWEEN DATE_SUB(NOW(),INTERVAL 365 DAY) and now() ORDER BY tb_notify.NotifyTime DESC
+    </select>
     <!--根据部门id查询员工id @zhang-->
     <select id="selectDepartmentEmployeeIds" parameterType="java.lang.String" resultType="java.lang.String">
         select tb_employee.EmployeeId FROM tb_employee WHERE tb_employee.DepartmentId=#{departmentid } AND tb_employee.Privilege='1'<!-- 权限应该为‘1’既管理员权限-->
