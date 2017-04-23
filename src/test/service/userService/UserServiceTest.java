@@ -4,10 +4,11 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import pojo.TbActivityattendance;
-import pojo.TbEmployee;
-import pojo.TbEmployeenotify;
+import pojo.*;
 import service.companyAdminService.CompanyAdminService;
+
+import java.util.List;
+import java.util.Map;
 
 import static org.junit.Assert.*;
 
@@ -60,6 +61,21 @@ public class UserServiceTest {
         TbActivityattendance activityattendance=new TbActivityattendance();
         activityattendance.setEmployeeid("1");
         activityattendance.setActivityid("1");
-        userService.updateActivityStatus(activityattendance);
+        userService.updateActivityStatus(activityattendance,"0");
+    }
+
+    @Test
+    public void testQueryActivities1() throws Exception {
+        Map<String,List<TbActivityVo1>> map=userService.queryActivities1("1");
+    }
+
+    @Test
+    public void testSelectNotifies() throws Exception {
+        Map<String,List<TbNotifyVo1>> map=userService.selectNotifies("1");
+    }
+
+    @Test
+    public void testSelectMemos() throws Exception {
+        Map<String,List<TbMemoVo>> map=userService.selectMemos("1");
     }
 }

@@ -102,7 +102,7 @@ create table tb_departmentSchedule /*部门上班表*/
 	foreign key(DepartmentId) references tb_department(DepartmentId),#外键
 	EnterTime varchar(12) not null,#上班时间
 	OutTime varchar(12) not null,#下班时间
-	Del bit default 0 not null#删除状态 1-已删除 0-未删除
+	Del bit default 0 not null #删除状态 1-已删除 0-未删除
 
 );
 describe tb_departmentSchedule;
