@@ -37,6 +37,13 @@ public class UserService {
     @Autowired
     private TbDetailMapper detailMapper;
 
+    @Autowired
+    private TbDepartmentscheduleMapper departmentscheduleMapper;
+
+    @Autowired
+    private TbDailyattendanceMapper dailyattendanceMapper;
+
+
     public List<TbActivityVo> queryActivities(String employeeid)
     {
         List<TbActivityVo> activityVos=multiFormMapper.selectActivityByEmployeeid(employeeid);
@@ -102,6 +109,73 @@ public class UserService {
 
         return map;
     }
+
+    public Map<String,List<TbActivityVo1>> queryActivities2(String employeeid,String yearString,String monthString)
+    {
+        Map<String,List<TbActivityVo1>>map=new HashMap<String, List<TbActivityVo1>>();
+
+        Date d0=new Date();
+        Calendar now =Calendar.getInstance();
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String d0String=yearString+"-"+monthString+"-"+"01"+" "+"00:00:00";
+        try {
+            d0=format.parse(d0String);
+            System.out.println(d0);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        TbActivityVo1 tbActivityVo1=new TbActivityVo1();
+        tbActivityVo1.setEmployeeid(employeeid);
+        for(int i=0;i<31;i++)
+        {
+            List<TbActivityVo1> tbActivityVo1s=null;
+
+            now.setTime(d0);
+            now.set(Calendar.DATE,now.get(Calendar.DATE)+i);
+            Date d1=now.getTime();
+            Date d2=new Date();
+
+            String year=String.format("%tY",d1);
+            String month=String.format("%tm",d1);
+            String day=String.format("%td",d1);
+
+            int year1=Integer.parseInt(year);
+            int month1=Integer.parseInt(month);
+            int day1=Integer.parseInt(day);
+
+            String d1String=year+"-"+month+"-"+day+" "+"00:00:00";
+            String d2String=year+"-"+month+"-"+day+" "+"23:59:59";
+
+            String key=year+"/"+month+"/"+day;
+            try {
+                d1=format.parse(d1String);
+                d2=format.parse(d2String);
+
+                tbActivityVo1.setD1(d1);
+                tbActivityVo1.setD2(d2);
+                tbActivityVo1s=multiFormMapper.selectActivities(tbActivityVo1);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            if(tbActivityVo1s!=null&&tbActivityVo1s.size()!=0)
+            {
+                int size=tbActivityVo1s.size();
+                for(int j=0;j<size;j++)
+                {
+                    tbActivityVo1s.get(j).setYear(year1);
+                    tbActivityVo1s.get(j).setDay(day1);
+                    tbActivityVo1s.get(j).setMonth(month1);
+                }
+
+            }
+            map.put(key,tbActivityVo1s);
+//                System.out.println("d1String:"+d1String+"d2String:"+d2String);
+//                System.out.println("d1:"+d1+" d2:"+d2);
+        }
+
+        return map;
+    }
     public List<TbNotifyVo> queryNotifies(String employeeid)
     {
         List<TbNotifyVo> notifyVos=multiFormMapper.selectNotify(employeeid);
@@ -121,6 +195,70 @@ public class UserService {
             List<TbNotifyVo1>tbNotifyVo1s=null;
             now.setTime(d0);
             now.set(Calendar.DATE,now.get(Calendar.DATE)-i);
+            Date d1=now.getTime();
+            Date d2=new Date();
+
+            String year=String.format("%tY",d1);
+            String month=String.format("%tm",d1);
+            String day=String.format("%td",d1);
+
+            int year1=Integer.parseInt(year);
+            int month1=Integer.parseInt(month);
+            int day1=Integer.parseInt(day);
+
+            String d1String=year+"-"+month+"-"+day+" "+"00:00:00";
+            String d2String=year+"-"+month+"-"+day+" "+"23:59:59";
+
+            String key=year+"/"+month+"/"+day;
+            try {
+                d1=format.parse(d1String);
+                d2=format.parse(d2String);
+
+                tbNotifyVo1.setD1(d1);
+                tbNotifyVo1.setD2(d2);
+                tbNotifyVo1s=multiFormMapper.selectNotifies(tbNotifyVo1);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            if(tbNotifyVo1s!=null&&tbNotifyVo1s.size()!=0)
+            {
+                int size=tbNotifyVo1s.size();
+                for(int j=0;j<size;j++)
+                {
+                    tbNotifyVo1s.get(j).setYear(year1);
+                    tbNotifyVo1s.get(j).setDay(day1);
+                    tbNotifyVo1s.get(j).setMonth(month1);
+                }
+
+            }
+            map.put(key,tbNotifyVo1s);
+//                System.out.println("d1String:"+d1String+"d2String:"+d2String);
+//                System.out.println("d1:"+d1+" d2:"+d2);
+        }
+
+        return map;
+    }
+    public Map<String,List<TbNotifyVo1>> selectNotifies1(String employeeid,String yearString,String monthString)
+    {
+        Map<String,List<TbNotifyVo1>>map=new HashMap<String, List<TbNotifyVo1>>();
+        Date d0=new Date();
+        Calendar now =Calendar.getInstance();
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String d0String=yearString+"-"+monthString+"-"+"01"+" "+"00:00:00";
+        try {
+            d0=format.parse(d0String);
+            System.out.println(d0);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        TbNotifyVo1 tbNotifyVo1=new TbNotifyVo1();
+        tbNotifyVo1.setEmployeeid(employeeid);
+        for(int i=0;i<31;i++)
+        {
+            List<TbNotifyVo1>tbNotifyVo1s=null;
+            now.setTime(d0);
+            now.set(Calendar.DATE,now.get(Calendar.DATE)+i);
             Date d1=now.getTime();
             Date d2=new Date();
 
@@ -235,6 +373,70 @@ public class UserService {
 
         return map;
     }
+    public Map<String,List<TbMemoVo>> selectMemos1(String employeeid,String yearString,String monthString)
+    {
+        Map<String,List<TbMemoVo>>map=new HashMap<String, List<TbMemoVo>>();
+        Date d0=new Date();
+        Calendar now =Calendar.getInstance();
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String d0String=yearString+"-"+monthString+"-"+"01"+" "+"00:00:00";
+        try {
+            d0=format.parse(d0String);
+            System.out.println(d0);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        TbMemoVo tbMemoVo=new TbMemoVo();
+        tbMemoVo.setEmployeeid(employeeid);
+        for(int i=0;i<31;i++)
+        {
+            List<TbMemoVo>tbMemoVos=null;
+            now.setTime(d0);
+            now.set(Calendar.DATE,now.get(Calendar.DATE)+i);
+            Date d1=now.getTime();
+            Date d2=new Date();
+
+            String year=String.format("%tY",d1);
+            String month=String.format("%tm",d1);
+            String day=String.format("%td",d1);
+
+            int year1=Integer.parseInt(year);
+            int month1=Integer.parseInt(month);
+            int day1=Integer.parseInt(day);
+
+            String d1String=year+"-"+month+"-"+day+" "+"00:00:00";
+            String d2String=year+"-"+month+"-"+day+" "+"23:59:59";
+
+            String key=year+"/"+month+"/"+day;
+            try {
+                d1=format.parse(d1String);
+                d2=format.parse(d2String);
+
+                tbMemoVo.setD1(d1);
+                tbMemoVo.setD2(d2);
+                tbMemoVos=multiFormMapper.selectMemos(tbMemoVo);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            if(tbMemoVos!=null&&tbMemoVos.size()!=0)
+            {
+                int size=tbMemoVos.size();
+                for(int j=0;j<size;j++)
+                {
+                    tbMemoVos.get(j).setYear(year1);
+                    tbMemoVos.get(j).setDay(day1);
+                    tbMemoVos.get(j).setMonth(month1);
+                }
+
+            }
+            map.put(key,tbMemoVos);
+//                System.out.println("d1String:"+d1String+"d2String:"+d2String);
+//                System.out.println("d1:"+d1+" d2:"+d2);
+        }
+
+        return map;
+    }
     public TbEmployee queryEmployee(TbEmployee employee)
     {
         TbEmployeeExample employeeExample=new TbEmployeeExample();
@@ -248,6 +450,13 @@ public class UserService {
             employee.setPassword("");
         }
         return null;
+    }
+    public TbEmployeeVo1 queryEmployee1(TbEmployee employee)
+    {
+        TbEmployeeVo1 tbEmployeeVo1=multiFormMapper.queryEmployee(employee);
+        if(tbEmployeeVo1!=null)
+        tbEmployeeVo1.setPassword("");
+        return tbEmployeeVo1;
     }
 
     public void updateNotifyStatus(TbEmployeenotify employeenotify)
@@ -279,4 +488,91 @@ public class UserService {
         }
         return false;
     }
+    public List<TbDepartmentScheduleVo1> confirmBeLate(TbDepartmentScheduleVo1 tbDepartmentScheduleVo1)
+    {
+        Date date=new Date();
+        String hour=String.format("%tH",date);
+        String minute=String.format("%tM",date);
+        String currentTime=hour+":"+minute;
+        tbDepartmentScheduleVo1.setCurrentTime(currentTime);
+        List<TbDepartmentScheduleVo1> tbDepartmentScheduleVo1s=multiFormMapper.confirmBeLate(tbDepartmentScheduleVo1);
+        return tbDepartmentScheduleVo1s;
+    }
+    public List<TbDepartmentScheduleVo1> querySignInSchedule(TbDepartmentScheduleVo1 tbDepartmentScheduleVo1)
+    {
+        Date date=new Date();
+        String hour=String.format("%tH",date);
+        String minute=String.format("%tM",date);
+        String currentTime=hour+":"+minute;
+        tbDepartmentScheduleVo1.setCurrentTime(currentTime);
+        List<TbDepartmentScheduleVo1> tbDepartmentScheduleVo1s=multiFormMapper.querySignInSchedule(tbDepartmentScheduleVo1);
+        return tbDepartmentScheduleVo1s;
+    }
+    public void insertDailyAttendance(TbDepartmentScheduleVo1 tbDepartmentScheduleVo1)
+    {
+        TbDailyattendance dailyattendance=new TbDailyattendance();
+
+    }
+    public TbDepartmentScheduleVo1 DailyAttendanceSignIn(TbDepartmentScheduleVo1 tbDepartmentScheduleVo1)
+    {
+        TbDailyattendance dailyattendance=new TbDailyattendance();
+        TbDepartmentScheduleVo1 departmentScheduleVo1=new TbDepartmentScheduleVo1();
+        String dailyattendanceid=GetId.getId();
+
+        dailyattendance.setEmployeeid(tbDepartmentScheduleVo1.getEmployeeid());
+        dailyattendance.setEntertime(new Date());
+        dailyattendance.setDailyattendanceid(dailyattendanceid);
+
+        List<TbDepartmentScheduleVo1>tbDepartmentScheduleVo1s=confirmBeLate(tbDepartmentScheduleVo1);
+        if(tbDepartmentScheduleVo1s!=null&&tbDepartmentScheduleVo1s.size()!=0)
+        {
+            dailyattendance.setStatus("2");
+            departmentScheduleVo1.setDailyattendanceid(dailyattendanceid);
+            departmentScheduleVo1.setScheduleid(tbDepartmentScheduleVo1s.get(0).getScheduleid());
+            departmentScheduleVo1.setOuttime(tbDepartmentScheduleVo1s.get(0).getOuttime());
+            departmentScheduleVo1.setStatus("2");
+        }
+        else
+        {
+            dailyattendance.setStatus("1");
+            List<TbDepartmentScheduleVo1>tbDepartmentScheduleVo1s1=querySignInSchedule(tbDepartmentScheduleVo1);
+            if(tbDepartmentScheduleVo1s1!=null&&tbDepartmentScheduleVo1s1.size()!=0)
+            {
+                departmentScheduleVo1.setDailyattendanceid(dailyattendanceid);
+                departmentScheduleVo1.setScheduleid(tbDepartmentScheduleVo1s1.get(0).getScheduleid());
+                departmentScheduleVo1.setOuttime(tbDepartmentScheduleVo1s1.get(0).getOuttime());
+                departmentScheduleVo1.setStatus("1");
+            }
+        }
+        dailyattendanceMapper.insertSelective(dailyattendance);
+        return departmentScheduleVo1;
+    }
+    public void DailyAttendanceSignOut(TbDepartmentScheduleVo1 tbDepartmentScheduleVo1)
+    {
+        TbDepartmentscheduleExample departmentscheduleExample=new TbDepartmentscheduleExample();
+        TbDepartmentscheduleExample.Criteria criteria=departmentscheduleExample.createCriteria();
+        criteria.andScheduleidEqualTo(tbDepartmentScheduleVo1.getScheduleid());
+
+        Date date=new Date();
+        String hour=String.format("%tH",date);
+        String minute=String.format("%tM",date);
+        String currentTime=hour+":"+minute;
+
+        criteria.andOuttimeLessThanOrEqualTo(currentTime);
+
+        long num=departmentscheduleMapper.countByExample(departmentscheduleExample);
+        TbDailyattendance dailyattendance=new TbDailyattendance();
+        dailyattendance.setOuttime(date);
+        dailyattendance.setDailyattendanceid(tbDepartmentScheduleVo1.getDailyattendanceid());
+        if(num==0)
+        {
+            if(tbDepartmentScheduleVo1.getStatus().equals("2"))
+                dailyattendance.setStatus("4");
+            else
+                dailyattendance.setStatus("3");
+
+        }
+        dailyattendanceMapper.updateByPrimaryKeySelective(dailyattendance);
+    }
+
 }

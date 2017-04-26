@@ -28,29 +28,29 @@ public class UserController {
             map.put("message","系统发生异常");
             return map;
         }
-        TbEmployee employee1=userService.queryEmployee(employee);
-        if(employee1==null)
+        TbEmployeeVo1 tbEmployeeVo1=userService.queryEmployee1(employee);
+        if(tbEmployeeVo1==null)
         {
-            map.put("message","登陆失败");
+            map.put("message","登陆失败，请检查用户名和密码是否正确");
         }
         else
         {
             map.put("message","登陆成功");
-            map.put("user",employee1);
+            map.put("user",tbEmployeeVo1);
         }
         return map;
     }
     @RequestMapping("/init")
-    public @ResponseBody Map<String,Object> init(TbEmployee employee)
+    public @ResponseBody Map<String,Object> init(String employeeid,String year,String month)
     {
         Map<String,Object>map=new HashMap<String, Object>();
-        if(employee==null&&employee.getEmployeeid()==null) {
+        if(employeeid==null&&year==null&&month==null) {
             map.put("message","系统发生异常");
             return map;
         }
-        Map<String,List<TbActivityVo1>> activities=userService.queryActivities1(employee.getEmployeeid());
-        Map<String,List<TbNotifyVo1>> notifies=userService.selectNotifies(employee.getEmployeeid());
-        Map<String,List<TbMemoVo>> memos=userService.selectMemos(employee.getEmployeeid());
+        Map<String,List<TbActivityVo1>> activities=userService.queryActivities2(employeeid,year,month);
+        Map<String,List<TbNotifyVo1>> notifies=userService.selectNotifies1(employeeid,year,month);
+        Map<String,List<TbMemoVo>> memos=userService.selectMemos1(employeeid,year,month);
         map.put("activities",activities);
         map.put("notifies",notifies);
         map.put("memos",memos);

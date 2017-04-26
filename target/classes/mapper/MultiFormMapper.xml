@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="mapper.MultiFormMapper">
+    <!--UserService-->
+    <select id="queryEmployee" parameterType="pojo.TbEmployee" resultType="pojo.TbEmployeeVo1">
+        select tb_employee.*,tb_department.Address departmentAdress,tb_department.`Name` deparmentName  from tb_employee,tb_department where tb_employee.DepartmentId=tb_department.DepartmentId and tb_employee.Account=#{account} and tb_employee.`Password`=#{password} and tb_employee.del=false
+    </select>
     <select id="selectNotifyVoByEmployeeid" parameterType="java.lang.String" resultType="TbNotifyVo">
         select tb_notify.*,tb_employeenotify.`Status`,tb_employeenotify.EmployeeId from tb_notify,tb_employeenotify where tb_notify.NotifyId=tb_employeenotify.NotifyId and tb_employeenotify.EmployeeId=#{VALUE } ORDER BY tb_notify.NotifyTime desc
     </select>
@@ -22,6 +26,14 @@
     </select>
     <select id="selectMemos" parameterType="pojo.TbMemoVo" resultType="pojo.TbMemoVo">
         SELECT tb_memo.*,tb_employee.`Name` from tb_memo,tb_employee where tb_employee.EmployeeId=tb_memo.EmployeeId and tb_memo.EmployeeId=#{employeeid} and tb_memo.StartTime BETWEEN #{d1,jdbcType=TIMESTAMP} and #{d2,jdbcType=TIMESTAMP}
+    </select>
+    <!--确定是否早退-->
+    <select id="confirmBeLate" parameterType="pojo.TbDepartmentScheduleVo1" resultType="pojo.TbDepartmentScheduleVo1">
+        select ScheduleId, DepartmentId, EnterTime, OutTime, Del from tb_departmentschedule WHERE ( EnterTime &lt; #{currentTime} and OutTime &gt; #{currentTime} ) and ScheduleId in(select ScheduleId from tb_employeeschedule where employeeid=#{employeeid}) and del=false
+    </select>
+
+    <select id="querySignInSchedule" parameterType="pojo.TbDepartmentScheduleVo1" resultType="pojo.TbDepartmentScheduleVo1">
+        select ScheduleId, DepartmentId, EnterTime, OutTime, Del from tb_departmentschedule WHERE ( EnterTime  &gt; #{currentTime}  ) and ScheduleId in(select ScheduleId from tb_employeeschedule where employeeid=#{employeeid}) and del=false
     </select>
     <!--根据部门id查询员工id @zhang-->
     <select id="selectDepartmentEmployeeIds" parameterType="java.lang.String" resultType="java.lang.String">

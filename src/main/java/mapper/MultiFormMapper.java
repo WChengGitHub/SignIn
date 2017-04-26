@@ -8,6 +8,7 @@ import java.util.List;
  * Created by user on 2017/3/31.
  */
 public interface MultiFormMapper {
+    public TbEmployeeVo1 queryEmployee(TbEmployee tbEmployee);
     public List<TbNotifyVo> selectNotifyVoByEmployeeid(String employeeid);
     public List<TbEmployee> queryScheduleEmployee(String scheduleid);
     public List<TbActivityVo> selectActivityByEmployeeid(String employeeid);
@@ -15,6 +16,8 @@ public interface MultiFormMapper {
     public List<TbNotifyVo> selectNotify(String employeeid);
     public List<TbNotifyVo1> selectNotifies(TbNotifyVo1 tbNotifyVo1);
     public List<TbMemoVo> selectMemos(TbMemoVo tbMemoVo);
+    public List<TbDepartmentScheduleVo1> confirmBeLate(TbDepartmentScheduleVo1 tbDepartmentScheduleVo1);
+    public List<TbDepartmentScheduleVo1> querySignInSchedule(TbDepartmentScheduleVo1 tbDepartmentScheduleVo1);
 //   根据部门的id查到该部门管理员的id @zhang
     public String selectDepartmentEmployeeIds(String departmentid);
 
