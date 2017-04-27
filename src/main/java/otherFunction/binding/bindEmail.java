@@ -5,6 +5,7 @@ import org.apache.commons.mail.EmailException;
 import org.apache.commons.mail.HtmlEmail;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import pojo.TbCompanyrepresentative;
 import pojo.TbEmployee;
 
 import javax.activation.CommandMap;
@@ -92,6 +93,43 @@ public class bindEmail {
         }
         return null;
     }
+
+
+    //发送邮箱验证码给公司管理员（链接）
+    public static String sendEmailCodeToCompanyAdmin(TbCompanyrepresentative tbCompanyrepresentative) throws UnknownHostException {
+        //InetAddress.getLocalHost();应加throws UnknownHostException
+        InetAddress address= InetAddress.getLocalHost();
+//        String Ip=address.getHostAddress();
+//        String hostName = InetAddress.getLocalHost().getHostName();
+//        String Ip = InetAddress.getByName(hostName).getHostAddress();
+
+        String Ip="localhost";
+
+        String companyrepresentativeId=tbCompanyrepresentative.getCompanyrepresentativeid();
+        String email=tbCompanyrepresentative.getEmail();
+
+        String UUID1= UUID.randomUUID().toString();
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd-HH:mm:ss");//设置日期格式
+        String Time=df.format(new Date());
+        String linkAddress="http://"+Ip+":8080/SignIn/AdminAccountManagement/checkCompanyAdminBingingEamilInformation?" +
+                "CompanyrepresentativeId="+companyrepresentativeId+"&Email="+email+"&UUID="+UUID1+"&CreateTime="+Time;
+        String emailContent = "【签到系统】"
+                +"点击下面的链接,验证邮箱<br/><a href="
+                + linkAddress + " target='_BLANK'>" + "邮箱验证"
+                + "</a> "
+                + "<br/>tips:本邮件超过10分钟,链接将会失效" ;
+        try {
+            sendHTMLEmail(email, emailContent);
+            return UUID1;
+        }
+        catch (Exception e) {
+            // TODO: handle exception
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+
 
     public static boolean checkEmailCode(String CreateTime){
 

@@ -5,11 +5,15 @@ import org.apache.poi.ss.usermodel.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import otherFunction.md5.Encryption;
 import pojo.*;
 import utils.GetId;
-
+import otherFunction.md5.*;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.TimeZone;
 
 /**
  * Created by user on 2017/4/13.
@@ -30,6 +34,13 @@ public class CompanyAdminService {
 
     @Autowired
     private TbNotifyMapper notifyMapper;
+
+    @Autowired
+    private TbCompanyrepresentativeMapper tbCompanyrepresentativeMapper;
+
+    @Autowired
+    private MultiFormMapper multiFormMapper;
+
 
     public List<TbDepartment> getExcelDataAndDealData(MultipartFile file,String companyid)
     {
@@ -205,4 +216,57 @@ public class CompanyAdminService {
         criteria.andCompanyrepresentativeidEqualTo(companyrepresentativeid);
         return notifyMapper.selectByExample(notifyExample);
     }
+
+    //公司管理员登录
+    public String login(TbCompanyrepresentative tbCompanyrepresentative)
+    {
+        try {
+
+            String MD5password=Encryption.generatePassword(tbCompanyrepresentative.getPassword());
+            tbCompanyrepresentative.setPassword(MD5password);
+
+            TbCompanyrepresentativeExample companyrepresentativeExample = new TbCompanyrepresentativeExample();
+            TbCompanyrepresentativeExample.Criteria criteria = companyrepresentativeExample.createCriteria();
+            criteria.andTelephoneEqualTo(tbCompanyrepresentative.getTelephone());
+            List<TbCompanyrepresentative> tbCompanyrepresentativeList = tbCompanyrepresentativeMapper.selectByExample(companyrepresentativeExample);
+
+            int count = tbCompanyrepresentativeList.size();
+            if (count == 0) return "0";
+            else
+            if (tbCompanyrepresentative.getPassword().equals(tbCompanyrepresentativeList.get(0).getPassword()))
+                return tbCompanyrepresentativeList.get(0).getCompanyrepresentativeid();
+            else
+                return "passwordWrong";
+        }
+        catch(Exception e){
+            return null;
+        }
+    }
+
+    //公司管理员注册
+    public boolean register(TbCompanyrepresentative tbCompanyrepresentative){
+
+
+
+        //生成随机id
+        Calendar cal1 = Calendar.getInstance();
+        TimeZone.setDefault(TimeZone.getTimeZone("GMT+8:00"));
+        java.text.SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddkkmmss");
+        int randomNumber = (int)(Math.random() * 10 );
+        try {
+            tbCompanyrepresentative.setCompanyrepresentativeid(sdf.format(cal1.getTime())+randomNumber);
+            tbCompanyrepresentative.setEmail("0");
+
+            String MD5password=Encryption.generatePassword(tbCompanyrepresentative.getPassword());
+            tbCompanyrepresentative.setPassword(MD5password);
+            tbCompanyrepresentativeMapper.insert(tbCompanyrepresentative);
+        }
+        catch (Exception e) {
+            return false;
+        }
+        return true;
+    }
+
+
+
 }
