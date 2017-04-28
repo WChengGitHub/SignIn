@@ -14,9 +14,12 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import otherFunction.md5.Encryption;
 import pojo.*;
 import utils.GetId;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.*;
 
 /**
@@ -489,4 +492,50 @@ public class DepartmentAdminService {
 //        }
 //        return workbook;
 //    }
+
+
+    //部门管理员登录
+    public String login(TbEmployee tbEmployee,HttpServletRequest request)
+    {
+        HttpSession session = request.getSession();
+        try {
+            String MD5password= Encryption.generatePassword(tbEmployee.getPassword());
+            tbEmployee.setPassword(MD5password);
+
+            TbEmployeeExample employeeExample=new TbEmployeeExample();
+            TbEmployeeExample.Criteria criteria=employeeExample.createCriteria();
+
+            if(tbEmployee.getTelephone()!=null) criteria.andTelephoneEqualTo(tbEmployee.getTelephone());
+            else if(tbEmployee.getEmail()!=null) criteria.andEmailEqualTo(tbEmployee.getEmail());
+            else if(tbEmployee.getAccount()!=null) criteria.andAccountEqualTo(tbEmployee.getAccount());
+            criteria.andDelEqualTo(false);
+            criteria.andPrivilegeEqualTo("1");
+            List<TbEmployee> tbEmployeeList = tbEmployeeMapper.selectByExample(employeeExample);
+
+            int count = tbEmployeeList.size();
+            if (count == 0) return "0";
+//            else if(tbEmployeeList.get(0).getPrivilege()=="1") return "0";
+            else
+            if (tbEmployee.getPassword().equals(tbEmployeeList.get(0).getPassword())) {
+                session.setMaxInactiveInterval(1 * 60);//Session1分钟失效
+                session.setAttribute("EmployeeId", tbEmployeeList.get(0).getEmployeeid());
+                return tbEmployeeList.get(0).getDepartmentid();
+            }
+            else
+                return "passwordWrong";
+        }
+        catch(Exception e){
+            return null;
+        }
+    }
+
+    //获取部门管理员的员工id
+    public String getDepartmentAdminEmployeeName(TbEmployee tbEmployee) {
+        TbEmployeeExample employeeExample=new TbEmployeeExample();
+        TbEmployeeExample.Criteria criteria=employeeExample.createCriteria();
+        criteria.andEmployeeidEqualTo(tbEmployee.getEmployeeid());
+        List<TbEmployee> employeeList=tbEmployeeMapper.selectByExample(employeeExample);
+        String employeeName = employeeList.get(0).getName();
+        return employeeName;
+    }
 }

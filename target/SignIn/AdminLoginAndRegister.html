@@ -1,0 +1,437 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>SignOn Register</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+    <meta name="author" content="" />
+    <!-- Facebook and Twitter integration -->
+    <meta property="og:title" content=""/>
+    <meta property="og:image" content=""/>
+    <meta property="og:url" content=""/>
+    <meta property="og:site_name" content=""/>
+    <meta property="og:description" content=""/>
+    <meta name="twitter:title" content="" />
+    <meta name="twitter:image" content="" />
+    <meta name="twitter:url" content="" />
+    <meta name="twitter:card" content="" />
+
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,700" rel="stylesheet">
+
+    <!-- Animate.css -->
+    <link rel="stylesheet" href="LoginAndRegister/css/animate.css">
+    <!-- Icomoon Icon Fonts-->
+    <link rel="stylesheet" href="LoginAndRegister/css/icomoon.css">
+    <!-- Themify Icons-->
+    <link rel="stylesheet" href="LoginAndRegister/css/themify-icons.css">
+    <!-- Bootstrap  -->
+    <link rel="stylesheet" href="LoginAndRegister/css/bootstrap.css">
+
+    <!-- Magnific Popup -->
+    <link rel="stylesheet" href="LoginAndRegister/css/magnific-popup.css">
+
+    <!-- Owl Carousel  -->
+    <link rel="stylesheet" href="LoginAndRegister/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="LoginAndRegister/css/owl.theme.default.min.css">
+
+    <!-- Theme style  -->
+    <link rel="stylesheet" href="LoginAndRegister/css/style.css">
+
+    <!-- Modernizr JS -->
+    <script src="LoginAndRegister/js/modernizr-2.6.2.min.js"></script>
+    <!-- FOR IE9 below -->
+    <!--[if lt IE 9]>
+    <script src="LoginAndRegister/js/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+<script>
+    function updatahtml() {window.location.href = 'AdminLoginAndRegister.html?#';}
+</script>
+<body onload="updatahtml();" style="background: url(images/1.png)no-repeat center center fixed;
+    		-webkit-background-size: cover;
+    		-moz-background-size: cover;
+    		-o-background-size: cover;
+   			background-size: cover;">
+
+<div class="gtco-loader"></div>
+
+<div id="page">
+
+
+    <div class="page-inner">
+        <nav class="gtco-nav" role="navigation">
+            <div class="gtco-container">
+
+                <div class="row">
+                    <div class="col-sm-4 col-xs-12">
+                        <div id="gtco-logo"><a href="AdminLoginAndRegister.html">SignIn <em>.</em></a></div>
+                    </div>
+                    <div class="col-xs-8 text-right menu-1">
+                        <ul>
+                            <li>Tip:由公司负责人注册</li>
+                            <!--<li><a href="#">Tip:由公司负责人注册</a></li>-->
+                            <li><a href="#"> 忘记密码</a></li>
+                            <!-- <li><a href="features.html">Features</a></li>
+                            <li><a href="tour.html">Tour</a></li> -->
+                            <!-- <li class="has-dropdown">
+                                <a href="#">Dropdown</a>
+                                <ul class="dropdown">
+                                    <li><a href="#">Web Design</a></li>
+                                    <li><a href="#">eCommerce</a></li>
+                                    <li><a href="#">Branding</a></li>
+                                    <li><a href="#">API</a></li>
+                                </ul>
+                            </li>
+                            <li><a href="pricing.html">Pricing</a></li>
+                            <li><a href="contact.html">Contact</a></li>
+                            <li class="btn-cta"><a href="#"><span>Get started</span></a></li> -->
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </nav>
+
+        <header id="gtco-header" class="gtco-cover" role="banner" style="background-image: url(images/background.jpg) ">
+            <div class="overlay"></div>
+            <div class="gtco-container">
+                <div class="row">
+                    <div class="col-md-12 col-md-offset-0 text-left">
+
+
+                        <div class="row row-mt-15em">
+                            <div class="col-md-7 mt-text animate-box" data-animate-effect="fadeInUp">
+                                <span class="intro-text-small">Welcome to SignIn</span>
+                                <h1>欢迎使用掌上签到</h1>
+                            </div>
+                            <div class="col-md-4 col-md-push-1 animate-box" data-animate-effect="fadeInRight">
+                                <div class="form-wrap">
+                                    <div class="tab">
+                                        <ul class="tab-menu">
+                                            <li class="active gtco-first"><a href="#" data-tab="signup">注册</a></li>
+                                            <li class="gtco-second"><a href="#" data-tab="login">登录</a></li>
+                                        </ul>
+                                        <div class="tab-content">
+                                            <div class="tab-content-inner active" data-content="signup">
+                                                <form action="#">
+                                                    <div class="row form-group">
+                                                        <div class="col-md-12">
+                                                            <label for="registerUsername">用户名</label>
+                                                            <input type="text" class="form-control" id="registerUsername">
+                                                        </div>
+                                                    </div>
+                                                    <div class="row form-group">
+                                                        <div class="col-md-12">
+                                                            <label for="registerPassword">密码</label>
+                                                            <input type="password" class="form-control" id="registerPassword">
+                                                        </div>
+                                                    </div>
+                                                    <div class="row form-group">
+                                                        <div class="col-md-12">
+                                                            <label for="telephone">手机号码</label>
+                                                            <input type="text" class="form-control" id="telephone">
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="row form-group">
+                                                        <div class="col-md-12">
+                                                            <label for="code">验证码</label>
+                                                            <input type="text" class="form-control" id="code">
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="row form-group">
+                                                        <div class="col-md-12">
+                                                            <input style="width: 100%;" type="submit" class="btn btn-success" id="sendMessageTime" value="获取验证码">
+                                                            <input style="width: 100%;" type="submit" class="btn btn-primary" value="注册" onclick="register()">
+                                                        </div>
+
+                                                    </div>
+
+
+                                                </form>
+                                            </div>
+
+                                            <div class="tab-content-inner" data-content="login">
+                                                <form action="#">
+                                                    <div class="row form-group">
+                                                        <div class="col-md-12">
+                                                            <label for="AccountNum">手机号码/邮箱/工号</label>
+                                                            <input type="text" class="form-control" id="AccountNum">
+                                                        </div>
+                                                    </div>
+                                                    <div class="row form-group">
+                                                        <div class="col-md-12">
+                                                            <label for="SignOnPassword">密码</label>
+                                                            <input type="password" class="form-control" id="SignOnPassword">
+                                                        </div>
+                                                    </div>
+                                                    <div>
+                                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                        <input type="checkbox" checked  onclick="selectCompany()" id="CompanyAdmin" />公司管理员
+                                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                        <input type="checkbox" onclick="selectDepartment()" id="DepartmentAdmin" />部门管理员
+                                                    </div>
+                                                    <p></p>
+                                                    <div class="row form-group">
+                                                        <div class="col-md-12">
+                                                            <input style="width: 100%;" type="submit" class="btn btn-primary" value="登录" onclick="SignOn()">
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+        </header>
+
+
+    </div>
+    </footer>
+</div>
+
+</div>
+
+<div class="gototop js-top">
+    <a href="#" class="js-gotop"><i class="icon-arrow-up"></i></a>
+</div>
+
+<!-- jQuery -->
+<script src="LoginAndRegister/js/jquery.min.js"></script>
+<!-- jQuery Easing -->
+<script src="LoginAndRegister/js/jquery.easing.1.3.js"></script>
+<!-- Bootstrap -->
+<!--<script src="LoginAndRegister/js/bootstrap.min.js"></script>-->
+<!-- Waypoints -->
+<script src="LoginAndRegister/js/jquery.waypoints.min.js"></script>
+<!-- Carousel -->
+<script src="LoginAndRegister/js/owl.carousel.min.js"></script>
+<!-- countTo -->
+<script src="LoginAndRegister/js/jquery.countTo.js"></script>
+<!-- Magnific Popup -->
+<script src="LoginAndRegister/js/jquery.magnific-popup.min.js"></script>
+<script src="LoginAndRegister/js/magnific-popup-options.js"></script>
+<!-- Main -->
+<script src="LoginAndRegister/js/main.js"></script>
+
+</body>
+
+<script>
+    function selectCompany(){
+        var CompanyAdmin = document.getElementById("CompanyAdmin");
+        var DepartmentAdmin = document.getElementById("DepartmentAdmin");
+        if(CompanyAdmin.checked){
+            DepartmentAdmin.checked=false;
+        }
+        else {
+            DepartmentAdmin.checked=true;
+        }
+    }
+    function selectDepartment(){
+        var CompanyAdmin = document.getElementById("CompanyAdmin");
+        var DepartmentAdmin = document.getElementById("DepartmentAdmin");
+        if(DepartmentAdmin.checked){
+            // DepartmentAdmin.checked=false;
+            CompanyAdmin.checked=false;
+        }
+        else {
+            // DepartmentAdmin.checked=true;
+            CompanyAdmin.checked=true;
+        }
+    }
+
+    //登录
+    function SignOn(){
+        var dataContent;
+        var accountNum = document.getElementById("AccountNum").value;
+        var password = document.getElementById("SignOnPassword").value;
+        var CompanyAdmin = document.getElementById("CompanyAdmin");
+        var DepartmentAdmin = document.getElementById("DepartmentAdmin");
+
+        if(accountNum==null||password==null||accountNum==""||password==""){alert("请输入完整信息");return;}
+        if(DepartmentAdmin.checked) {
+            if ($("#AccountNum").val().match(/^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$/)) {
+                dataContent = 'email=' + accountNum + '&password=' + password;
+            }
+            else if ($("#AccountNum").val().match(/^(((13[0-9]{1})|159|153)+\d{8})$/)) {
+                dataContent = 'telephone=' + accountNum + '&password=' + password;
+            }
+            else  dataContent = 'account=' + accountNum + '&password=' + password;
+//            alert(dataContent);
+            $.ajax({
+                type: 'post',
+                url: "DepartmentAdmin/departmentAdminLogin",
+                data: dataContent,
+                success: function (data) {
+//                    alert(data["status"]);
+                    if(data["status"]!="0"&&data["status"]!=null&&data["status"]!="passwordWrong"){
+                        var cookieString="DepartmentId="+data["status"];
+                        //判断是否设置过期时间
+                        var expiresHours=1;
+                        if(expiresHours>0){
+                            var date=new Date();
+                            date.setTime(date.getTime+expiresHours*30*1000);
+                            cookieString=cookieString+"; expires="+date.toGMTString();
+                        }
+                        document.cookie=cookieString;
+//                        alert(document.cookie+" Did cookie");
+                        var cookieString2="EmployeeId="+data["EmployeeId"];
+                        //判断是否设置过期时间
+                        var expiresHours=1;
+                        if(expiresHours>0){
+                            var date=new Date();
+                            date.setTime(date.getTime+expiresHours*30*1000);
+                            cookieString2=cookieString2+"; expires="+date.toGMTString();
+                        }
+                        document.cookie=cookieString2;
+//                        alert(document.cookie+" Eid cookie");
+                        enterDepartmentAdminHtml();
+                    }
+                    else if(data["status"]=="passwordWrong")
+                        alert("密码错误");
+                    else if(data["status"]=='0')
+                        alert("该手机号码/邮箱/工号，不属于部门管理员");
+
+                },
+                error: function () {
+                    alert("管理员登陆失败");
+                }
+            })
+        }
+        else if(CompanyAdmin.checked){
+            if ($("#AccountNum").val().match(/^(((13[0-9]{1})|159|153)+\d{8})$/)) {
+                dataContent = 'telephone=' + accountNum + '&password=' + password;
+//                alert(dataContent);
+            }
+            else {
+                alert("请输入正确的手机号码");
+                return;
+            }
+            var flag=false;
+            $.ajax({
+                type: 'post',
+                url: "CompanyAdmin/companyAdminLogin",
+                data: dataContent,
+                success: function (data) {
+                    if(data["status"]!="0"&&data["status"]!=null&&data["status"]!="passwordWrong"){
+                        var cookieString="CompanyRepresentativeId="+data["status"];
+                        //判断是否设置过期时间
+                        var expiresHours=1;
+                        if(expiresHours>0){
+                            var date=new Date();
+                            date.setTime(date.getTime+expiresHours*30*1000);
+                            cookieString=cookieString+"; expires="+date.toGMTString();
+                        }
+                        document.cookie=cookieString;
+//                        alert(document.cookie+" cookie");
+                        enterCompanyAdminHtml();
+                    }
+                    else if(data["status"]=="passwordWrong")
+                        alert("密码错误");
+                    else if(data["status"]=='0')
+                        alert("该手机号码未注册");
+                },
+                error: function () {
+                    alert("公司负责人登录失败");
+                }
+            })
+
+        }
+    }
+
+    function enterCompanyAdminHtml(){window.location.href = 'companyAdmin2.html?#';}
+    function enterDepartmentAdminHtml(){window.location.href = 'departmentAdmin3.html';}
+
+
+    var wait=60;
+    function time(o) {
+        if (wait == 0) {
+            o.removeAttribute("disabled");
+            o.value="免费获取验证码";
+            wait = 60;
+        } else {
+            o.setAttribute("disabled", true);
+            o.value=wait+"秒后可以重新发送";
+            wait--;
+            setTimeout(function() {
+                        time(o)
+                    },
+                    1000)
+        }
+
+    }
+    //获取验证码
+    document.getElementById("sendMessageTime").onclick=function()
+    {
+        var tel = document.getElementById("telephone");
+//        alert("test value:" + tel.value);
+//        alert("original tel:"+originalTel);
+        if(tel.value == null || tel.value == ""){alert("手机号码不能为空");}
+        else if (!$("#telephone").val().match(/^(((13[0-9]{1})|159|153)+\d{8})$/)) {
+            alert("请输入正确的手机号码");
+        }
+        else {
+            var tel = document.getElementById("telephone");
+            alert("test value:" + tel.value);
+//            alert("original tel:"+originalTel);
+//            alert("test running bindTel");
+            $.ajax({
+                type: 'post',
+                url: "CompanyAdmin/registerSendMessage",
+                data: 'telephone=' + tel.value,
+                success: function (data) {
+                    alert("test success：" + data["status"]);
+
+                },
+                error: function () {
+                    alert("test  false：" + data["status"]);
+                    return;
+                }
+            });
+            time(this);
+        }
+    }
+
+    //注册
+    function register(){
+        var UserName = document.getElementById("registerUsername").value;
+        var Password = document.getElementById("registerPassword").value;
+        var Code = document.getElementById("code").value;
+
+        if(UserName==""||Password==""||Code=="")alert("请输入完整信息");
+        else{
+            $.ajax({
+                type: 'post',
+                url: "CompanyAdmin/register",
+                data: 'name=' + UserName + '&Password=' + Password + '&code=' + Code,
+                success: function (data) {
+                    var result = data["status"];
+                    alert("test register success：" + result);
+                    if(result)
+                        location.reload();
+                },
+                error: function () {
+                    alert("test  false：" + data["status"]);
+                    return;
+                }
+            });
+        }
+    }
+
+</script>
+
+
+</html>
+

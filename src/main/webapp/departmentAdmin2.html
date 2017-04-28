@@ -1950,8 +1950,8 @@
     //中间表
     function addEmployeeNotify(){
         for(var i=0;i<sendNotifyGetEmployeeId.length;i++)
-//        alert(sendNotifyGetEmployeeId[i]+" test eid");
-//        alert("test addEmployeeNotify");
+        alert(sendNotifyGetEmployeeId[i]+" test eid");
+        alert("test addEmployeeNotify");
         $.ajax({
             type: 'post',
             url: "AdminAccountManagement/addEmployeeNotify",
@@ -1959,7 +1959,7 @@
             //'&departmentids=' + departmentId +
             success: function (data) {
                 alert(data["status"]);
-                window.location.reload();
+                //window.location.reload();
             },
             error: function () {
                 alert("test  false");
@@ -1970,14 +1970,14 @@
     function sendNotify() {
         checkedEmployeeId();
         if(sendNotifyGetEmployeeId.length!=0) {//有选中发送的部门或员工才发送
-//            alert("test sendNotify");
+            alert("test sendNotify " + employeeId);
             var notifyTip = document.getElementById("tip_input").value;
             var notufyContent = document.getElementById("reason_input").value;
             $.ajax({
                 type: 'post',
                 url: "AdminAccountManagement/addNotify",
                 data: 'content=' + notufyContent + '&title=' + notifyTip
-                + '&adscription=' + adscription + '&employeeids=' + employeeId,
+                + '&adscription=' + adscription + '&employeeid=' + employeeId,
                 //'&departmentids=' + departmentId +
                 success: function (data) {
                     alert(data["status"]);

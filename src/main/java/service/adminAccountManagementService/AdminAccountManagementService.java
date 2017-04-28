@@ -3,6 +3,7 @@ package service.adminAccountManagementService;
 import mapper.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import otherFunction.md5.Encryption;
 import pojo.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -29,7 +30,8 @@ public class AdminAccountManagementService {
     private MultiFormMapper multiFormMapper;
     @Autowired
     private TbActivityMapper tbActivityMapper;
-
+    @Autowired
+    private TbCompanyrepresentativeMapper tbCompanyrepresentativeMapper;
 
     //验证旧密码是否正确
     public List<TbEmployee> verification(TbEmployee tbEmployee)
@@ -45,6 +47,20 @@ public class AdminAccountManagementService {
         return employeeList;
     }
 
+    //公司管理员验证旧密码是否正确
+    public List<TbCompanyrepresentative> verificationCompanyAdmin(TbCompanyrepresentative tbCompanyrepresentative)
+    {
+        TbCompanyrepresentativeExample companyrepresentativeExample=new TbCompanyrepresentativeExample();
+        TbCompanyrepresentativeExample.Criteria criteria=companyrepresentativeExample.createCriteria();
+        criteria.andCompanyrepresentativeidEqualTo(tbCompanyrepresentative.getCompanyrepresentativeid());
+        List<TbCompanyrepresentative> companyrepresentativeList=tbCompanyrepresentativeMapper.selectByExample(companyrepresentativeExample);
+//        for(TbEmployee tmp:employeeList)
+//        {
+//            tmp.setPassword(null);
+//        }
+        return companyrepresentativeList;
+    }
+
     //修改密码
     public boolean changePassword(TbEmployee tbEmployee)
     {
@@ -52,6 +68,22 @@ public class AdminAccountManagementService {
             TbEmployee tbEmployee2 = tbEmployeeMapper.selectByPrimaryKey(tbEmployee.getEmployeeid());
             tbEmployee2.setPassword(tbEmployee.getPassword());
             tbEmployeeMapper.updateByPrimaryKey(tbEmployee2);
+        }
+        catch (Exception e) {
+            return false;
+        }
+        return true;
+    }
+
+    //公司管理员修改密码
+    public boolean companyAdminChangePassword(TbCompanyrepresentative tbCompanyrepresentative)
+    {
+        String MD5password=Encryption.generatePassword(tbCompanyrepresentative.getPassword());
+        tbCompanyrepresentative.setPassword(MD5password);
+        try {
+            TbCompanyrepresentative tbCompanyrepresentative2 = tbCompanyrepresentativeMapper.selectByPrimaryKey(tbCompanyrepresentative.getCompanyrepresentativeid());
+            tbCompanyrepresentative2.setPassword(tbCompanyrepresentative.getPassword());
+            tbCompanyrepresentativeMapper.updateByPrimaryKey(tbCompanyrepresentative2);
         }
         catch (Exception e) {
             return false;
@@ -73,6 +105,20 @@ public class AdminAccountManagementService {
         return true;
     }
 
+    //修改公司管理员手机号码
+    public boolean changeCompanyAdminTelephone(TbCompanyrepresentative tbCompanyrepresentative)
+    {
+        try {
+            TbCompanyrepresentative tbCompanyrepresentative2 = tbCompanyrepresentativeMapper.selectByPrimaryKey(tbCompanyrepresentative.getCompanyrepresentativeid());
+            tbCompanyrepresentative2.setTelephone(tbCompanyrepresentative.getTelephone());
+            tbCompanyrepresentativeMapper.updateByPrimaryKey(tbCompanyrepresentative2);
+        }
+        catch (Exception e) {
+            return false;
+        }
+        return true;
+    }
+
     //修改邮箱
     public boolean changeEmail(TbEmployee tbEmployee)
     {
@@ -83,6 +129,23 @@ public class AdminAccountManagementService {
             TbEmployee tbEmployee2 = tbEmployeeMapper.selectByPrimaryKey(tbEmployee.getEmployeeid());
             tbEmployee2.setEmail(tbEmployee.getEmail());
             tbEmployeeMapper.updateByPrimaryKey(tbEmployee2);
+        }
+        catch (Exception e) {
+            return false;
+        }
+        return true;
+    }
+
+    //公司管理员修改邮箱
+    public boolean changeCompanyAdminEmail(TbCompanyrepresentative tbCompanyrepresentative)
+    {
+        System.out.println("test change companyAdmin Email");
+//        System.out.println(tbCompanyrepresentative.getCompanyrepresentativeid());
+//        System.out.println(tbCompanyrepresentative.getEmail());
+        try {
+            TbCompanyrepresentative tbCompanyrepresentative2 = tbCompanyrepresentativeMapper.selectByPrimaryKey(tbCompanyrepresentative.getCompanyrepresentativeid());
+            tbCompanyrepresentative2.setEmail(tbCompanyrepresentative.getEmail());
+            tbCompanyrepresentativeMapper.updateByPrimaryKey(tbCompanyrepresentative2);
         }
         catch (Exception e) {
             return false;
@@ -207,7 +270,7 @@ public class AdminAccountManagementService {
     //添加活动表记录
     public boolean addActivity(TbActivity tbActivity,HttpServletRequest request){
         try {
-            //生成NotifyId
+            //生成Id
             Calendar cal1 = Calendar.getInstance();
             TimeZone.setDefault(TimeZone.getTimeZone("GMT+8:00"));
             java.text.SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddkkmmss");
@@ -247,4 +310,17 @@ public class AdminAccountManagementService {
         }
         return employeeList;
     }
+
+    public List<TbCompanyrepresentative> getCompanyAdminInforMation(TbCompanyrepresentative tbCompanyrepresentative){
+        TbCompanyrepresentativeExample companyrepresentativeExample=new TbCompanyrepresentativeExample();
+        TbCompanyrepresentativeExample.Criteria criteria=companyrepresentativeExample.createCriteria();
+        criteria.andCompanyrepresentativeidEqualTo(tbCompanyrepresentative.getCompanyrepresentativeid());
+        List<TbCompanyrepresentative> companyrepresentativeList=tbCompanyrepresentativeMapper.selectByExample(companyrepresentativeExample);
+        for(TbCompanyrepresentative tmp:companyrepresentativeList)
+        {
+            tmp.setPassword(null);
+        }
+        return companyrepresentativeList;
+    }
+
 }

@@ -1,6 +1,7 @@
 package controller;
 
 import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,7 @@ import service.departmentAdminService.DepartmentAdminService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -235,4 +237,33 @@ public class DepartmentAdminController {
 //        }
 //        return new ModelAndView(viewExcel, model);
 //    }
+
+
+    //部门管理员登录
+    @RequestMapping("/departmentAdminLogin")
+    public @ResponseBody JSONObject departmentAdminLogin(TbEmployee tbEmployee,HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        System.out.println("test verification DepartmentLogin");
+        JSONObject json = new JSONObject();
+        String result = departmentAdminService.login(tbEmployee,request);
+        if (result == null)
+            json.put("status", "登录失败");
+        else json.put("status", result);
+//        System.out.println(session.getAttribute("EmployeeId"));
+//        if(session.getAttribute("EmployeeId")!=null)
+
+        json.put("EmployeeId", session.getAttribute("EmployeeId"));
+//        System.out.println(json);
+        return json;
+    }
+    //获取部门管理员的员工Name
+    @RequestMapping("/getDepartmentAdminEmployeeName")
+    public @ResponseBody JSONObject getDepartmentAdminEmployeeId(TbEmployee tbEmployee) {
+        System.out.println("test getDepartmentAdminEmployeeName ");
+        JSONObject json = new JSONObject();
+        String employeeName = departmentAdminService.getDepartmentAdminEmployeeName(tbEmployee);
+        if (employeeName == null) return null;
+        else json.put("DepartmentAdminName", employeeName);
+        return json;
+    }
 }

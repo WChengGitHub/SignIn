@@ -12,18 +12,64 @@
     <file url="file://$PROJECT_DIR$/src/main/resources/spring/springmvc.xml" charset="GBK" />
     <file url="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/web.xml" charset="GBK" />
     <file url="file://$PROJECT_DIR$/src/main/webapp/companyAdmin.html" charset="GBK" />
-    <file url="file://$PROJECT_DIR$/src/main/webapp/css" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/webapp/css" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/webapp/css/animate.css" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/webapp/css/app.css" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/webapp/css/font-awesome.min.css" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/webapp/css/font.css" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/webapp/css/icomoon.css" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/webapp/css/magnific-popup.css" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/webapp/css/owl.carousel.min.css" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/webapp/css/owl.theme.default.min.css" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/webapp/css/pagination.css" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/webapp/css/simple-line-icons.css" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/webapp/css/style.css" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/webapp/css/themify-icons.css" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/webapp/departmentAdmin.html" charset="GBK" />
     <file url="file://$PROJECT_DIR$/src/main/webapp/findpassword.html" charset="GBK" />
-    <file url="file://$PROJECT_DIR$/src/main/webapp/fonts" charset="GBK" />
-    <file url="file://$PROJECT_DIR$/src/main/webapp/img" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/webapp/fonts" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/webapp/fonts/FontAwesome.otf" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/webapp/fonts/Simple-Line-Icons.eot" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/webapp/fonts/Simple-Line-Icons.svg" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/webapp/fonts/Simple-Line-Icons.ttf" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/webapp/fonts/Simple-Line-Icons.woff" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/webapp/fonts/bootstrap" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/webapp/fonts/fontawesome-webfont.eot" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/webapp/fonts/fontawesome-webfont.svg" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/webapp/fonts/fontawesome-webfont.ttf" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/webapp/fonts/fontawesome-webfont.woff" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/webapp/fonts/icomoon" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/webapp/fonts/sourcesanspro" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/webapp/fonts/themify-icons" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/webapp/img" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/webapp/img/a0.png" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/webapp/img/c10.jpg" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/webapp/img/document_letter_edit.png" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/webapp/img/document_letter_new.png" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/webapp/img/document_letter_okay.png" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/webapp/img/export_excel.png" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/webapp/index.html" charset="GBK" />
-    <file url="file://$PROJECT_DIR$/src/main/webapp/js" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/webapp/js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/webapp/js/app" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/webapp/js/app.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/webapp/js/config.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/webapp/js/config.lazyload.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/webapp/js/config.router.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/webapp/js/controllers" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/webapp/js/directives" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/webapp/js/filters" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/webapp/js/jquery.countTo.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/webapp/js/jquery.easing.1.3.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/webapp/js/jquery.magnific-popup.min.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/webapp/js/jquery.min.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/webapp/js/jquery.stellar.min.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/webapp/js/jquery.waypoints.min.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/webapp/js/magnific-popup-options.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/webapp/js/main.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/webapp/js/modernizr-2.6.2.min.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/webapp/js/owl.carousel.min.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/webapp/js/respond.min.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/webapp/js/services" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/webapp/login.html" charset="GBK" />
     <file url="file://$PROJECT_DIR$/src/main/webapp/register.html" charset="GBK" />
     <file url="file://$PROJECT_DIR$/src/main/webapp/不用的login2.html" charset="GBK" />
