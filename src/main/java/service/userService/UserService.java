@@ -1,5 +1,6 @@
 package service.userService;
 
+import com.sun.xml.internal.ws.api.message.Packet;
 import mapper.*;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -574,5 +575,62 @@ public class UserService {
         }
         dailyattendanceMapper.updateByPrimaryKeySelective(dailyattendance);
     }
+    public String ActivitySignIn(TbActivityattendance tbactivityattendance)
+    {
+        Date date=new Date();
+        String Status;
 
+        TbActivityExample activityExample=new TbActivityExample();
+        TbActivityExample.Criteria criteria=activityExample.createCriteria();
+        criteria.andActivityidEqualTo(tbactivityattendance.getActivityid());
+        criteria.andStarttimeLessThan(date);
+
+        List<TbActivity> activities=activityMapper.selectByExample(activityExample);
+
+        if(activities==null||activities.size()!=0)
+            Status="2";
+        else Status="1";
+
+        TbActivityattendance activityattendance=new TbActivityattendance();
+        activityattendance.setEntertime(date);
+        activityattendance.setStatus(Status);
+
+        TbActivityattendanceExample activityattendanceExample=new TbActivityattendanceExample();
+        TbActivityattendanceExample.Criteria criteria1=activityattendanceExample.createCriteria();
+        criteria1.andActivityidEqualTo(tbactivityattendance.getActivityid());
+        criteria1.andEmployeeidEqualTo(tbactivityattendance.getEmployeeid());
+
+        tbActivityattendanceMapper.updateByExampleSelective(activityattendance,activityattendanceExample);
+        return Status;
+    }
+    public String ActivitySignOut(TbActivityattendance tbactivityattendance)
+    {
+        String Status=tbactivityattendance.getStatus();
+        Date date=new Date();
+
+        TbActivityExample activityExample=new TbActivityExample();
+        TbActivityExample.Criteria criteria=activityExample.createCriteria();
+        criteria.andActivityidEqualTo(tbactivityattendance.getActivityid());
+        criteria.andEndtimeGreaterThan(date);
+
+        List<TbActivity> activities=activityMapper.selectByExample(activityExample);
+
+        if(activities==null||activities.size()!=0)
+            if(Status.equals("2"))
+                Status="4";
+            else
+                Status="3";
+
+        TbActivityattendance activityattendance=new TbActivityattendance();
+        activityattendance.setOuttime(date);
+        activityattendance.setStatus(Status);
+
+        TbActivityattendanceExample activityattendanceExample=new TbActivityattendanceExample();
+        TbActivityattendanceExample.Criteria criteria1=activityattendanceExample.createCriteria();
+        criteria1.andActivityidEqualTo(tbactivityattendance.getActivityid());
+        criteria1.andEmployeeidEqualTo(tbactivityattendance.getEmployeeid());
+
+        tbActivityattendanceMapper.updateByExampleSelective(activityattendance,activityattendanceExample);
+        return Status;
+    }
 }

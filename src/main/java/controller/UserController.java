@@ -1,5 +1,6 @@
 package controller;
 
+import com.sun.xml.internal.ws.api.message.Packet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -86,6 +87,16 @@ public class UserController {
             map.put("message","申请成功");
         else
             map.put("message","申请失败");
+        return map;
+    }
+    @RequestMapping("/addDetail")
+    public @ResponseBody Map<String,Object> ActivitySignIn(TbActivityattendance activityattendance)
+    {
+        Map<String,Object>map=new HashMap<String, Object>();
+        if(activityattendance==null&&activityattendance.getEmployeeid()==null&&activityattendance.getActivityid()==null)
+            return null;
+        String Status=userService.ActivitySignOut(activityattendance);
+        map.put("Status",Status);
         return map;
     }
 }

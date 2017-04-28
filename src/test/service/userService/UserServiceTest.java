@@ -135,4 +135,22 @@ public class UserServiceTest {
         userService.DailyAttendanceSignOut(departmentScheduleVo1);
 
     }
+
+    @Test
+    public void testActivitySignIn() throws Exception {
+
+        TbActivityattendance activityattendance=new TbActivityattendance();
+        activityattendance.setEmployeeid("1");
+        activityattendance.setActivityid("1");
+        userService.ActivitySignIn(activityattendance);
+    }
+
+    @Test
+    public void testActivitySignOut() throws Exception {
+        TbActivityattendance activityattendance=new TbActivityattendance();
+        activityattendance.setEmployeeid("1");
+        activityattendance.setActivityid("1");
+        activityattendance.setStatus("1");
+        userService.ActivitySignOut(activityattendance);
+    }
 }
