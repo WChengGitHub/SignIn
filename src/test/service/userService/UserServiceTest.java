@@ -153,4 +153,9 @@ public class UserServiceTest {
         activityattendance.setStatus("1");
         userService.ActivitySignOut(activityattendance);
     }
+
+    @Test
+    public void testSelectDailyattendance() throws Exception {
+        userService.selectDailyattendance("1","2017","04");
+    }
 }

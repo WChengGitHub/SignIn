@@ -50,7 +50,69 @@ public class UserService {
         List<TbActivityVo> activityVos=multiFormMapper.selectActivityByEmployeeid(employeeid);
         return  activityVos;
     }
+    public Map<String,List<TbDailyAttendanceVo>> selectDailyattendance(String employeeid,String yearString,String monthString)
+    {
+        Map<String,List<TbDailyAttendanceVo>>map=new HashMap<String, List<TbDailyAttendanceVo>>();
+        Date d0=new Date();
+        Calendar now =Calendar.getInstance();
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String d0String=yearString+"-"+monthString+"-"+"01"+" "+"00:00:00";
+        try {
+            d0=format.parse(d0String);
+            System.out.println(d0);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        TbDailyAttendanceVo dailyAttendanceVo=new TbDailyAttendanceVo();
+        dailyAttendanceVo.setEmployeeid(employeeid);
+        for(int i=0;i<31;i++)
+        {
+            List<TbDailyAttendanceVo>tbDailyAttendanceVos=null;
+            now.setTime(d0);
+            now.set(Calendar.DATE,now.get(Calendar.DATE)+i);
+            Date d1=now.getTime();
+            Date d2=new Date();
 
+            String year=String.format("%tY",d1);
+            String month=String.format("%tm",d1);
+            String day=String.format("%td",d1);
+
+            int year1=Integer.parseInt(year);
+            int month1=Integer.parseInt(month);
+            int day1=Integer.parseInt(day);
+
+            String d1String=year+"-"+month+"-"+day+" "+"00:00:00";
+            String d2String=year+"-"+month+"-"+day+" "+"23:59:59";
+
+            String key=year+"/"+month+"/"+day;
+            try {
+                d1=format.parse(d1String);
+                d2=format.parse(d2String);
+
+                dailyAttendanceVo.setD1(d1);
+                dailyAttendanceVo.setD2(d2);
+                tbDailyAttendanceVos=multiFormMapper.selectDailyAttendance(dailyAttendanceVo);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            if(tbDailyAttendanceVos!=null&&tbDailyAttendanceVos.size()!=0)
+            {
+                int size=tbDailyAttendanceVos.size();
+                for(int j=0;j<size;j++)
+                {
+                    tbDailyAttendanceVos.get(j).setYear(year1);
+                    tbDailyAttendanceVos.get(j).setDay(day1);
+                    tbDailyAttendanceVos.get(j).setMonth(month1);
+                }
+
+            }
+            map.put(key,tbDailyAttendanceVos);
+//                System.out.println("d1String:"+d1String+"d2String:"+d2String);
+//                System.out.println("d1:"+d1+" d2:"+d2);
+        }
+
+        return map;
+    }
     public Map<String,List<TbActivityVo1>> queryActivities1(String employeeid)
     {
             Map<String,List<TbActivityVo1>>map=new HashMap<String, List<TbActivityVo1>>();
@@ -548,7 +610,7 @@ public class UserService {
         dailyattendanceMapper.insertSelective(dailyattendance);
         return departmentScheduleVo1;
     }
-    public void DailyAttendanceSignOut(TbDepartmentScheduleVo1 tbDepartmentScheduleVo1)
+    public String DailyAttendanceSignOut(TbDepartmentScheduleVo1 tbDepartmentScheduleVo1)
     {
         TbDepartmentscheduleExample departmentscheduleExample=new TbDepartmentscheduleExample();
         TbDepartmentscheduleExample.Criteria criteria=departmentscheduleExample.createCriteria();
@@ -574,6 +636,7 @@ public class UserService {
 
         }
         dailyattendanceMapper.updateByPrimaryKeySelective(dailyattendance);
+        return dailyattendance.getStatus();
     }
     public String ActivitySignIn(TbActivityattendance tbactivityattendance)
     {

@@ -52,9 +52,11 @@ public class UserController {
         Map<String,List<TbActivityVo1>> activities=userService.queryActivities2(employeeid,year,month);
         Map<String,List<TbNotifyVo1>> notifies=userService.selectNotifies1(employeeid,year,month);
         Map<String,List<TbMemoVo>> memos=userService.selectMemos1(employeeid,year,month);
+        Map<String,List<TbDailyAttendanceVo>> dailyattendances=userService.selectDailyattendance(employeeid,year,month);
         map.put("activities",activities);
         map.put("notifies",notifies);
         map.put("memos",memos);
+        map.put("dailyattendances",dailyattendances);
         return map;
     }
     @RequestMapping("/updateNotifyStatus")
@@ -89,8 +91,40 @@ public class UserController {
             map.put("message","申请失败");
         return map;
     }
-    @RequestMapping("/addDetail")
-    public @ResponseBody Map<String,Object> ActivitySignIn(TbActivityattendance activityattendance)
+
+    @RequestMapping("/dailyAttendanceSignIn")
+    public @ResponseBody Map<String,Object> DailyAttendanceSignIn(TbDepartmentScheduleVo1 tbDepartmentScheduleVo1)
+    {
+        Map<String,Object>map=new HashMap<String, Object>();
+        if(tbDepartmentScheduleVo1==null&&tbDepartmentScheduleVo1.getEmployeeid()==null)
+            return null;
+        TbDepartmentScheduleVo1 departmentScheduleVo1=userService.DailyAttendanceSignIn(tbDepartmentScheduleVo1);
+        map.put("departmentScheduleVo1",departmentScheduleVo1);
+        return map;
+    }
+    @RequestMapping("/activitySignIn")
+     public @ResponseBody Map<String,Object> ActivitySignIn(TbActivityattendance activityattendance)
+    {
+        Map<String,Object>map=new HashMap<String, Object>();
+        if(activityattendance==null&&activityattendance.getEmployeeid()==null&&activityattendance.getActivityid()==null)
+            return null;
+        String Status=userService.ActivitySignIn(activityattendance);
+        map.put("Status",Status);
+        return map;
+    }
+
+    @RequestMapping("/dailyAttendanceSignOut")
+    public @ResponseBody Map<String,Object> DailyAttendanceSignOut(TbDepartmentScheduleVo1 tbDepartmentScheduleVo1)
+    {
+        Map<String,Object>map=new HashMap<String, Object>();
+        if(tbDepartmentScheduleVo1==null&&tbDepartmentScheduleVo1.getEmployeeid()==null&&tbDepartmentScheduleVo1.getScheduleid()==null)
+            return null;
+        String Status=userService.DailyAttendanceSignOut(tbDepartmentScheduleVo1);
+        map.put("Status",Status);
+        return map;
+    }
+    @RequestMapping("/activitySignOut")
+    public @ResponseBody Map<String,Object> ActivitySignOut(TbActivityattendance activityattendance)
     {
         Map<String,Object>map=new HashMap<String, Object>();
         if(activityattendance==null&&activityattendance.getEmployeeid()==null&&activityattendance.getActivityid()==null)
