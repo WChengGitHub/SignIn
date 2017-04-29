@@ -22,7 +22,7 @@
 
 /* 小屏幕（平板，大于等于 768px）*/
 @media (min-width: 768px) {
-	 
+
 	#my_navbar-sidefuncation{
 		width: 250px;
 		margin-top: 51px;
@@ -30,11 +30,11 @@
 		z-index: 1;
 		height: 620px;
 	}
-	
+
 	#mysearch{
 		margin: 10px 1px;
 	}
-	
+
 	.mypage_main{
 		margin-left: 255px;
 	}
