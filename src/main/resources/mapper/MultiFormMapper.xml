@@ -42,4 +42,24 @@
     <select id="selectDepartmentEmployeeIds" parameterType="java.lang.String" resultType="java.lang.String">
         select tb_employee.EmployeeId FROM tb_employee WHERE tb_employee.DepartmentId=#{departmentid } AND tb_employee.Privilege='1'<!-- 权限应该为‘1’既管理员权限-->
     </select>
+    <!--根据部门id查询该部门下的员工的出勤记录条数，根据不同状态（status）查询-->
+    <select id="queryDailyAttendanceNum" parameterType="pojo.TbDailyAttendanceVo" resultType="java.lang.Long">
+        select count(*) from tb_dailyattendance where `Status`=#{status } and EmployeeId in
+        (select EmployeeId from tb_employee where DepartmentId=#{departmentid }
+    </select>
+    <!--具体信息 某个出勤状态的信息-->
+    <select  id="queryDailyAttendanceInformation" parameterType="pojo.TbDailyAttendanceVo" resultType="pojo.TbDailyAttendanceVo">
+        select e2.Name, d.EnterTime,d.OutTime,d.AccumulatedTime from tb_dailyattendance d
+        LEFT JOIN tb_employee e2 ON d.EmployeeId=e2.EmployeeId
+        where d.`Status`=#{status} and d.EmployeeId in
+        (select tb_employee.EmployeeId from tb_employee where tb_employee.DepartmentId=#{departmentid})
+    </select>
+    <!--根据部门id查询活动出席情况-->
+    <select id="queryActivityAttendanceInformation" parameterType="pojo.TbActivityattendanceVo" resultType="pojo.TbActivityattendanceVo">
+        select e2.Name, d.EnterTime,d.OutTime,ActivityName from tb_activityattendance d
+        LEFT JOIN tb_employee e2 ON d.EmployeeId= e2.EmployeeId
+        LEFT JOIN tb_activity a ON d.ActivityId= a.ActivityId
+        where d.`Status`=#{status} and d.EmployeeId in
+        (select tb_employee.EmployeeId from tb_employee where tb_employee.DepartmentId=#{departmentid})
+    </select>
  </mapper>

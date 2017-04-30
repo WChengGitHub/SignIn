@@ -200,7 +200,6 @@ public class AdminAccountManagementService {
             HttpSession session = request.getSession();
             session.setMaxInactiveInterval(1 * 60);//Session1分钟失效
             session.setAttribute("Notifyid", (sdf.format(cal1.getTime())+randomNumber));
-
             tbNotifyMapper.insert(tbNotify);
             return true;
         }
@@ -233,6 +232,7 @@ public class AdminAccountManagementService {
                 System.out.println((String)session.getAttribute("Notifyid"));
                 tbEmployeenotify2.setEmployeeid(tbEmployeenotify.getEmployeeIds().get(i));
                 tbEmployeenotify2.setNotifyid((String)session.getAttribute("Notifyid"));
+                tbEmployeenotify2.setStatus(false);
                 tbEmployeenotifyMapper.insert(tbEmployeenotify2);
             }
 //            tbEmployeenotifyMapper.insert(tbEmployeenotify);
