@@ -78,7 +78,7 @@ public class DepartmentAdminServiceTest {
     public void testQueryNotifyVo() throws Exception {
         DepartmentAdminService departmentAdminService= (DepartmentAdminService) applicationContext.getBean("departmentAdminService");
         TbEmployee tbEmployee=new TbEmployee();
-        tbEmployee.setEmployeeid("1");
+        tbEmployee.setEmployeeid("1000");
         List<TbNotifyVo> tbNotifyVos=departmentAdminService.queryNotifyVo(tbEmployee);
         System.out.println(tbNotifyVos);
     }
@@ -125,5 +125,13 @@ public class DepartmentAdminServiceTest {
     @Test
     public void testQueryNotifyVo1() throws Exception {
 
+    }
+
+    @Test
+    public void testQueryApplication1() throws Exception {
+        DepartmentAdminService departmentAdminService= (DepartmentAdminService) applicationContext.getBean("departmentAdminService");
+        TbEmployee tbEmployee=new TbEmployee();
+        tbEmployee.setDepartmentid("1");
+        departmentAdminService.queryApplication1(tbEmployee);
     }
 }

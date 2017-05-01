@@ -81,6 +81,10 @@ public class DepartmentAdminService {
         List<TbApplication> applications=tbApplicationMapper.selectByExample(applicationExample);
         return applications;
     }
+    public List<TbApplicationVo> queryApplication1(TbEmployee tbEmployee)
+    {
+        return multiFormMapper.queryApplications(tbEmployee.getDepartmentid());
+    }
     public List<TbApplication> queryHistoryApplication(TbEmployee tbEmployee)
     {
         List<TbEmployee> employeeList=queryEmployee(tbEmployee);
@@ -137,13 +141,13 @@ public class DepartmentAdminService {
        TbNotifyExample.Criteria criteria=notifyExample.createCriteria();
        criteria.andEmployeeidEqualTo(employeeid);
        List<TbNotify> notifies=notifyMapper.selectByExample(notifyExample);
-       TbNotifyVo notifyVo=new TbNotifyVo();
-       notifyVo.setStatus("2");
        if(notifies!=null)
        {
            int size=notifies.size();
            for(int i=0;i<size;i++)
            {
+               TbNotifyVo notifyVo=new TbNotifyVo();
+               notifyVo.setStatus("s");
                BeanUtils.copyProperties(notifies.get(i),notifyVo);
                tbNotifyVos.add(notifyVo);
            }
@@ -382,10 +386,14 @@ public class DepartmentAdminService {
             TbDailyattendance dailyattendance=new TbDailyattendance();
             dailyattendance.setDailyattendanceid(application.getDailyattendanceid());
             dailyattendance.setStatus("1");
-            if(application.getStyle()==false)
-               dailyattendance.setEntertime(application.getCorrecttime());
-            else
+            if(application.getStyle()==false) {
+                dailyattendance.setEntertime(application.getCorrecttime());
+                if(confirmBeLate(application.getCorrecttime(),dailyattendance.getEmployeeid())!=null)
+                    dailyattendance.setStatus("2");
+            }
+            else {
                 dailyattendance.setOuttime(application.getCorrecttime());
+            }
             return updateDailyAttendance(dailyattendance);
         }
         return false;
@@ -537,5 +545,16 @@ public class DepartmentAdminService {
         List<TbEmployee> employeeList=tbEmployeeMapper.selectByExample(employeeExample);
         String employeeName = employeeList.get(0).getName();
         return employeeName;
+    }
+    public List<TbDepartmentScheduleVo1> confirmBeLate(Date date,String employeeid)
+    {
+        TbDepartmentScheduleVo1 tbDepartmentScheduleVo1=new TbDepartmentScheduleVo1();
+        String hour=String.format("%tH",date);
+        String minute=String.format("%tM",date);
+        String currentTime=hour+":"+minute;
+        tbDepartmentScheduleVo1.setCurrentTime(currentTime);
+        tbDepartmentScheduleVo1.setEmployeeid(employeeid);
+        List<TbDepartmentScheduleVo1> tbDepartmentScheduleVo1s=multiFormMapper.confirmBeLate(tbDepartmentScheduleVo1);
+        return tbDepartmentScheduleVo1s;
     }
 }
