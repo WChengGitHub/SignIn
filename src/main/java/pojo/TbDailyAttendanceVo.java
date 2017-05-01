@@ -13,6 +13,8 @@ public class TbDailyAttendanceVo extends TbDailyattendance{
     private Date d2;
     private String name;
 
+    private String departmentid;
+
     public int getYear() {
         return year;
     }
@@ -59,5 +61,13 @@ public class TbDailyAttendanceVo extends TbDailyattendance{
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getDepartmentid() {
+        return departmentid;
+    }
+
+    public void setDepartmentid(String departmentid) {
+        this.departmentid = departmentid;
     }
 }

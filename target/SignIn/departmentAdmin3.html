@@ -3416,11 +3416,19 @@
         var startTime = document.getElementById("ActivityStartTime").value;
         var endTime = document.getElementById("ActivityEndTime").value;
         var address = document.getElementById("Activity_address").value;
+        startTime=startTime.replace('T',' ');
+        endTime=endTime.replace('T',' ');
+
         alert(startTime+" , "+endTime);
-        var date1 = new Date(startTime).getTime();
-        startTime = new Date(date1).toLocaleString();
-        var date2 = new Date(endTime).getTime();
-        endTime = new Date(date2).toLocaleString();
+//        var date1 = new Date(startTime);
+////        startTime = new Date(date1).toLocaleString();
+//        var date2 = new Date(endTime);
+//        alert(date1+" , "+date2);
+//        var date1String=getDateTime(startTime);
+//        alert(date1String);
+//        var date2String=getDateTime(endTime);
+//        alert(date2String);
+//        endTime = new Date(date2).toLocaleString();
 //		if(activityTip==null||activityContent==null||startTime==null||endTime==null||address==null) {
 //				alert("不能为空");return;
 //		}
@@ -3431,8 +3439,8 @@
             type: 'post',
             url: "AdminAccountManagement/addActivity",
             data: 'activityname=' + activityTip + '&content=' + activityContent + '&address=' + address
-            + '&employeeid=' + departmentAdminEmployeeId + '&style=' + selectStyle,
-//				+ '&starttime=' + startTime + '&endtime=' + endTime ,
+            + '&employeeid=' + departmentAdminEmployeeId + '&style=' + selectStyle
+				+ '&starttime1=' + startTime + '&endtime1=' + endTime ,
             //'&departmentids=' + departmentId +
             success: function (data) {
                 alert(data["status"]);
@@ -4469,7 +4477,6 @@
 //                var date = new Date();
                 var length = data.length;
 //                var dataNum = 0;//记录条数
-                alert(length+" backearly");
                 $("#activityBackEarlyInformation").html("");
                 if(length==0)$("#activityBackEarlyInformation").append('<p style="margin-left: 30%">当前没有数据</p>');
                 else

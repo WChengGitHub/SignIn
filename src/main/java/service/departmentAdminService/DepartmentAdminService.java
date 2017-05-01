@@ -155,12 +155,12 @@ public class DepartmentAdminService {
         TbActivityExample activityExample=new TbActivityExample();
         TbActivityExample.Criteria criteria=activityExample.createCriteria();
         criteria.andEmployeeidEqualTo(employee.getEmployeeid());
-        Date d1=new Date();
-        Calendar now =Calendar.getInstance();
-        now.setTime(d1);
-        now.set(Calendar.DATE,now.get(Calendar.DATE)-7);
-        Date d2=now.getTime();
-        criteria.andStarttimeBetween(d2,d1);
+//        Date d1=new Date();
+//        Calendar now =Calendar.getInstance();
+//        now.setTime(d1);
+//        now.set(Calendar.DATE,now.get(Calendar.DATE)-7);
+//        Date d2=now.getTime();
+//        criteria.andStarttimeBetween(d2,d1);
         List<TbActivity> activities=activityMapper.selectByExample(activityExample);
         return activities;
     }
