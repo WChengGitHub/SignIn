@@ -1,7 +1,10 @@
 package controller;
 
-import com.sun.xml.internal.ws.api.message.Packet;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -49,10 +52,10 @@ public class UserController {
             map.put("message","系统发生异常");
             return map;
         }
-        Map<String,List<TbActivityVo1>> activities=userService.queryActivities2(employeeid,year,month);
-        Map<String,List<TbNotifyVo1>> notifies=userService.selectNotifies1(employeeid,year,month);
-        Map<String,List<TbMemoVo>> memos=userService.selectMemos1(employeeid,year,month);
-        Map<String,List<TbDailyAttendanceVo>> dailyattendances=userService.selectDailyattendance(employeeid,year,month);
+        List<TbActivityVo1> activities=userService.queryActivities3(employeeid, year, month);
+        List<TbNotifyVo1> notifies=userService.selectNotifies2(employeeid, year, month);
+        List<TbMemoVo> memos=userService.selectMemos2(employeeid, year, month);
+        List<TbDailyAttendanceVo> dailyattendances=userService.selectDailyattendance1(employeeid, year, month);
         map.put("activities",activities);
         map.put("notifies",notifies);
         map.put("memos",memos);
@@ -132,5 +135,25 @@ public class UserController {
         String Status=userService.ActivitySignOut(activityattendance);
         map.put("Status",Status);
         return map;
+    }
+
+    public static void main(String[]args)
+    {
+        ApplicationContext applicationContext=new ClassPathXmlApplicationContext(new String[]{"spring/applicationContext-Dao.xml","spring/applicationContext-Service.xml","spring/applicationContext-transaction.xml"});
+        UserService userService= (UserService) applicationContext.getBean("userService");
+        String employeeid="1";
+        String year="2017";
+        String month="04";
+        Map<String,Object>map=new HashMap<String, Object>();
+     List<TbActivityVo1> activities=userService.queryActivities3(employeeid, year, month);
+      List<TbNotifyVo1> notifies=userService.selectNotifies2(employeeid, year, month);
+        List<TbMemoVo> memos=userService.selectMemos2(employeeid, year, month);
+        List<TbDailyAttendanceVo> dailyattendances=userService.selectDailyattendance1(employeeid, year, month);
+        map.put("activities",activities);
+       map.put("notifies",notifies);
+        map.put("memos",memos);
+        map.put("dailyattendances",dailyattendances);
+        String jsonText = JSON.toJSONString(map, true);
+        System.out.println(jsonText);
     }
 }

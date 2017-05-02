@@ -40,13 +40,13 @@ public class UserServiceTest {
         userService.queryMemos("1");
     }
 
-    @Test
-    public void testQueryEmployee() throws Exception {
-        TbEmployee employee=new TbEmployee();
-        employee.setEmployeeid("1");
-        employee.setPassword("123");
-        userService.queryEmployee(employee);
-    }
+//    @Test
+//    public void testQueryEmployee() throws Exception {
+//        TbEmployee employee=new TbEmployee();
+//        employee.setEmployeeid("1");
+//        employee.setPassword("123");
+//        userService.queryEmployee(employee);
+//    }
 
     @Test
     public void testUpdateNotifyStatus() throws Exception {
@@ -82,8 +82,8 @@ public class UserServiceTest {
     @Test
     public void testQueryEmployee1() throws Exception {
         TbEmployee employee=new TbEmployee();
-        employee.setAccount("12123");
-        employee.setPassword("123");
+        employee.setAccount("1");
+        employee.setPassword("1234");
         userService.queryEmployee1(employee);
     }
 

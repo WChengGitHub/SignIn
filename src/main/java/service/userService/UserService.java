@@ -1,6 +1,6 @@
 package service.userService;
 
-import com.sun.xml.internal.ws.api.message.Packet;
+
 import mapper.*;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -112,6 +112,71 @@ public class UserService {
         }
 
         return map;
+    }
+    public List<TbDailyAttendanceVo> selectDailyattendance1(String employeeid,String yearString,String monthString)
+    {
+        List<TbDailyAttendanceVo>list=new LinkedList<TbDailyAttendanceVo>();
+        Date d0=new Date();
+        Calendar now =Calendar.getInstance();
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String d0String=yearString+"-"+monthString+"-"+"01"+" "+"00:00:00";
+        try {
+            d0=format.parse(d0String);
+            System.out.println(d0);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        TbDailyAttendanceVo dailyAttendanceVo=new TbDailyAttendanceVo();
+        dailyAttendanceVo.setEmployeeid(employeeid);
+        for(int i=0;i<31;i++)
+        {
+            List<TbDailyAttendanceVo>tbDailyAttendanceVos=null;
+            now.setTime(d0);
+            now.set(Calendar.DATE,now.get(Calendar.DATE)+i);
+            Date d1=now.getTime();
+            Date d2=new Date();
+
+            String year=String.format("%tY",d1);
+            String month=String.format("%tm",d1);
+            String day=String.format("%td",d1);
+
+            int year1=Integer.parseInt(year);
+            int month1=Integer.parseInt(month);
+            int day1=Integer.parseInt(day);
+
+            String d1String=year+"-"+month+"-"+day+" "+"00:00:00";
+            String d2String=year+"-"+month+"-"+day+" "+"23:59:59";
+
+            String key=year+"/"+month+"/"+day;
+            try {
+                d1=format.parse(d1String);
+                d2=format.parse(d2String);
+
+                dailyAttendanceVo.setD1(d1);
+                dailyAttendanceVo.setD2(d2);
+                tbDailyAttendanceVos=multiFormMapper.selectDailyAttendance(dailyAttendanceVo);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            if(tbDailyAttendanceVos!=null&&tbDailyAttendanceVos.size()!=0)
+            {
+                int size=tbDailyAttendanceVos.size();
+                for(int j=0;j<size;j++)
+                {
+                    tbDailyAttendanceVos.get(j).setYear(year1);
+                    tbDailyAttendanceVos.get(j).setDay(day1);
+                    tbDailyAttendanceVos.get(j).setMonth(month1);
+                    tbDailyAttendanceVos.get(j).setDate(key);
+                    list.add(tbDailyAttendanceVos.get(j));
+                }
+
+            }
+
+//                System.out.println("d1String:"+d1String+"d2String:"+d2String);
+//                System.out.println("d1:"+d1+" d2:"+d2);
+        }
+
+        return list;
     }
     public Map<String,List<TbActivityVo1>> queryActivities1(String employeeid)
     {
@@ -239,6 +304,73 @@ public class UserService {
 
         return map;
     }
+    public List<TbActivityVo1>queryActivities3(String employeeid,String yearString,String monthString)
+    {
+        List<TbActivityVo1> list=new LinkedList<TbActivityVo1>();
+        Date d0=new Date();
+        Calendar now =Calendar.getInstance();
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String d0String=yearString+"-"+monthString+"-"+"01"+" "+"00:00:00";
+        try {
+            d0=format.parse(d0String);
+            System.out.println(d0);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        TbActivityVo1 tbActivityVo1=new TbActivityVo1();
+        tbActivityVo1.setEmployeeid(employeeid);
+        for(int i=0;i<31;i++)
+        {
+            List<TbActivityVo1> tbActivityVo1s=null;
+
+            now.setTime(d0);
+            now.set(Calendar.DATE,now.get(Calendar.DATE)+i);
+            Date d1=now.getTime();
+            Date d2=new Date();
+
+            String year=String.format("%tY",d1);
+            String month=String.format("%tm",d1);
+            String day=String.format("%td",d1);
+
+            int year1=Integer.parseInt(year);
+            int month1=Integer.parseInt(month);
+            int day1=Integer.parseInt(day);
+
+            String d1String=year+"-"+month+"-"+day+" "+"00:00:00";
+            String d2String=year+"-"+month+"-"+day+" "+"23:59:59";
+
+            String key=year+"/"+month+"/"+day;
+            try {
+                d1=format.parse(d1String);
+                d2=format.parse(d2String);
+
+                tbActivityVo1.setD1(d1);
+                tbActivityVo1.setD2(d2);
+                tbActivityVo1s=multiFormMapper.selectActivities(tbActivityVo1);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            if(tbActivityVo1s!=null&&tbActivityVo1s.size()!=0)
+            {
+                int size=tbActivityVo1s.size();
+                for(int j=0;j<size;j++)
+                {
+                    TbActivityVo1 tbActivityVo12=tbActivityVo1s.get(j);
+                    tbActivityVo12.setYear(year1);
+                    tbActivityVo12.setDay(day1);
+                    tbActivityVo12.setMonth(month1);
+                    tbActivityVo12.setDate(key);
+                    list.add(tbActivityVo12);
+                }
+
+            }
+//                System.out.println("d1String:"+d1String+"d2String:"+d2String);
+//                System.out.println("d1:"+d1+" d2:"+d2);
+        }
+
+        return list;
+    }
     public List<TbNotifyVo> queryNotifies(String employeeid)
     {
         List<TbNotifyVo> notifyVos=multiFormMapper.selectNotify(employeeid);
@@ -364,6 +496,72 @@ public class UserService {
         }
 
         return map;
+    }
+
+    public List<TbNotifyVo1>selectNotifies2(String employeeid,String yearString,String monthString)
+    {
+        List<TbNotifyVo1> list=new LinkedList<TbNotifyVo1>();
+        Date d0=new Date();
+        Calendar now =Calendar.getInstance();
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String d0String=yearString+"-"+monthString+"-"+"01"+" "+"00:00:00";
+        try {
+            d0=format.parse(d0String);
+            System.out.println(d0);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        TbNotifyVo1 tbNotifyVo1=new TbNotifyVo1();
+        tbNotifyVo1.setEmployeeid(employeeid);
+        for(int i=0;i<31;i++)
+        {
+            List<TbNotifyVo1>tbNotifyVo1s=null;
+            now.setTime(d0);
+            now.set(Calendar.DATE,now.get(Calendar.DATE)+i);
+            Date d1=now.getTime();
+            Date d2=new Date();
+
+            String year=String.format("%tY",d1);
+            String month=String.format("%tm",d1);
+            String day=String.format("%td",d1);
+
+            int year1=Integer.parseInt(year);
+            int month1=Integer.parseInt(month);
+            int day1=Integer.parseInt(day);
+
+            String d1String=year+"-"+month+"-"+day+" "+"00:00:00";
+            String d2String=year+"-"+month+"-"+day+" "+"23:59:59";
+
+            String key=year+"/"+month+"/"+day;
+            try {
+                d1=format.parse(d1String);
+                d2=format.parse(d2String);
+
+                tbNotifyVo1.setD1(d1);
+                tbNotifyVo1.setD2(d2);
+                tbNotifyVo1s=multiFormMapper.selectNotifies(tbNotifyVo1);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            if(tbNotifyVo1s!=null&&tbNotifyVo1s.size()!=0)
+            {
+                int size=tbNotifyVo1s.size();
+                for(int j=0;j<size;j++)
+                {
+                    tbNotifyVo1s.get(j).setYear(year1);
+                    tbNotifyVo1s.get(j).setDay(day1);
+                    tbNotifyVo1s.get(j).setMonth(month1);
+                    tbNotifyVo1s.get(j).setDate(key);
+                    list.add(tbNotifyVo1s.get(j));
+                }
+
+            }
+//                System.out.println("d1String:"+d1String+"d2String:"+d2String);
+//                System.out.println("d1:"+d1+" d2:"+d2);
+        }
+
+        return list;
     }
     public List<TbMemo> queryMemos(String employeeid)
     {
@@ -499,6 +697,72 @@ public class UserService {
         }
 
         return map;
+    }
+
+    public List<TbMemoVo> selectMemos2(String employeeid,String yearString,String monthString)
+    {
+        List<TbMemoVo> list=new LinkedList<TbMemoVo>();
+        Date d0=new Date();
+        Calendar now =Calendar.getInstance();
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String d0String=yearString+"-"+monthString+"-"+"01"+" "+"00:00:00";
+        try {
+            d0=format.parse(d0String);
+            System.out.println(d0);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        TbMemoVo tbMemoVo=new TbMemoVo();
+        tbMemoVo.setEmployeeid(employeeid);
+        for(int i=0;i<31;i++)
+        {
+            List<TbMemoVo>tbMemoVos=null;
+            now.setTime(d0);
+            now.set(Calendar.DATE,now.get(Calendar.DATE)+i);
+            Date d1=now.getTime();
+            Date d2=new Date();
+
+            String year=String.format("%tY",d1);
+            String month=String.format("%tm",d1);
+            String day=String.format("%td",d1);
+
+            int year1=Integer.parseInt(year);
+            int month1=Integer.parseInt(month);
+            int day1=Integer.parseInt(day);
+
+            String d1String=year+"-"+month+"-"+day+" "+"00:00:00";
+            String d2String=year+"-"+month+"-"+day+" "+"23:59:59";
+
+            String key=year+"/"+month+"/"+day;
+            try {
+                d1=format.parse(d1String);
+                d2=format.parse(d2String);
+
+                tbMemoVo.setD1(d1);
+                tbMemoVo.setD2(d2);
+                tbMemoVos=multiFormMapper.selectMemos(tbMemoVo);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            if(tbMemoVos!=null&&tbMemoVos.size()!=0)
+            {
+                int size=tbMemoVos.size();
+                for(int j=0;j<size;j++)
+                {
+                    tbMemoVos.get(j).setYear(year1);
+                    tbMemoVos.get(j).setDay(day1);
+                    tbMemoVos.get(j).setMonth(month1);
+                    tbMemoVos.get(j).setDate(key);
+                }
+
+            }
+
+//                System.out.println("d1String:"+d1String+"d2String:"+d2String);
+//                System.out.println("d1:"+d1+" d2:"+d2);
+        }
+
+        return list;
     }
     public TbEmployee queryEmployee(TbEmployee employee)
     {
