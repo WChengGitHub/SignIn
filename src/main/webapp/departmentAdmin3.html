@@ -3352,7 +3352,7 @@
                 .append(
                 '<li style="list-style-type: none;padding-left: 12%;">'
                 +'<span style="color: #00a8f3 ;font-size: 120%" >部门</span>'
-                +'<input  type="checkbox" id="addDepartment_checkbox_selectall1" style="float: right" onclick="addDepartment_checkbox_selectall('+j+')"/>'
+                +'<input  type="checkbox" id="addDepartment_checkbox_selectall2" style="float: right" onclick="addDepartment_checkbox_selectall('+j+')"/>'
                 +'<p></p>'
                 +'<div style="height:1px;border:none;border-top:1px solid #CFCFCF; border-radius:5px" ></div>'
                 +'</li>'
@@ -3390,7 +3390,7 @@
                 .append(
                 '<li style="list-style-type: none;padding-left: 12%;">'
                 +'<span style="color: #00a8f3 ;font-size: 120%" >'+thisDepartmentName+'</span>'
-                +'<input  type="checkbox" id="addEmployee_checkbox_selectall1" style="float: right" onclick="addEmployee_checkbox_selectall('+j+')"/>'
+                +'<input  type="checkbox" id="addEmployee_checkbox_selectall2" style="float: right" onclick="addEmployee_checkbox_selectall('+j+')"/>'
                 +'<p></p>'
                 +'<div style="height:1px;border:none;border-top:1px solid #CFCFCF; border-radius:5px" ></div>'
                 +'</li>'
@@ -3426,21 +3426,7 @@
         endTime=endTime.replace('T',' ');
 
         alert(startTime+" , "+endTime);
-//        var date1 = new Date(startTime);
-////        startTime = new Date(date1).toLocaleString();
-//        var date2 = new Date(endTime);
-//        alert(date1+" , "+date2);
-//        var date1String=getDateTime(startTime);
-//        alert(date1String);
-//        var date2String=getDateTime(endTime);
-//        alert(date2String);
-//        endTime = new Date(date2).toLocaleString();
-//		if(activityTip==null||activityContent==null||startTime==null||endTime==null||address==null) {
-//				alert("不能为空");return;
-//		}
-//		else
-//			{
-//        alert("test sendActivity");
+
         $.ajax({
             type: 'post',
             url: "AdminAccountManagement/addActivity",
@@ -3451,6 +3437,7 @@
             success: function (data) {
                 alert(data["status"]);
                 if(data["status"]==true)window.location.reload();
+//                addEmployeeActivity();
             },
             error: function () {
                 alert("test  false");
@@ -3458,6 +3445,10 @@
         })
 //		}
     }
+
+//    function addEmployeeActivity(){
+//
+//    }
 
 </script>
 
@@ -4179,6 +4170,8 @@
                     if ((new Date(data[i].entertime)).getDate() == (date.getDate() - N)&&
                             ((new Date(data[i].entertime)).getMonth()+1)==month) {
                         dataNum++;
+                        var accumulate = (new Date(data[i].outtime-data[i].entertime));
+                        var accumulateTime = getNowFormatDate(accumulate);
                         $("#attendanceInformation").append(
                                 '<tr>><td>'
                                 + data[i].name
@@ -4187,14 +4180,14 @@
                                 + '</td><td>'
                                 + (new Date(data[i].outtime)).toLocaleString()
                                 + '</td><td>'
-                                + data[i].accumulatedtime
+                                + accumulateTime
                                 + '</td></tr>'
                         );
                     }
                     if(N==0)
                     for(var j=1;j<=31;j++) {
 //                        alert((new Date(data[i].entertime)).getDate()+"  "+j);
-                        if ((new Date(data[i].entertime)).getDate()==j){
+                        if ((new Date(data[i].entertime)).getDate()==j&&((new Date(data[i].entertime)).getMonth()+1)==month){
                             AttendanceNum[j]++;
 //                            alert(AttendanceNum[j]);
                         }
@@ -4229,6 +4222,8 @@
                     if ((new Date(data[i].entertime)).getDate() == (date.getDate() - N)&&
                             ((new Date(data[i].entertime)).getMonth()+1)==month) {
                         dataNum++;
+                        var accumulate = (new Date(data[i].outtime-data[i].entertime));
+                        var accumulateTime = getNowFormatDate(accumulate);
                         $("#lateInformation").append(
                                 '<tr><td>'
                                 + data[i].name
@@ -4237,14 +4232,14 @@
                                 + '</td><td>'
                                 + (new Date(data[i].outtime)).toLocaleString()
                                 + '</td><td>'
-                                + data[i].accumulatedtime
+                                + accumulateTime
                                 + '</td></tr>'
                         );
                     }
                     if(N==0)
                         for(var j=1;j<=31;j++) {
 //                        alert((new Date(data[i].entertime)).getDate()+"  "+j);
-                            if ((new Date(data[i].entertime)).getDate()==j){
+                            if ((new Date(data[i].entertime)).getDate()==j&&((new Date(data[i].entertime)).getMonth()+1)==month){
                                 LateNum[j]++;
 //                                alert(LateNum[j]);
                             }
@@ -4280,6 +4275,8 @@
                     if ((new Date(data[i].entertime)).getDate() == (date.getDate() - N)&&
                             ((new Date(data[i].entertime)).getMonth()+1)==month) {
                         dataNum++;
+                        var accumulate = (new Date(data[i].outtime-data[i].entertime));
+                        var accumulateTime = getNowFormatDate(accumulate);
                         $("#getBackEarlyInformation").append(
                                 '<tr>><td>'
                                 + data[i].name
@@ -4288,14 +4285,14 @@
                                 + '</td><td>'
                                 + (new Date(data[i].outtime)).toLocaleString()
                                 + '</td><td>'
-                                + data[i].accumulatedtime
+                                + accumulateTime
                                 + '</td></tr>'
                         );
                     }
                     if(N==0)
                         for(var j=1;j<=31;j++) {
 //                        alert((new Date(data[i].entertime)).getDate()+"  "+j);
-                            if ((new Date(data[i].entertime)).getDate()==j){
+                            if ((new Date(data[i].entertime)).getDate()==j&&((new Date(data[i].entertime)).getMonth()+1)==month){
                                 BackEarlyNum[j]++;
 //                                alert(BackEarlyNum[j]);
                             }
@@ -4330,6 +4327,8 @@
                     if ((new Date(data[i].entertime)).getDate() == (date.getDate() - N)&&
                             ((new Date(data[i].entertime)).getMonth()+1)==month) {
                         dataNum++;
+                        var accumulate = (new Date(data[i].outtime-data[i].entertime));
+                        var accumulateTime = getNowFormatDate(accumulate);
                         $("#lateAndBackEarlyInformation").append(
                                 '<tr>><td>'
                                 + data[i].name
@@ -4338,14 +4337,14 @@
                                 + '</td><td>'
                                 + (new Date(data[i].outtime)).toLocaleString()
                                 + '</td><td>'
-                                + data[i].accumulatedtime
+                                + accumulateTime
                                 + '</td></tr>'
                         );
                     }
                     if(N==0)
                         for(var j=1;j<=31;j++) {
 //                        alert((new Date(data[i].entertime)).getDate()+"  "+j);
-                            if ((new Date(data[i].entertime)).getDate()==j){
+                            if ((new Date(data[i].entertime)).getDate()==j&&((new Date(data[i].entertime)).getMonth()+1)==month){
                                 LateAndBackEarlyNum[j]++;
 //                                alert(LateAndBackEarlyNum[j]);
                             }
@@ -4380,6 +4379,8 @@
                     if ((new Date(data[i].entertime)).getDate() == (date.getDate() - N)&&
                             ((new Date(data[i].entertime)).getMonth()+1)==month) {
                         dataNum++;
+                        var accumulate = (new Date(data[i].outtime-data[i].entertime));
+                        var accumulateTime = getNowFormatDate(accumulate);
                         $("#absenteeismInformation").append(
                                 '<tr>><td>'
                                 + data[i].name
@@ -4388,14 +4389,14 @@
                                 + '</td><td>'
                                 + (new Date(data[i].outtime)).toLocaleString()
                                 + '</td><td>'
-                                + data[i].accumulatedtime
+                                + accumulateTime
                                 + '</td></tr>'
                         );
                     }
                     if(N==0)
                         for(var j=1;j<=31;j++) {
 //                        alert((new Date(data[i].entertime)).getDate()+"  "+j);
-                            if ((new Date(data[i].entertime)).getDate()==j){
+                            if ((new Date(data[i].entertime)).getDate()==j &&((new Date(data[i].entertime)).getMonth()+1)==month){
                                 AbsenteeismNum[j]++;
 //                                alert(AbsenteeismNum[j]);
                             }
@@ -4581,23 +4582,23 @@
     }
 
 
-//    function getNowFormatDate() {
-//        var date = new Date();
-//        var seperator1 = "-";
-//        var seperator2 = ":";
-//        var month = date.getMonth() + 1;
-//        var strDate = date.getDate();
-//        if (month >= 1 && month <= 9) {
-//            month = "0" + month;
-//        }
-//        if (strDate >= 0 && strDate <= 9) {
-//            strDate = "0" + strDate;
-//        }
+    function getNowFormatDate(T) {
+        var date = new Date(T);
+        var seperator1 = "-";
+        var seperator2 = ":";
+        var month = date.getMonth() + 1;
+        var strDate = date.getDate();
+        if (month >= 1 && month <= 9) {
+            month = "0" + month;
+        }
+        if (strDate >= 0 && strDate <= 9) {
+            strDate = "0" + strDate;
+        }
 //        var currentdate = date.getFullYear() + seperator1 + month + seperator1 + strDate
 //                + " " + date.getHours() + seperator2 + date.getMinutes()
-//               + seperator2 + date.getSeconds();
-//        alert(currentdate) ;
-//    }
+        var currentdate =strDate + "  " +date.getHours() + seperator2 + date.getMinutes()+ seperator2 + date.getSeconds();
+        return currentdate ;
+    }
 
 </script>
 
