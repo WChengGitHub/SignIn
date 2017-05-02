@@ -21,6 +21,9 @@
     <select id="selectActivities" parameterType="pojo.TbActivityVo1" resultType="pojo.TbActivityVo1">
         select tb_activity.*,tb_activityattendance.`Status`,tb_employee.`Name` from tb_activity,tb_activityattendance,tb_employee where tb_activity.ActivityId=tb_activityattendance.ActivityId and tb_activityattendance.EmployeeId=#{employeeid} and tb_activity.StartTime BETWEEN #{d1,jdbcType=TIMESTAMP} and #{d2,jdbcType=TIMESTAMP} and tb_employee.EmployeeId=tb_activity.EmployeeId
     </select>
+    <select id="queryApplications" parameterType="java.lang.String" resultType="pojo.TbApplicationVo">
+        select tb_application.*,tb_employee.`Name` from tb_application,tb_employee where tb_application.EmployeeId=tb_employee.EmployeeId and tb_application.EmployeeId in (select tb_employee.EmployeeId from tb_employee where DepartmentId=#{value} and tb_employee.Del='0') ORDER BY tb_application.ApplicationTime DESC
+    </select>
     <select id="selectNotify" parameterType="java.lang.String" resultType="pojo.TbNotifyVo">
         select tb_notify.*,(select name from tb_employee where EmployeeId=#{VALUE})as name from tb_notify where tb_notify.NotifyId in (select tb_employeenotify.NotifyId from tb_employeenotify where tb_employeenotify.EmployeeId=#{VALUE} and tb_employeenotify.`Status`='0') and tb_notify.NotifyTime BETWEEN DATE_SUB(NOW(),INTERVAL 365 DAY) and now() ORDER BY tb_notify.NotifyTime DESC
     </select>

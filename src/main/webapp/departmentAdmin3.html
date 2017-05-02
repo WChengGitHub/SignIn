@@ -789,6 +789,12 @@
                                             <span>已读通知</span>
                                         </a>
                                     </li>
+                                    <li>
+                                        <a id="fs">
+                                            <i class=" glyphicon glyphicon-folder-open  text-info"></i>
+                                            <span>已发通知</span>
+                                        </a>
+                                    </li>
                                     <!--<li>-->
                                     <!--<a href="#">-->
                                     <!--<img src="img/export_excel.png" alt="导出Excel">&nbsp;<span>导出Excel</span>-->
@@ -931,9 +937,9 @@
                                         <!--调用全选js函数-->
                                         <!--<th><input type="checkbox" id="my_departmentAttendlist_checkbox_selectall" onclick="departmentAttendlist_select_all()"/></th>-->
                                         <th style="width: 8%;"><span class="glyphicon glyphicon-info-sign"></span></th>
-                                        <th>Id</th>
                                         <th>标题</th>
                                         <th>时间</th>
+                                        <th>申请员工</th>
                                     </tr>
                                     </thead>
 
@@ -2496,12 +2502,12 @@
                                     $("#applications")
                                             .append(
 //                                            '<tr class="f'+num+'"><td><input type="checkbox" id="my_departmentAttendlist_checkbox_'+s+'"/></td><td>'
-                                            '<tr class="f'+num+'"><td><span class="glyphicon glyphicon-info-sign"></span></td><td>'
-                                            + data[i].applicationid
-                                            + '</td><td onclick=showApplication("'+data[i].title+'","'+data[i].remark+'","'+data[i].dailyattendanceid+'","'+data[i].applicationid+'")><a>'
+                                            '<tr class="f'+num+'"><td><span class="glyphicon glyphicon-info-sign"></span></td><td onclick=showApplication("'+data[i].title+'","'+data[i].remark+'","'+data[i].dailyattendanceid+'","'+data[i].applicationid+'")><a>'
                                             + data[i].title
                                             + '</a></td><td>'
                                             + (new Date(data[i].applicationtime)).toLocaleString()
+                                            + '</td><td>'
+                                            + data[i].name
                                             + '</td></tr>');
 
                                 }
@@ -3416,11 +3422,19 @@
         var startTime = document.getElementById("ActivityStartTime").value;
         var endTime = document.getElementById("ActivityEndTime").value;
         var address = document.getElementById("Activity_address").value;
+        startTime=startTime.replace('T',' ');
+        endTime=endTime.replace('T',' ');
+
         alert(startTime+" , "+endTime);
-        var date1 = new Date(startTime).getTime();
-        startTime = new Date(date1).toLocaleString();
-        var date2 = new Date(endTime).getTime();
-        endTime = new Date(date2).toLocaleString();
+//        var date1 = new Date(startTime);
+////        startTime = new Date(date1).toLocaleString();
+//        var date2 = new Date(endTime);
+//        alert(date1+" , "+date2);
+//        var date1String=getDateTime(startTime);
+//        alert(date1String);
+//        var date2String=getDateTime(endTime);
+//        alert(date2String);
+//        endTime = new Date(date2).toLocaleString();
 //		if(activityTip==null||activityContent==null||startTime==null||endTime==null||address==null) {
 //				alert("不能为空");return;
 //		}
@@ -3431,8 +3445,8 @@
             type: 'post',
             url: "AdminAccountManagement/addActivity",
             data: 'activityname=' + activityTip + '&content=' + activityContent + '&address=' + address
-            + '&employeeid=' + departmentAdminEmployeeId + '&style=' + selectStyle,
-//				+ '&starttime=' + startTime + '&endtime=' + endTime ,
+            + '&employeeid=' + departmentAdminEmployeeId + '&style=' + selectStyle
+				+ '&starttime1=' + startTime + '&endtime1=' + endTime ,
             //'&departmentids=' + departmentId +
             success: function (data) {
                 alert(data["status"]);
@@ -3631,11 +3645,18 @@
     $(document).ready(function(){
         $("#f1").click(function(){
             $(".f0").hide();
+            $(".fs").hide();
             $(".f1").show();
         });
         $("#f0").click(function(){
             $(".f1").hide();
+            $(".fs").hide();
             $(".f0").show();
+        });
+        $("#fs").click(function(){
+            $(".f1").hide();
+            $(".fs").show();
+            $(".f0").hide();
         });
         $("#f2").click(function(){
             $(".f3").hide();

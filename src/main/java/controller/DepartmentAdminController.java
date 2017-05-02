@@ -54,12 +54,12 @@ public class DepartmentAdminController {
     }
 
     @RequestMapping("/queryApplications")
-    public @ResponseBody List<TbApplication> queryApplications(TbEmployee tbEmployee)
+    public @ResponseBody List<TbApplicationVo> queryApplications(TbEmployee tbEmployee)
     {
         String departmentId=tbEmployee.getDepartmentid();
         if(departmentId==null||departmentId.equals(""))
             return null;
-        List<TbApplication> applications=departmentAdminService.queryApplication(tbEmployee);
+        List<TbApplicationVo> applications=departmentAdminService.queryApplication1(tbEmployee);
         return applications;
     }
     @RequestMapping("/queryHistoryApplications")

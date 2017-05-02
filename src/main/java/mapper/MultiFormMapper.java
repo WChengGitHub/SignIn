@@ -11,6 +11,7 @@ public interface MultiFormMapper {
     public TbEmployeeVo1 queryEmployee(TbEmployee tbEmployee);
     public List<TbNotifyVo> selectNotifyVoByEmployeeid(String employeeid);
     public List<TbEmployee> queryScheduleEmployee(String scheduleid);
+    public List<TbApplicationVo> queryApplications(String departmentid);
     public List<TbActivityVo> selectActivityByEmployeeid(String employeeid);
     public List<TbDailyAttendanceVo>selectDailyAttendance(TbDailyAttendanceVo tbDailyAttendanceVo);
     public List<TbActivityVo1> selectActivities(TbActivityVo1 activityVo1);

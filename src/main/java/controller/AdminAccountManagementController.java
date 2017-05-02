@@ -18,6 +18,7 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.Writer;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -405,8 +406,17 @@ public class AdminAccountManagementController {
     }
 
     @RequestMapping("/addActivity")
-    public @ResponseBody JSONObject addActivity(TbActivity tbActivity,HttpServletRequest request) {
+    public @ResponseBody JSONObject addActivity(TbActivity tbActivity,HttpServletRequest request,String starttime1,String endtime1) {
         JSONObject json = new JSONObject();
+        DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        try {
+            Date d1=format.parse(starttime1);
+            Date d2=format.parse(endtime1);
+            tbActivity.setStarttime(d1);
+            tbActivity.setEndtime(d2);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         if (adminAccountManagementService.addActivity(tbActivity, request))
             json.put("status", true);
         else
