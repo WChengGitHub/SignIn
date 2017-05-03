@@ -450,7 +450,7 @@
                                 <li ui-sref-active="active">
                                     <a ui-sref="app.note">
                                         <b class="label bg-warning pull-right">N</b>
-                                        <span data-toggle="modal" data-target="#themodal4">添加班次</span>
+                                        <span data-toggle="modal" data-target="#themodal4" onclick="showEmployeeListOnAddSchedule(3)">添加班次</span>
                                     </a>
                                 </li>
                                 <li ui-sref-active="active">
@@ -704,7 +704,7 @@
                             <div class="panel-heading">
                                 <ul class="my_headerbuttonlist">
                                     <li>
-                                        <a onclick="showAddDepartmentSchedule()">
+                                        <a onclick="showAddDepartmentSchedule();showEmployeeListOnAddSchedule();">
                                             <i class=" glyphicon glyphicon-plus  text-info"></i>
                                              <span>添加</span>
                                         </a>
@@ -1997,6 +1997,23 @@
                     </p>
                 </form>
             </div>
+
+            <div style="margin-left: 25%;width: 50%;">
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>
+                            <h5 style="color: #00a8f3 ;font-size: 120%" id="addScheduleDepartmentName">部门</h5>
+                            <input style="float: right;margin-top: -25px;" type="checkbox" id="addEmployee_checkbox_selectall3" onclick="addEmployee_checkbox_selectall(3)"/>
+                        </th>
+                    </tr>
+                    <tr id="addScheduleEmployeeList">
+                        <!--模态框内容-->
+                    </tr>
+                    </thead>
+                </table>
+            </div>
+
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" onclick="addSchedule()">提交</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
@@ -2242,125 +2259,6 @@
         $("#content").text(content);
         $("#themodal6").modal();
     }
-
-
-
-
-//    <!---------------------------------- 发布通知  ----------------------------->
-//    function sendNotify() {
-//        var notifyTip = document.getElementById("notifyTip").value;
-//        var notifyContent = document.getElementById("notifyContent").value;
-//        alert("test send Notify");
-//        alert(companyRepresentativeId+" crid");
-//        $.ajax({
-//            type: 'post',
-//            url: "AdminAccountManagement/addNotify",
-//            data: 'content=' + notifyContent + '&title=' + notifyTip
-//            + '&adscription=' + adscription + '&companyrepresentativeid=' + companyRepresentativeId,
-//            //'&departmentids=' + departmentId +
-//            success: function (data) {
-//                alert(data["status"]);
-//                getDepartmentEmployeeId();
-//            },
-//            error: function () {
-//                alert("test  false");
-//            }
-//        })
-//    }
-//
-//    function getDepartmentEmployeeId (){
-////		alert("test getDEid");
-//        $.ajax({
-//            type: 'post',
-//            url: "AdminAccountManagement/getDepartmentEmployeeId",
-//            data: 'departmentids=' + departmentId,
-//            success: function (data) {
-//                var length = data.length;
-//                for(var i=0;i<length;i++){
-//                    employeeId[i]=data[i].employeeid
-////					alert(employeeId[i]+" EID");
-//                }
-//                addEmployeeNotify();
-//            },
-//            error: function () {
-//                alert("test  false");
-//            }
-//        })
-//    }
-//
-//    function addEmployeeNotify(){
-//        //如果部门是全选的
-//        if(document.getElementById("addDepartment_checkbox_selectall1").checked){
-//            $.ajax({
-//                type: 'post',
-//                url: "AdminAccountManagement/addEmployeeNotify",
-//                data: 'employeeIds=' + departmentAdminEmployeeId,
-//                //'&departmentids=' + departmentId +
-//                success: function (data) {
-//                    alert(data["status"]);
-//                    window.location.reload();
-//                },
-//                error: function () {
-//                    alert("test  false");
-//                }
-//            })
-//        }
-//        else{
-//            var checkedList=new Array();
-//            var j=0;
-//            for(var i=0;i<DepartmentNum;i++){
-//                if(departmentChecked[i])checkedList[j++]=employeeId[i];
-//            }
-//            $.ajax({
-//                type: 'post',
-//                url: "AdminAccountManagement/addEmployeeNotify",
-//                data: 'employeeIds=' + checkedList,
-//                success: function (data) {
-//                    alert(data["status"]);
-//                    window.location.reload();
-//                },
-//                error: function () {
-//                    alert("test  false");
-//                }
-//            })
-//        }
-//    }
-//    <!--------------------------------------- 发布通知 ----------------------------------------->
-//
-//
-//    <!-------------------------------------- 新增活动/会议 -------------------------------------->
-//    function sendActivity(){
-//        var activityTip = document.getElementById("Activity_tip_input").value;
-//        var activityContent = document.getElementById("reasonActivity_input").value;
-//        var startTime = document.getElementById("ActivityStartTime").value;
-//        var endTime = document.getElementById("ActivityEndTime").value;
-//        var address = document.getElementById("Activity_address").value;
-////		if(activityTip==null||activityContent==null||startTime==null||endTime==null||address==null) {
-////				alert("不能为空");return;
-////		}
-////		else
-////			{
-//        alert("test sendActivity");
-//
-//        $.ajax({
-//            type: 'post',
-//            url: "AdminAccountManagement/addActivity",
-//            data: 'activityname=' + activityTip + '&content=' + activityContent + '&address=' + address  + '&employeeid=' + '1',//暂时写静态
-////				+ '&starttime=' + startTime + '&endtime=' + endTime ,
-//            //'&departmentids=' + departmentId +
-//            success: function (data) {
-//                alert(data["status"]);
-//                if(data["status"]==true)window.location.reload();
-//            },
-//            error: function () {
-//                alert("test  false");
-//            }
-//        })
-////		}
-//    }
-//
-//    <!-------------------------------------- 新增活动/会议 -------------------------------------->
-
 
 
     //提示当前位置，改变标题颜色 目前有5个表格
@@ -3024,6 +2922,20 @@
     var employeeSelectall=false;//员工是否全选
     var sendNotifyGetEmployeeId = new Array();
 
+
+    function showEmployeeListOnAddSchedule(j){
+        $("#addScheduleEmployeeList").html("");
+        document.getElementById("addScheduleDepartmentName").innerHTML = thisDepartmentName;
+        var employeeListLength = employeeNameList.length;
+        for(var i=0;i<employeeListLength;i++) {
+            $("#addScheduleEmployeeList").append(
+                    '<li style="list-style-type: none;padding-left: 6%; width: 95%;" >'
+                    + '<a href="#subModel' + i + '" data-toggle="collapse"><b>' + employeeNameList[i] + '</b></a><input check style="float: right" type="checkbox" id="'+j+'addEmployee_checkbox_'+i+'" onclick="employeesChecked('+i+','+j+')"/><p></p>'
+                    + '</li>');
+        }
+    }
+
+
     function getDepartmentAndEmployee(){
         $.ajax({
             type: 'post',
@@ -3352,7 +3264,7 @@
                 .append(
                 '<li style="list-style-type: none;padding-left: 12%;">'
                 +'<span style="color: #00a8f3 ;font-size: 120%" >部门</span>'
-                +'<input  type="checkbox" id="addDepartment_checkbox_selectall1" style="float: right" onclick="addDepartment_checkbox_selectall('+j+')"/>'
+                +'<input  type="checkbox" id="addDepartment_checkbox_selectall2" style="float: right" onclick="addDepartment_checkbox_selectall('+j+')"/>'
                 +'<p></p>'
                 +'<div style="height:1px;border:none;border-top:1px solid #CFCFCF; border-radius:5px" ></div>'
                 +'</li>'
@@ -3390,7 +3302,7 @@
                 .append(
                 '<li style="list-style-type: none;padding-left: 12%;">'
                 +'<span style="color: #00a8f3 ;font-size: 120%" >'+thisDepartmentName+'</span>'
-                +'<input  type="checkbox" id="addEmployee_checkbox_selectall1" style="float: right" onclick="addEmployee_checkbox_selectall('+j+')"/>'
+                +'<input  type="checkbox" id="addEmployee_checkbox_selectall2" style="float: right" onclick="addEmployee_checkbox_selectall('+j+')"/>'
                 +'<p></p>'
                 +'<div style="height:1px;border:none;border-top:1px solid #CFCFCF; border-radius:5px" ></div>'
                 +'</li>'
@@ -3426,21 +3338,7 @@
         endTime=endTime.replace('T',' ');
 
         alert(startTime+" , "+endTime);
-//        var date1 = new Date(startTime);
-////        startTime = new Date(date1).toLocaleString();
-//        var date2 = new Date(endTime);
-//        alert(date1+" , "+date2);
-//        var date1String=getDateTime(startTime);
-//        alert(date1String);
-//        var date2String=getDateTime(endTime);
-//        alert(date2String);
-//        endTime = new Date(date2).toLocaleString();
-//		if(activityTip==null||activityContent==null||startTime==null||endTime==null||address==null) {
-//				alert("不能为空");return;
-//		}
-//		else
-//			{
-//        alert("test sendActivity");
+
         $.ajax({
             type: 'post',
             url: "AdminAccountManagement/addActivity",
@@ -3451,6 +3349,7 @@
             success: function (data) {
                 alert(data["status"]);
                 if(data["status"]==true)window.location.reload();
+//                addEmployeeActivity();
             },
             error: function () {
                 alert("test  false");
@@ -3458,6 +3357,10 @@
         })
 //		}
     }
+
+//    function addEmployeeActivity(){
+//
+//    }
 
 </script>
 
@@ -4179,6 +4082,8 @@
                     if ((new Date(data[i].entertime)).getDate() == (date.getDate() - N)&&
                             ((new Date(data[i].entertime)).getMonth()+1)==month) {
                         dataNum++;
+                        var accumulate = (new Date(data[i].outtime-data[i].entertime));
+                        var accumulateTime = getNowFormatDate(accumulate);
                         $("#attendanceInformation").append(
                                 '<tr>><td>'
                                 + data[i].name
@@ -4187,14 +4092,14 @@
                                 + '</td><td>'
                                 + (new Date(data[i].outtime)).toLocaleString()
                                 + '</td><td>'
-                                + data[i].accumulatedtime
+                                + accumulateTime
                                 + '</td></tr>'
                         );
                     }
                     if(N==0)
                     for(var j=1;j<=31;j++) {
 //                        alert((new Date(data[i].entertime)).getDate()+"  "+j);
-                        if ((new Date(data[i].entertime)).getDate()==j){
+                        if ((new Date(data[i].entertime)).getDate()==j&&((new Date(data[i].entertime)).getMonth()+1)==month){
                             AttendanceNum[j]++;
 //                            alert(AttendanceNum[j]);
                         }
@@ -4229,6 +4134,8 @@
                     if ((new Date(data[i].entertime)).getDate() == (date.getDate() - N)&&
                             ((new Date(data[i].entertime)).getMonth()+1)==month) {
                         dataNum++;
+                        var accumulate = (new Date(data[i].outtime-data[i].entertime));
+                        var accumulateTime = getNowFormatDate(accumulate);
                         $("#lateInformation").append(
                                 '<tr><td>'
                                 + data[i].name
@@ -4237,14 +4144,14 @@
                                 + '</td><td>'
                                 + (new Date(data[i].outtime)).toLocaleString()
                                 + '</td><td>'
-                                + data[i].accumulatedtime
+                                + accumulateTime
                                 + '</td></tr>'
                         );
                     }
                     if(N==0)
                         for(var j=1;j<=31;j++) {
 //                        alert((new Date(data[i].entertime)).getDate()+"  "+j);
-                            if ((new Date(data[i].entertime)).getDate()==j){
+                            if ((new Date(data[i].entertime)).getDate()==j&&((new Date(data[i].entertime)).getMonth()+1)==month){
                                 LateNum[j]++;
 //                                alert(LateNum[j]);
                             }
@@ -4280,6 +4187,8 @@
                     if ((new Date(data[i].entertime)).getDate() == (date.getDate() - N)&&
                             ((new Date(data[i].entertime)).getMonth()+1)==month) {
                         dataNum++;
+                        var accumulate = (new Date(data[i].outtime-data[i].entertime));
+                        var accumulateTime = getNowFormatDate(accumulate);
                         $("#getBackEarlyInformation").append(
                                 '<tr>><td>'
                                 + data[i].name
@@ -4288,14 +4197,14 @@
                                 + '</td><td>'
                                 + (new Date(data[i].outtime)).toLocaleString()
                                 + '</td><td>'
-                                + data[i].accumulatedtime
+                                + accumulateTime
                                 + '</td></tr>'
                         );
                     }
                     if(N==0)
                         for(var j=1;j<=31;j++) {
 //                        alert((new Date(data[i].entertime)).getDate()+"  "+j);
-                            if ((new Date(data[i].entertime)).getDate()==j){
+                            if ((new Date(data[i].entertime)).getDate()==j&&((new Date(data[i].entertime)).getMonth()+1)==month){
                                 BackEarlyNum[j]++;
 //                                alert(BackEarlyNum[j]);
                             }
@@ -4330,6 +4239,8 @@
                     if ((new Date(data[i].entertime)).getDate() == (date.getDate() - N)&&
                             ((new Date(data[i].entertime)).getMonth()+1)==month) {
                         dataNum++;
+                        var accumulate = (new Date(data[i].outtime-data[i].entertime));
+                        var accumulateTime = getNowFormatDate(accumulate);
                         $("#lateAndBackEarlyInformation").append(
                                 '<tr>><td>'
                                 + data[i].name
@@ -4338,14 +4249,14 @@
                                 + '</td><td>'
                                 + (new Date(data[i].outtime)).toLocaleString()
                                 + '</td><td>'
-                                + data[i].accumulatedtime
+                                + accumulateTime
                                 + '</td></tr>'
                         );
                     }
                     if(N==0)
                         for(var j=1;j<=31;j++) {
 //                        alert((new Date(data[i].entertime)).getDate()+"  "+j);
-                            if ((new Date(data[i].entertime)).getDate()==j){
+                            if ((new Date(data[i].entertime)).getDate()==j&&((new Date(data[i].entertime)).getMonth()+1)==month){
                                 LateAndBackEarlyNum[j]++;
 //                                alert(LateAndBackEarlyNum[j]);
                             }
@@ -4380,6 +4291,8 @@
                     if ((new Date(data[i].entertime)).getDate() == (date.getDate() - N)&&
                             ((new Date(data[i].entertime)).getMonth()+1)==month) {
                         dataNum++;
+                        var accumulate = (new Date(data[i].outtime-data[i].entertime));
+                        var accumulateTime = getNowFormatDate(accumulate);
                         $("#absenteeismInformation").append(
                                 '<tr>><td>'
                                 + data[i].name
@@ -4388,14 +4301,14 @@
                                 + '</td><td>'
                                 + (new Date(data[i].outtime)).toLocaleString()
                                 + '</td><td>'
-                                + data[i].accumulatedtime
+                                + accumulateTime
                                 + '</td></tr>'
                         );
                     }
                     if(N==0)
                         for(var j=1;j<=31;j++) {
 //                        alert((new Date(data[i].entertime)).getDate()+"  "+j);
-                            if ((new Date(data[i].entertime)).getDate()==j){
+                            if ((new Date(data[i].entertime)).getDate()==j &&((new Date(data[i].entertime)).getMonth()+1)==month){
                                 AbsenteeismNum[j]++;
 //                                alert(AbsenteeismNum[j]);
                             }
@@ -4581,23 +4494,23 @@
     }
 
 
-//    function getNowFormatDate() {
-//        var date = new Date();
-//        var seperator1 = "-";
-//        var seperator2 = ":";
-//        var month = date.getMonth() + 1;
-//        var strDate = date.getDate();
-//        if (month >= 1 && month <= 9) {
-//            month = "0" + month;
-//        }
-//        if (strDate >= 0 && strDate <= 9) {
-//            strDate = "0" + strDate;
-//        }
+    function getNowFormatDate(T) {
+        var date = new Date(T);
+        var seperator1 = "-";
+        var seperator2 = ":";
+        var month = date.getMonth() + 1;
+        var strDate = date.getDate();
+        if (month >= 1 && month <= 9) {
+            month = "0" + month;
+        }
+        if (strDate >= 0 && strDate <= 9) {
+            strDate = "0" + strDate;
+        }
 //        var currentdate = date.getFullYear() + seperator1 + month + seperator1 + strDate
 //                + " " + date.getHours() + seperator2 + date.getMinutes()
-//               + seperator2 + date.getSeconds();
-//        alert(currentdate) ;
-//    }
+        var currentdate =strDate + "  " +date.getHours() + seperator2 + date.getMinutes()+ seperator2 + date.getSeconds();
+        return currentdate ;
+    }
 
 </script>
 
