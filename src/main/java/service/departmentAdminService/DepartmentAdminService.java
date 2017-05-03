@@ -159,6 +159,7 @@ public class DepartmentAdminService {
         TbActivityExample activityExample=new TbActivityExample();
         TbActivityExample.Criteria criteria=activityExample.createCriteria();
         criteria.andEmployeeidEqualTo(employee.getEmployeeid());
+        activityExample.setOrderByClause("tb_activity.StartTime DESC");
 //        Date d1=new Date();
 //        Calendar now =Calendar.getInstance();
 //        now.setTime(d1);
