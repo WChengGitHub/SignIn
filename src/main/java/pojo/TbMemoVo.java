@@ -6,6 +6,7 @@ import java.util.Date;
  * Created by user on 2017/4/23.
  */
 public class TbMemoVo extends TbMemo {
+    private String date;
     private int year;
     private int month;
     private int day;
@@ -59,5 +60,13 @@ public class TbMemoVo extends TbMemo {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 }

@@ -3,7 +3,7 @@
 <mapper namespace="mapper.MultiFormMapper">
     <!--UserService-->
     <select id="queryEmployee" parameterType="pojo.TbEmployee" resultType="pojo.TbEmployeeVo1">
-        select tb_employee.*,tb_department.Address departmentAdress,tb_department.`Name` deparmentName  from tb_employee,tb_department where tb_employee.DepartmentId=tb_department.DepartmentId and tb_employee.Account=#{account} and tb_employee.`Password`=#{password} and tb_employee.del=false
+        select tb_employee.*,tb_department.Address departmentAdress,tb_department.`Name` deparmentName,tb_company.`Name` companyName  from tb_employee,tb_department,tb_company where tb_employee.DepartmentId=tb_department.DepartmentId and tb_employee.Account=#{account} and tb_employee.`Password`=#{password} and tb_employee.del=false and tb_company.CompanyId=tb_department.CompanyId
     </select>
     <select id="selectNotifyVoByEmployeeid" parameterType="java.lang.String" resultType="TbNotifyVo">
         select tb_notify.*,tb_employeenotify.`Status`,tb_employeenotify.EmployeeId from tb_notify,tb_employeenotify where tb_notify.NotifyId=tb_employeenotify.NotifyId and tb_employeenotify.EmployeeId=#{VALUE } ORDER BY tb_notify.NotifyTime desc

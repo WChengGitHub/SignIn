@@ -6,6 +6,7 @@ package pojo;
 public class TbEmployeeVo1 extends TbEmployee {
 
     private String departmentName;
+    private String companyName;
 
     private String companyid;
 
@@ -53,5 +54,13 @@ public class TbEmployeeVo1 extends TbEmployee {
 
     public void setDel(Boolean del) {
         this.del = del;
+    }
+
+    public String getCompanyName() {
+        return companyName;
+    }
+
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
     }
 }

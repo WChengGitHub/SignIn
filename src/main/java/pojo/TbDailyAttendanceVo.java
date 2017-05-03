@@ -6,6 +6,7 @@ import java.util.Date;
  * Created by user on 2017/4/28.
  */
 public class TbDailyAttendanceVo extends TbDailyattendance{
+    private String date;
     private int year;
     private int month;
     private int day;
@@ -69,5 +70,13 @@ public class TbDailyAttendanceVo extends TbDailyattendance{
 
     public void setDepartmentid(String departmentid) {
         this.departmentid = departmentid;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 }
