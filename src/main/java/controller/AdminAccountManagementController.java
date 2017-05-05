@@ -50,8 +50,8 @@ public class AdminAccountManagementController {
     {   System.out.println("test sendMessage Tel:"+tbEmployee.getTelephone());
         JSONObject json = new JSONObject();
         try {
-//            int randomNumber = bindTelephone.sendMessage(tbEmployee);
-            int randomNumber=123;//测试时用 不用发短信
+            int randomNumber = bindTelephone.sendMessage(tbEmployee);
+//            int randomNumber=1608;//测试时用 不用发短信
             if(randomNumber!=0) {
                 //将验证码写入Session
                 HttpSession session = request.getSession();
@@ -77,8 +77,8 @@ public class AdminAccountManagementController {
         String companyrepresentativeid = request.getParameter("companyRepresentativeid");
         JSONObject json = new JSONObject();
         try {
-//            int randomNumber = bindTelephone.sendMessage(tbEmployee);
-            int randomNumber=123;//测试时用 不用发短信
+            int randomNumber = registerBindTelephone.sendMessage(tbCompanyrepresentative.getTelephone());
+//            int randomNumber=1608;//测试时用 不用发短信
             if(randomNumber!=0) {
                 //将验证码写入Session
                 HttpSession session = request.getSession();

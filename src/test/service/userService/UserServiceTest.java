@@ -7,6 +7,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import pojo.*;
 import service.companyAdminService.CompanyAdminService;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -157,5 +158,28 @@ public class UserServiceTest {
     @Test
     public void testSelectDailyattendance() throws Exception {
         userService.selectDailyattendance("1","2017","04");
+    }
+
+    @Test
+    public void testAddMemos() throws Exception {
+        TbMemo memo=new TbMemo();
+        memo.setEmployeeid("1");
+        memo.setContent("1111");
+        memo.setStarttime(new Date());
+        memo.setEndtime(new Date());
+        userService.addMemos(memo,"2017-05-06 11:11:11","2017-05-06 11:13:11");
+    }
+
+    @Test
+    public void testUpdateMemos() throws Exception {
+        TbMemo memo=new TbMemo();
+        memo.setMemoid("2017050323164340");
+        memo.setContent("222");
+        userService.updateMemos(memo);
+    }
+
+    @Test
+    public void testSelectMemos2() throws Exception {
+        userService.selectMemos2("1","2017","05");
     }
 }

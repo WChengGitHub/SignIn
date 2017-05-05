@@ -5,9 +5,12 @@ import mapper.*;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import otherFunction.md5.Encryption;
 import pojo.*;
 import utils.GetId;
 
+import java.sql.Timestamp;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -754,6 +757,7 @@ public class UserService {
                     tbMemoVos.get(j).setDay(day1);
                     tbMemoVos.get(j).setMonth(month1);
                     tbMemoVos.get(j).setDate(key);
+                    list.add(tbMemoVos.get(j));
                 }
 
             }
@@ -780,6 +784,7 @@ public class UserService {
     }
     public TbEmployeeVo1 queryEmployee1(TbEmployee employee)
     {
+        employee.setPassword(Encryption.generatePassword(employee.getPassword()));
         TbEmployeeVo1 tbEmployeeVo1=multiFormMapper.queryEmployee(employee);
         if(tbEmployeeVo1!=null)
         tbEmployeeVo1.setPassword("");
@@ -959,5 +964,70 @@ public class UserService {
 
         tbActivityattendanceMapper.updateByExampleSelective(activityattendance,activityattendanceExample);
         return Status;
+    }
+    public String getWorkHours(List<TbDailyAttendanceVo> dailyAttendanceVos)
+    {
+        if(dailyAttendanceVos==null&&dailyAttendanceVos.size()==0)
+            return null;
+        long sumTime=0;
+        for(int i=0;i<dailyAttendanceVos.size();i++ )
+        {
+            TbDailyAttendanceVo tbDailyAttendanceVo=dailyAttendanceVos.get(i);
+            Timestamp t1=tbDailyAttendanceVo.getEntertime();
+            Timestamp t2=tbDailyAttendanceVo.getOuttime();
+            sumTime=sumTime+t2.getTime()-t1.getTime();
+        }
+        long hour=sumTime/(3600*1000);
+        sumTime=sumTime%((3600*1000));
+        long minute=sumTime/(60*1000);
+        long second=(sumTime%(60*1000))/1000;
+        String h=hour+"";
+        if(h.length()==1)
+            h="0"+h;
+        String m=minute+"";
+        if(m.length()==1)
+            m="0"+m;
+        String s=second+"";
+        if(s.length()==1)
+            s="0"+s;
+        String workTime=h+":"+m+":"+s;
+        return workTime;
+    }
+    public boolean addMemos(TbMemo tbMemo,String startTime,String endTime)
+    {
+        DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        try {
+            Date d1=format.parse(startTime);
+            Date d2=format.parse(endTime);
+            tbMemo.setStarttime(d1);
+            tbMemo.setEndtime(d2);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        tbMemo.setMemoid(GetId.getId());
+        try
+        {
+            memoMapper.insert(tbMemo);
+            return true;
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        return false;
+    }
+    public boolean updateMemos(TbMemo tbMemo)
+    {
+        try
+        {
+            memoMapper.updateByPrimaryKeySelective(tbMemo);
+            return true;
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        return false;
     }
 }

@@ -89,7 +89,7 @@ public class registerBindTelephone {
 
         int randomNumber = (int)((Math.random()*9+1)*1000000);
 
-        String content = new String("您的验证码是：" + randomNumber + "。请不要把验证码泄露给其他人。--SignIn签到系统");
+        String content = new String("您的验证码是：" + randomNumber + "。请不要把验证码泄露给其他人。");
 
         NameValuePair[] data = {//提交短信
                 new NameValuePair("account", "C19786829"), //查看用户名请登录用户中心->验证码、通知短信->帐户及签名设置->APIID

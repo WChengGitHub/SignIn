@@ -351,8 +351,8 @@
         }
     }
 
-    function enterCompanyAdminHtml(){window.location.href = 'companyAdmin2.html?#';}
-    function enterDepartmentAdminHtml(){window.location.href = 'departmentAdmin3.html';}
+    function enterCompanyAdminHtml(){window.location.href = 'companyAdmin3.html?#';}
+    function enterDepartmentAdminHtml(){window.location.href = 'departmentAdmin4.html';}
 
 
     var wait=60;
@@ -384,7 +384,7 @@
         }
         else {
             var tel = document.getElementById("telephone");
-            alert("test value:" + tel.value);
+//            alert("test value:" + tel.value);
 //            alert("original tel:"+originalTel);
 //            alert("test running bindTel");
             $.ajax({
@@ -392,11 +392,11 @@
                 url: "CompanyAdmin/registerSendMessage",
                 data: 'telephone=' + tel.value,
                 success: function (data) {
-                    alert("test success：" + data["status"]);
+//                    alert("test success：" + data["status"]);
 
                 },
                 error: function () {
-                    alert("test  false：" + data["status"]);
+//                    alert("test  false：" + data["status"]);
                     return;
                 }
             });
@@ -418,12 +418,12 @@
                 data: 'name=' + UserName + '&Password=' + Password + '&code=' + Code,
                 success: function (data) {
                     var result = data["status"];
-                    alert("test register success：" + result);
+//                    alert("test register success：" + result);
                     if(result)
                         location.reload();
                 },
                 error: function () {
-                    alert("test  false：" + data["status"]);
+//                    alert("test  false：" + data["status"]);
                     return;
                 }
             });

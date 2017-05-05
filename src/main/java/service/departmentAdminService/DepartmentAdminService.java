@@ -257,7 +257,7 @@ public class DepartmentAdminService {
                 employee.setDepartmentid(departmentid);
                 employee.setDel(false);
                 employee.setPrivilege("0");
-                employee.setPassword("123456");
+                employee.setPassword(Encryption.generatePassword("123456"));
 
                 employees.add(employee);
             }
@@ -286,7 +286,7 @@ public class DepartmentAdminService {
         employee.setEmployeeid(GetId.getId());
         employee.setDel(false);
         employee.setPrivilege("0");
-        employee.setPassword("123456");
+        employee.setPassword(Encryption.generatePassword("123456"));
         try {
             tbEmployeeMapper.insert(employee);
             return  true;

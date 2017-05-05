@@ -11,9 +11,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import pojo.*;
 import service.userService.UserService;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * Created by user on 2017/4/20.
@@ -56,10 +58,12 @@ public class UserController {
         List<TbNotifyVo1> notifies=userService.selectNotifies2(employeeid, year, month);
         List<TbMemoVo> memos=userService.selectMemos2(employeeid, year, month);
         List<TbDailyAttendanceVo> dailyattendances=userService.selectDailyattendance1(employeeid, year, month);
+        String workTime=userService.getWorkHours(dailyattendances);
         map.put("activities",activities);
         map.put("notifies",notifies);
         map.put("memos",memos);
         map.put("dailyattendances",dailyattendances);
+        map.put(year+"/"+month,workTime);
         return map;
     }
     @RequestMapping("/updateNotifyStatus")
@@ -83,11 +87,21 @@ public class UserController {
     }
 
     @RequestMapping("/addDetail")
-    public @ResponseBody Map<String,Object> addDetail(TbDetail detail)
+    public @ResponseBody Map<String,Object> addDetail(TbDetail detail,String startTime,String endTime)
     {
         Map<String,Object>map=new HashMap<String, Object>();
-        if(detail==null&&detail.getStyle()==null&&detail.getEmployeeid()==null&&detail.getReason()==null)
+        if(detail==null&&detail.getEmployeeid()==null&&detail.getReason()==null&&startTime==null&&endTime==null)
             return null;
+        DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        try {
+            Date d1=format.parse(startTime);
+            Date d2=format.parse(endTime);
+            detail.setStarttime(d1);
+            detail.setEndtime(d2);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        detail.setStyle(false);
         if(userService.addDetail(detail))
             map.put("message","申请成功");
         else
@@ -137,23 +151,70 @@ public class UserController {
         return map;
     }
 
+    @RequestMapping("/addMemo")
+    public @ResponseBody Map<String,Object> addMemo(TbMemo memo,String startTime,String endTime)
+    {
+        Map<String,Object>map=new HashMap<String, Object>();
+        if(memo==null&&memo.getEmployeeid()==null&&memo.getContent()==null&&startTime==null&&endTime==null)
+            return null;
+        if(userService.addMemos(memo,startTime,endTime))
+            map.put("message","success");
+        else
+            map.put("message","failure");
+        return map;
+    }
+    @RequestMapping("/updateMemo")
+    public @ResponseBody Map<String,Object> updateMemo(TbMemo memo,String startTime,String endTime)
+    {
+        Map<String,Object>map=new HashMap<String, Object>();
+        if(memo==null&&memo.getMemoid()==null)
+            return null;
+        DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date d1=new Date();
+        Date d2=new Date();
+        try {
+            if(startTime!=null&&!startTime.equals("")) {
+                d1 = format.parse(startTime);
+                memo.setStarttime(d1);
+            }
+            if(endTime!=null&&!startTime.equals(""))
+            {
+                d2=format.parse(endTime);
+                memo.setEndtime(d2);
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        if(userService.updateMemos(memo))
+            map.put("message","success");
+        else
+            map.put("message","failure");
+        return map;
+    }
     public static void main(String[]args)
     {
         ApplicationContext applicationContext=new ClassPathXmlApplicationContext(new String[]{"spring/applicationContext-Dao.xml","spring/applicationContext-Service.xml","spring/applicationContext-transaction.xml"});
         UserService userService= (UserService) applicationContext.getBean("userService");
-        String employeeid="1";
+        String employeeid="11";
         String year="2017";
-        String month="04";
+        String month="05";
         Map<String,Object>map=new HashMap<String, Object>();
      List<TbActivityVo1> activities=userService.queryActivities3(employeeid, year, month);
       List<TbNotifyVo1> notifies=userService.selectNotifies2(employeeid, year, month);
         List<TbMemoVo> memos=userService.selectMemos2(employeeid, year, month);
         List<TbDailyAttendanceVo> dailyattendances=userService.selectDailyattendance1(employeeid, year, month);
+        System.out.println(userService.getWorkHours(dailyattendances));
         map.put("activities",activities);
        map.put("notifies",notifies);
         map.put("memos",memos);
         map.put("dailyattendances",dailyattendances);
         String jsonText = JSON.toJSONString(map, true);
         System.out.println(jsonText);
+    }
+
+    @RequestMapping("/go")
+    public String error()
+    {
+        return "forward:/UserController/go";
     }
 }

@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import otherFunction.binding.registerBindTelephone;
 import pojo.*;
 import service.companyAdminService.CompanyAdminService;
 
@@ -31,9 +32,30 @@ public class CompanyAdminController {
         if(companyid==null||companyid.equals("")||file==null)
             return null;
         companyAdminService.addDepartments(file,companyid);
-        return "redirect:/companyAdmin1.html";
+        return "redirect:/companyAdmin3.html";
+    }
+    @RequestMapping("/getCompany")
+    public @ResponseBody TbCompany getCompany(String companyid)
+    {
+        if(companyid==null||companyid.equals(""))
+            return null;
+       return companyAdminService.selectCompany(companyid);
     }
 
+    @RequestMapping("/updateCompany")
+    public @ResponseBody String updateCompany(TbCompany company)
+    {
+        if(company==null)
+            return null;
+        String companyid=company.getCompanyid();
+        String name=company.getName();
+        String address=company.getAddress();
+        if(companyid==null&&companyid==""&&companyid==null&&companyid==""&&companyid==null&&companyid=="")
+            return null;
+        if(companyAdminService.updateCompany(company))
+            return "success";
+        return null;
+    }
     @RequestMapping("/getDepartments")
     public @ResponseBody List<TbDepartment> getDepartments(String companyid)
     {
@@ -45,7 +67,7 @@ public class CompanyAdminController {
     @RequestMapping("/addDepartment")
       public @ResponseBody String addDepartment(TbDepartment department)
     {
-        if(department==null)
+        if(department==null&&department.getCompanyid().equals(""))
             return null;
         String name=department.getName();
         String address=department.getAddress();
@@ -112,8 +134,8 @@ public class CompanyAdminController {
         String Tel = request.getParameter("telephone");
         JSONObject json = new JSONObject();
         try {
-//             int randomNumber = registerBindTelephone.sendMessage(Tel);
-            int randomNumber=123;//测试时用 不用发短信
+             int randomNumber = registerBindTelephone.sendMessage(Tel);
+//            int randomNumber=1608;//测试时用 不用发短信
             if(randomNumber!=0) {
                 //将验证码写入Session
                 HttpSession session = request.getSession();

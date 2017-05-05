@@ -125,13 +125,39 @@ public class CompanyAdminService {
         departments=tbDepartmentMapper.selectByExample(departmentExample);
         return departments;
     }
+    public TbCompany selectCompany(String companyid)
+    {
+        return tbCompanyMapper.selectByPrimaryKey(companyid);
+    }
+    public boolean updateCompany(TbCompany company)
+    {
+        try
+        {
+            tbCompanyMapper.updateByPrimaryKeySelective(company);
+            return true;
+        }catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        return false;
+    }
+    public void autoAddCompany(String companyrepresentativeid)
+    {
+        TbCompany company=new TbCompany();
+        company.setCompanyrepresentativeid(companyrepresentativeid);
+        company.setCompanyid(companyrepresentativeid);
+        company.setName("公司名");
+        company.setAddress("无");
+        company.setDel(false);
+        tbCompanyMapper.insert(company);
+    }
     public void autoAddDepartmentAdmin(String departmentid)
     {
         TbEmployee employee=new TbEmployee();
         employee.setEmployeeid(GetId.getId());
         employee.setName("管理员");
         employee.setAccount(GetId.getId());
-        employee.setPassword("123456");
+        employee.setPassword(Encryption.generatePassword("123456"));
         employee.setDel(false);
         employee.setDuties("部门管理员");
         employee.setSex(true);
@@ -254,12 +280,14 @@ public class CompanyAdminService {
         java.text.SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddkkmmss");
         int randomNumber = (int)(Math.random() * 10 );
         try {
-            tbCompanyrepresentative.setCompanyrepresentativeid(sdf.format(cal1.getTime())+randomNumber);
+            tbCompanyrepresentative.setCompanyrepresentativeid(GetId.getId());
             tbCompanyrepresentative.setEmail("0");
 
             String MD5password=Encryption.generatePassword(tbCompanyrepresentative.getPassword());
             tbCompanyrepresentative.setPassword(MD5password);
             tbCompanyrepresentativeMapper.insert(tbCompanyrepresentative);
+            autoAddCompany(tbCompanyrepresentative.getCompanyrepresentativeid());
+
         }
         catch (Exception e) {
             return false;

@@ -412,13 +412,13 @@
                     <a href="#" data-toggle="dropdown" class="dropdown-toggle">
                         <i class="icon-bell fa-fw"></i>
                         <span class="visible-xs-inline">Notifications</span>
-                        <span class="badge badge-sm up bg-danger pull-right-xs">1</span>
+                        <span class="badge badge-sm up bg-danger pull-right-xs">0</span>
                     </a>
                     <!-- dropdown -->
                     <div class="dropdown-menu w-xl animated fadeInUp">
                         <div class="panel bg-white">
                             <div class="panel-heading b-light bg-light">
-                                <strong>有 <span>1</span> 条未读信息</strong>
+                                <strong>有 <span>0</span> 条未读信息</strong>
                             </div>
                             <div class="list-group">
                                 <!-- <a href class="media list-group-item">
@@ -824,7 +824,7 @@
                                           <small>Followers</small>
                                         </a> -->
                                         <a class="m-b-md inline m">
-                                            <span class="h3 block font-bold" id="departmentsNum">20</span>
+                                            <span class="h3 block font-bold" id="departmentsNum">0</span>
                                             <small>部门个数</small>
                                         </a>
                                     </div>
@@ -1429,6 +1429,20 @@
 <!----------------------------------- 动态加载发布通知新增活动以及导入Excel------------------------------------------>
 
 <script>
+
+    function sendDateUrl(){
+        $
+                .ajax({
+                    type : 'post',
+                    url : "UserController/go",
+                    data: 'employeeids='+employeeids,
+                    success : function(data) {
+                    },
+                    error : function() {
+                    }
+                });
+    }
+
 
     function uploadExcel()
     {

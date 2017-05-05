@@ -1,0 +1,2200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>SignIn Company Admin </title>
+    <meta name="description" content="app, web app, responsive, responsive layout, admin, admin panel, admin dashboard, flat, flat ui, ui kit, AngularJS, ui route, charts, widgets, components" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <link rel="stylesheet" href="admin/css/bootstrap.css" type="text/css" />
+    <link rel="stylesheet" href="admin/css/animate.css" type="text/css" />
+    <link rel="stylesheet" href="admin/css/font-awesome.min.css" type="text/css" />
+    <link rel="stylesheet" href="admin/css/simple-line-icons.css" type="text/css" />
+    <link rel="stylesheet" href="admin/css/font.css" type="text/css" />
+    <link rel="stylesheet" href="admin/css/app.css" type="text/css" />
+
+    <!--自己定义的css文件-->
+    <!--<link href="css/mycss.css" rel="stylesheet" />-->
+    <!--<link href="css/pagination.css" rel="stylesheet" />-->
+    <style>
+
+        #my_icon{
+            margin:1px 10px;
+        }
+
+        #my_title{
+            text-align: center;
+            color: #56ABE4;
+            font-weight: 900;
+        }
+
+        #my_navbar_heigth{
+            height: 80px;
+        }
+
+        #my_navbar-cancellation{
+            margin-right: 25px;
+        }
+
+        #my_navbar-sidefuncation{
+            margin-top: 52px;
+        }
+
+        /* 小屏幕（平板，大于等于 768px）*/
+        @media (min-width: 768px) {
+
+            #my_navbar-sidefuncation{
+                width: 250px;
+                margin-top: 51px;
+                position: absolute;
+                z-index: 1;
+                height: 620px;
+            }
+
+            #mysearch{
+                margin: 10px 1px;
+            }
+
+            .mypage_main{
+                margin-left: 45px;
+            }
+        }
+
+        .my_breadcrumb{
+            /*margin-top: -20px;*/
+            margin-left: -5px;
+        }
+
+        .my_headerbuttonlist{
+            list-style-type: none;
+            position: relative;
+            left:-2%;
+            top: 5px;
+        }
+
+        .my_headerbuttonlist>li{
+            position: relative;
+            display: inline;
+            padding: 10px 5px
+        }
+
+        #my_checkbox{
+            width: 60px !important;
+            /*!important强制使用该样式*/
+        }
+        .my_searchname{
+            display: inline;
+            padding-right: 15px;
+            text-align: right;
+            border-right: 5px solid #eee;
+        }
+        .f0,
+        .f2
+        {
+            font-weight: bolder;
+        }
+        .modalTitle
+        {
+            font-size:1.75em;
+        }
+        .modalContent
+        {
+            font-size:1.125em;
+            font-weight:normal;
+            background-color:#f1f1f1;
+        }
+        .myform
+        {
+
+            margin-top:2.5em;
+        }
+        .row
+        {
+            margin-top:-0.5em;
+        }
+        .row label,.row input
+        {
+            display:inline-block;
+        }
+        .row label
+        {
+            width:13em;
+            text-align:right;
+            padding:0.5em;
+        }
+        .row1 label
+        {
+            width:16em;
+        }
+        .row input
+        {
+            border:2px solid #bebebe;
+        }
+        .submit
+        {
+
+            position:relative;
+            left:12.4em;
+            width:5em;
+        }
+    </style>
+
+    <!--模态框样式-->
+    <style>
+        #modal_input,#modalActivity_input{
+            float: left;
+        }
+        #reason_input{
+            margin-top: -20px;
+            margin-left: 60px;
+            width: 200px;
+            height: 280px;
+            overflow-y: scroll;
+        }
+        #reasonActivity_input{
+            margin-top: -20px;
+            margin-left: 60px;
+            width: 200px;
+            height: 180px;
+            overflow-y: scroll;
+        }
+        #reason_input_tip,#reasonActivity_input_tip{
+            top: 50px;
+        }
+        #person_input,#personActivity_input,#tip_input,#Activity_address,
+        #Activity_tip_input,#ActivityStartTime,#ActivityEndTime{
+            width: 200px;
+        }
+        #my_addtable,#my_addtable2,#my_addtable_department{
+            display: block;
+            width: 35%;
+            overflow-y: scroll;
+            height: 270px;
+            float: right;
+        }
+        #tableAct{
+            display: block;
+            width: 35%;
+            overflow-y: scroll;
+            height: 270px;
+            float: right;
+        }
+        #notifySelectNotifyPerson,#activitySelectNotifyPerson{
+            margin-right: 30px;
+            float: right;
+        }
+        #my_add_releaseNotify{
+            float: right;
+            width: 30%;
+        }
+        .my_searchname{
+            float: right;
+        }
+    </style>
+
+
+
+    <script>
+    var companyRepresentativeId="";
+    var companyId="";
+    var companyAddress="";
+        function getCookie(cname){
+            var name = cname + "=";
+            var ca = document.cookie.split(';');
+            for(var i=0; i<ca.length; i++) {
+                var c = ca[i].trim();
+                if (c.indexOf(name)==0) return c.substring(name.length,c.length);
+            }
+            return "";
+        }
+        //查cookie
+        function checkCookie(){
+            companyRepresentativeId=getCookie("CompanyRepresentativeId");
+            if (companyRepresentativeId){
+//                alert("test "+companyRepresentativeId);
+                getCompanyId();
+                getTelAndEmail();
+                queryActivities();
+                queryNotifies();
+                showDepartments(1);
+                showDepartments(2);
+            }
+            else {
+//                alert("null");
+                window.location.href = 'AdminLoginAndRegister.html?#';
+            }
+        }
+
+        function getCompanyId(){
+            $.ajax({
+                type: 'post',
+                url: "AdminAccountManagement/selectCompany",
+                data: 'companyrepresentativeid=' + companyRepresentativeId,
+                success: function (data) {
+                    companyId=data[0].companyid;
+                    companyAddress=data[0].address;
+//                    alert(companyId+" cid");
+                    getDepartments();
+                },
+                error: function () {
+//                    alert("test getCompanyId false");
+                    return;
+                }
+            })
+        }
+
+
+
+//        var privilege="";
+//        function getCookie1() {
+//            var strCookie = document.cookie;
+//            var arrCookie = strCookie.split(";");
+//            for (var i = 0; i < arrCookie.length; i++) {
+//                var arr = arrCookie[i].split("=");
+//                arr[0] = $.trim(arr[0]);
+//                if ("CompanyRepresentativeId" == arr[0]) {
+//                    companyRepresentativeId= arr[1];
+//
+//                }
+//                if ("privilege" == arr[0]) {
+//
+//                    privilege= arr[1];
+//                }
+//                if ("companyId" == arr[0]) {
+//
+//                    companyId= arr[1];
+//                }
+//            }
+//        }
+//        function setCookie() {
+//            var now = new Date();
+//            now.setTime(now.getTime() + 5 * 60 * 1000);
+//            document.cookie = "privilege=1;expires=" + now.toGMTString();
+////            document.cookie = "companyRepresentativeId=1;expires=" + now.toGMTString();
+//            document.cookie = "companyId=1;expires=" + now.toGMTString();
+//        }
+//
+//        function judge() {
+//            getCookie1();
+//            if (companyRepresentativeId== null || privilege == null || companyRepresentativeId==""
+//                    || privilege == ""||companyId==null||companyId=="") {
+//
+//                window.open("index.html", "_self");
+//            } else {
+//                getDepartments();
+//                queryActivities();
+//                queryNotifies();
+//            }
+//        }
+        function getDepartments() {
+            $
+                    .ajax({
+                        type : 'post',
+                        url : "CompanyAdmin/getDepartments",
+                        data: 'companyid='+companyId,
+                        success : function(data) {
+                            $(function() {
+
+                                var length = data.length;
+//                                $("#Pagination1").pagination(length, {
+//                                    items_per_page : 10,
+//                                    callback : pageselectCallback
+//                                });
+//
+//                                function pageselectCallback(page_index, jq) {
+//                                    var items_per_page = 10;
+//                                    var max_elem = Math.min((page_index + 1)
+//                                            * items_per_page, length);
+
+                                    $("#departments").html("");//html() 方法返回或设置被选元素的内容 (inner HTML)。
+//                                    for (var i = page_index * items_per_page; i < max_elem; i++) {
+                                    for (var i = 0; i < length; i++) {
+                                        var s=i+1;
+                                        $("#departments")
+                                                .append(
+                                                '<tr><td><input type="checkbox" class="'+data[i].departmentid+'" id="my_departmentlist_checkbox_'+s+'"/></td><td><a onclick=showDepartmentAdmin("'+data[i].departmentid+'","'+data[i].name+'")>'
+                                                + data[i].name
+                                                + '</a></td><td>'
+                                                + data[i].address
+                                                + '</td><td>'
+                                                + data[i].mac
+                                                + '</td></tr>');
+
+                                    }
+                                    return false;
+//                                }
+                            });
+                        },
+                        error : function() {
+                            return;
+                        }
+                    });
+        }
+        function getAndDeleteDepartment()
+        {
+            var departmentids=new Array();
+            $("#departments input:checked").each(function(i,element)
+            {
+                departmentids[i]=$(element).attr("class");
+            });
+            deleteDepartment(departmentids);
+        }
+        function deleteDepartment(departmentids)
+        {
+            $
+                    .ajax({
+                        type : 'post',
+                        url : "CompanyAdmin/deleteDepartments",
+                        data: 'departmentids='+departmentids,
+                        success : function(data) {
+                            if(data=="")
+                                alert("删除失败");
+                            else
+                                alert("删除成功");
+                            getDepartments();
+                        },
+                        error : function() {
+                            alert("删除失败");
+                        }
+                    });
+        }
+    </script>
+
+
+</head>
+<body onload="checkCookie()" >
+<div class="app app-header-fixed" id="app">
+    <!-- navbar -->
+    <div class="app-header navbar">
+        <!-- navbar header -->
+        <div class="navbar-header bg-dark">
+            <button class="pull-right visible-xs dk" data-toggle="class:show" data-target=".navbar-collapse">
+                <i class="glyphicon glyphicon-cog"></i>
+            </button>
+            <button class="pull-right visible-xs" data-toggle="class:off-screen" data-target=".app-aside" ui-scroll="app">
+                <i class="glyphicon glyphicon-align-justify"></i>
+            </button>
+            <!-- brand -->
+            <a href class="navbar-brand text-lt">
+                <span class="hidden-folded m-l-xs"><img src="img/SignInLogo.png">&nbsp;&nbsp;SignIn</span>
+            </a>
+            <!-- / brand -->
+        </div>
+        <!-- / navbar header -->
+
+        <!-- navbar collapse -->
+        <div class="collapse pos-rlt navbar-collapse box-shadow bg-white-only">
+            <!-- buttons -->
+            <div class="nav navbar-nav hidden-xs">
+                <a href="#" class="btn no-shadow navbar-btn" data-toggle="class:app-aside-folded" data-target=".app">
+                    <i class="fa fa-dedent fa-fw text"></i>
+                    <i class="fa fa-indent fa-fw text-active"></i>
+                </a>
+                <a href class="btn no-shadow navbar-btn" data-toggle="class:show" data-target="#aside-user">
+                    <i class="icon-user fa-fw"></i>
+                </a>
+            </div>
+            <!-- / buttons -->
+
+            <!-- search form -->
+            <form class="navbar-form navbar-form-sm navbar-left shift" ui-shift="prependTo" data-target=".navbar-collapse" role="search" ng-controller="TypeaheadDemoCtrl">
+                <div class="form-group">
+                    <div class="input-group">
+                        <input type="text" ng-model="selected" typeahead="state for state in states | filter:$viewValue | limitTo:8" class="form-control input-sm bg-light no-border rounded padder" placeholder="Search projects...">
+              <span class="input-group-btn">
+                <button type="submit" class="btn btn-sm bg-light rounded"><i class="fa fa-search"></i></button>
+              </span>
+                    </div>
+                </div>
+            </form>
+            <!-- / search form -->
+
+            <!-- nabar right -->
+            <ul class="nav navbar-nav navbar-right">
+                <li class="dropdown">
+                    <a href="#" data-toggle="dropdown" class="dropdown-toggle">
+                        <i class="icon-bell fa-fw"></i>
+                        <span class="visible-xs-inline">Notifications</span>
+                        <span class="badge badge-sm up bg-danger pull-right-xs">0</span>
+                    </a>
+                    <!-- dropdown -->
+                    <div class="dropdown-menu w-xl animated fadeInUp">
+                        <div class="panel bg-white">
+                            <div class="panel-heading b-light bg-light">
+                                <strong>有 <span>0</span> 条未读信息</strong>
+                            </div>
+                            <div class="list-group">
+                                <!-- <a href class="media list-group-item">
+                                  <span class="pull-left thumb-sm">
+                                    <img src="img/a0.png" alt="..." class="img-circle">
+                                  </span>
+                                  <span class="media-body block m-b-none">
+                                    Use awesome animate.css<br>
+                                    <small class="text-muted">10 minutes ago</small>
+                                  </span>
+                                </a> -->
+                                <a href class="media list-group-item">
+                    <span class="media-body block m-b-none">
+                      1.0 initial released<br>
+                      <small class="text-muted">1 hour ago</small>
+                    </span>
+                                </a>
+                            </div>
+                            <!-- <div class="panel-footer text-sm">
+                              <a href class="pull-right"><i class="fa fa-cog"></i></a>
+                              <a href="#notes" data-toggle="class:show animated fadeInRight">See all the notifications</a>
+                            </div> -->
+                        </div>
+                    </div>
+                    <!-- / dropdown -->
+                </li>
+                <li class="dropdown">
+                    <a href="#" data-toggle="dropdown" class="dropdown-toggle clear" data-toggle="dropdown">
+              <span class="thumb-sm avatar pull-right m-t-n-sm m-b-n-sm m-l-sm">
+                <img src="img/a0.png" alt="...">
+                <i class="on md b-white bottom"></i>
+              </span>
+                        <!-- <span class="hidden-sm hidden-md">John.Smith</span> <b class="caret"></b> -->
+                    </a>
+                    <!-- dropdown -->
+                    <ul class="dropdown-menu animated fadeInRight w">
+                        <li class="wrapper b-b m-b-sm bg-light m-t-n-xs">
+                            <!--<div>-->
+                                <!--<p id="companyName1" onclick="showCompanyInformation()">公司名</p>-->
+                            <!--</div>-->
+                            <a onclick="showCompanyInformation()">
+                                <span id="companyName1">公司名</span>
+                            </a>
+                            <progressbar value="60" class="progress-xs m-b-none bg-white"></progressbar>
+                        </li>
+                        <li>
+                            <a onclick="showChangeTelAndEmailHtml()">
+                                <span class="badge bg-danger pull-right">手机/邮箱</span>
+                                <span>设置</span>
+                            </a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a onclick="showChangePasswordHtml()">
+                                <span>密码修改</span>
+                            </a>
+                        </li>
+                        <!--<li>-->
+                            <!--<a ui-sref="app.docs">-->
+                                <!--<span class="label bg-info pull-right">new</span>-->
+                                <!--Help-->
+                            <!--</a>-->
+                        <!--</li>-->
+                        <li class="divider"></li>
+                        <li>
+                            <a ui-sref="access.signin" onclick="outLogin()">注销</a>
+                        </li>
+                    </ul>
+                    <!-- / dropdown -->
+                </li>
+            </ul>
+            <!-- / navbar right -->
+
+        </div>
+        <!-- / navbar collapse -->
+    </div>
+    <!-- / navbar -->
+
+    <!-- menu -->
+    <div class="app-aside hidden-xs bg-dark">
+        <div class="aside-wrap">
+            <div class="navi-wrap">
+                <!-- user -->
+                <div class="clearfix hidden-xs text-center hide" id="aside-user">
+                    <div class="dropdown wrapper">
+                        <a ui-sref="app.page.profile">
+                <span class="thumb-lg w-auto-folded avatar m-t-sm">
+                  <img src="img/a0.png" class="img-full" alt="...">
+                </span>
+                        </a>
+                        <a href="#" data-toggle="dropdown" class="dropdown-toggle hidden-folded">
+                <span class="clear">
+                  <span class="block m-t-sm">
+                    <strong class="font-bold text-lt companyAdminName"></strong>
+                    <b class="caret"></b>
+                  </span>
+                  <span class="text-muted text-xs block">公司管理员</span>
+                </span>
+                        </a>
+                        <!-- dropdown -->
+                        <ul class="dropdown-menu animated fadeInRight w hidden-folded">
+                            <li class="wrapper b-b m-b-sm bg-info m-t-n-xs">
+                                <span class="arrow top hidden-folded arrow-info"></span>
+                                <!--<div>-->
+                                    <!--<p id="companyName2" onclick="showCompanyInformation()">公司名</p>-->
+                                <!--</div>-->
+                                <a onclick="showCompanyInformation()">
+                                    <span id="companyName2">公司名</span>
+                                </a>
+                                <progressbar value="60" type="white" class="progress-xs m-b-none dker"></progressbar>
+                            </li>
+
+                            <li>
+                                <a ui-sref="access.signin" onclick="outLogin()">注销</a>
+                            </li>
+                        </ul>
+                        <!-- / dropdown -->
+                    </div>
+                    <div class="line dk hidden-folded"></div>
+                </div>
+                <!-- / user -->
+
+                <!-- nav -->
+                <!--<nav ui-nav class="navi" style="position: fixed">-->
+                <nav ui-nav class="navi">
+                    <ul class="nav">
+                        <li class="hidden-folded padder m-t m-b-sm text-muted text-xs">
+                            <span translate="aside.nav.HEADER">Welcome to SignIn</span>
+                        </li>
+                        <li>
+                            <a href class="auto">
+                  <span class="pull-right text-muted">
+                    <i class="fa fa-fw fa-angle-right text"></i>
+                    <i class="fa fa-fw fa-angle-down text-active"></i>
+                  </span>
+                                <i class="glyphicon glyphicon-stats icon text-primary-dker"></i>
+                                <span class="font-bold" translate="aside.nav.CALENDAR">部门管理</span>
+                            </a>
+                            <ul class="nav nav-sub dk">
+                                <!--<li class="nav-sub-header">-->
+                                    <!--<a href>-->
+                                        <!--<span></span>-->
+                                    <!--</a>-->
+                                <!--</li>-->
+                                <li ui-sref-active="active">
+                                    <a ui-sref="apps.note" onclick="pointTitle(1)">
+                                        <span>部门列表</span>
+                                    </a>
+                                </li>
+
+                            </ul>
+                        </li>
+
+                        <li>
+                            <a href class="auto">
+                              <span class="pull-right text-muted">
+                                <i class="fa fa-fw fa-angle-right text"></i>
+                                <i class="fa fa-fw fa-angle-down text-active"></i>
+                              </span>
+                                <i class="glyphicon glyphicon-envelope icon text-info-lter"></i>
+                                <span class="font-bold" translate="aside.nav.EMAIL">通知信息</span>
+                            </a>
+                            <ul class="nav nav-sub dk">
+
+                                <li ui-sref-active="active">
+                                    <a ui-sref="app.note">
+                                        <b class="label bg-info pull-right">N</b>
+                                        <span data-toggle="modal" data-target="#notifyModal">发布通知信息</span>
+                                    </a>
+                                </li>
+                                <li ui-sref-active="active">
+                                    <a ui-sref="app.note" href="#notifyTitle" onclick="pointTitle(2)">
+                                        <span>查看通知信息</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href class="auto">
+                              <span class="pull-right text-muted">
+                                <i class="fa fa-fw fa-angle-right text"></i>
+                                <i class="fa fa-fw fa-angle-down text-active"></i>
+                              </span>
+                                <i class="glyphicon glyphicon-th-large icon text-success"></i>
+                                <span class="font-bold">活动/会议</span>
+                            </a>
+                            <ul class="nav nav-sub dk">
+                                <li ui-sref-active="active">
+                                    <a ui-sref="app.note">
+                                        <b class="label bg-success pull-right">N</b>
+                                        <span data-toggle="modal" data-target="#activityModal">新增活动/会议</span>
+                                    </a>
+                                </li>
+                                <li ui-sref-active="active">
+                                    <a ui-sref="app.note" href="#activityTitle" onclick="pointTitle(3)">
+                                        <span>查看活动/会议</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href class="auto">
+                              <span class="pull-right text-muted">
+                                <i class="fa fa-fw fa-angle-right text"></i>
+                                <i class="fa fa-fw fa-angle-down text-active"></i>
+                              </span>
+                                <i class="glyphicon glyphicon-stats icon text-info-lter"></i>
+                                <span class="font-bold" translate="aside.nav.CALENDAR">数据统计</span>
+                            </a>
+                            <ul class="nav nav-sub dk">
+                                <li ui-sref-active="active">
+                                    <a ui-sref="apps.note" onclick="showDepartmentAttendance()">
+                                        <span>部门出勤率</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="#" class="auto">
+                                <i class=" glyphicon-th-large icon-action-undo text-danger"></i>
+                                <span class="font-bold" onclick="outLogin()">注销</span>
+                            </a>
+                        </li>
+                </ul>
+
+
+                </nav>
+                <!-- nav -->
+
+
+            </div>
+        </div>
+    </div>
+    <!-- / menu -->
+
+    <!-- content -->
+    <div class="app-content">
+        <div ui-butterbar></div>
+        <a href class="off-screen-toggle hide" data-toggle="class:off-screen" data-target=".app-aside" ></a>
+        <div class="app-content-body fade-in-up">
+            <!-- COPY the content from "tpl/" -->
+            <div class="hbox hbox-auto-xs hbox-auto-sm">
+                <div class="col">
+                    <div style="background:url(img/c10.jpg) center center; background-size:cover">
+                        <div class="wrapper-lg bg-white-opacity">
+                            <div class="row m-t">
+                                <div class="col-sm-7">
+                                    <a href class="thumb-lg pull-left m-r">
+                                        <img src="img/a0.png" class="img-circle">
+                                    </a>
+                                    <div class="clear m-b">
+                                        <div class="m-b m-t-sm">
+                                            <span class="h3 text-black companyAdminName"></span>
+                                            <!-- <small class="m-l">London, UK</small> -->
+                                        </div>
+                                        <p class="m-b">
+                                            <small class="m-l" style="margin-left: 1%" id="companyName3"></small>
+                                            <!-- <a href class="btn btn-sm btn-bg btn-rounded btn-default btn-icon"><i class="fa fa-twitter"></i></a> -->
+                                            <!-- <a href class="btn btn-sm btn-bg btn-rounded btn-default btn-icon"><i class="fa fa-facebook"></i></a> -->
+                                            <!-- <a href class="btn btn-sm btn-bg btn-rounded btn-default btn-icon"><i class="fa fa-google-plus"></i></a> -->
+                                        </p>
+                                        <!--<a class="btn btn-sm btn-success btn-rounded" onclick="showCompanyAdminInformation()">个人信息</a>-->
+                                    </div>
+                                </div>
+                                <div class="col-sm-5">
+                                    <div class="pull-right pull-none-xs text-center">
+                                        <!-- <a href class="m-b-md inline m">
+                                          <span class="h3 block font-bold">2k</span>
+                                          <small>Followers</small>
+                                        </a> -->
+                                        <a class="m-b-md inline m">
+                                            <span class="h3 block font-bold" id="departmentsNum">0</span>
+                                            <small>部门个数</small>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /content -->
+
+
+
+            <!-- footer -->
+            <div class="app-footer wrapper b-t bg-light">
+                <span class="pull-right">版本 1.0.0 <a href="#app" class="m-l-sm text-muted"><i class="fa fa-long-arrow-up"></i></a></span>
+                &copy; 2017 SignIn System
+            </div>
+            <!-- / footer -->
+        </div>
+
+<!----------------------------------------------部门列表、通知信息、活动/会议信息----------------------------------------------->
+    <div style="display: block;">
+        <!--部门管理->部门列表界面-->
+        <div class="mypage_main" id="departmentTitle">
+            <!--部门列表面包屑导航-->
+            <ol class="breadcrumb my_breadcrumb">
+                <li>
+                    <a href="#">部门管理</a>
+                </li>
+                <li class="active" id="navTitle1">部门列表</li>
+            </ol>
+
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <ul class="my_headerbuttonlist">
+                                <li>
+                                    <i class=" glyphicon glyphicon-plus  text-info"></i>
+                                    <a onclick="showAddDepartment()"><span>添加</span></a>
+                                </li>
+                                <li>
+                                    <i class=" glyphicon glyphicon-edit  text-info"></i>
+                                    <a onclick="showUpdateDepartment()"><span>修改</span></a>
+                                </li>
+                                <li>
+                                    <i class=" glyphicon glyphicon-remove-circle  text-danger"></i>
+                                    <a onclick="getAndDeleteDepartment()">&nbsp;<span>删除</span></a>
+                                </li>
+                                <li>
+                                    <a onclick="uploadExcel()">
+                                        <i class=" glyphicon glyphicon-save  text-info"></i>
+                                        <span>导入Excel</span>
+                                    </a>
+                                </li>
+
+                            </ul>
+                        </div>
+                        <div class="panel-body">
+                            <table class="table table-striped table-hover table-bordered">
+                                <thead>
+                                <tr>
+                                    <!--调用全选js函数-->
+                                    <th><input type="checkbox" id="my_departmentlist_checkbox_selectall" onclick="departmentlist_select_all()"/></th>
+                                    <th>部门名称</th>
+                                    <th>部门地址</th>
+                                    <th>Mac</th>
+                                </tr>
+                                </thead>
+
+                                <tbody id="departments">
+
+                                </tbody>
+                            </table>
+                            <!--分页-->
+                            <!--<div id="Pagination1" class="pagination">-->
+                            <!--</div>-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--发布通知->待通知信息界面-->
+        <div class="mypage_main" id="notifyTitle">
+            <!--待通知信息面包屑导航-->
+            <ol class="breadcrumb my_breadcrumb">
+                <li>
+                    <a href="#">通知信息</a>
+                </li>
+                <li class="active" id="navTitle2">查看通知信息</li>
+            </ol>
+
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <ul class="my_headerbuttonlist">
+                                <li>
+                                    <!--跳转到模态框，模态框定义放在最下面-->
+                                    <i class=" glyphicon glyphicon-pencil  text-info"></i>
+                                    <a href="#"><span data-toggle="modal" data-target="#notifyModal" onclick="showDepartments(1)">发布通知</span></a>
+                                </li>
+
+                            </ul>
+                        </div>
+                        <div class="panel-body">
+                            <table class="table table-striped table-hover table-bordered">
+                                <thead>
+                                <tr>
+                                    <!--调用全选js函数-->
+                                    <!--<th><input type="checkbox" id="my_prepare_notify_checkbox_selectall" onclick="prepare_notify_select_all()"/></th>-->
+                                    <th><span class="glyphicon glyphicon-info-sign"></span></th>
+                                    <th>通知主题</th>
+                                    <th>通知单位</th>
+                                    <th>通知时间</th>
+                                </tr>
+                                </thead>
+
+                                <tbody id="notifies">
+
+                                </tbody>
+                            </table>
+                            <!--分页-->
+                            <!--<div id="Pagination2" class="pagination">-->
+                            <!--</div>-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!--查看活动/会议-->
+
+        <div class="mypage_main" id="activityTitle">
+            <!--员工出勤情况记录表面包屑导航-->
+            <ol class="breadcrumb my_breadcrumb">
+                <li>
+                    <a href="#">活动/会议</a>
+                </li>
+                <li class="active" id="navTitle3">查看活动/会议</li>
+            </ol>
+
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <ul class="my_headerbuttonlist">
+                                <li>
+                                    <!--跳转到模态框，模态框定义放在最下面-->
+                                        <i class=" glyphicon glyphicon-plus-sign  text-info"></i>
+                                    <a href="#"><span data-toggle="modal" data-target="#activityModal" onclick="showDepartments(2)">添加活动/会议</span></a>
+                                </li>
+
+                            </ul>
+                        </div>
+                        <div class="panel-body">
+                            <table class="table table-striped table-hover table-bordered">
+                                <thead>
+                                <tr>
+                                    <!--调用全选js函数-->
+                                    <!--<th><input type="checkbox" id="my_attend_checkbox_selectall" onclick="attend_select_all()"/></th>-->
+                                    <th><span class="glyphicon glyphicon-info-sign"></span></th>
+                                    <th>主题</th>
+                                    <th>开始时间</th>
+                                    <th>结束时间</th>
+                                    <th>地点</th>
+                                </tr>
+                                </thead>
+
+                                <tbody id="activities">
+
+                                </tbody>
+                            </table>
+                            <!--<div id="Pagination3" class="pagination">-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-----------------------------------------------修改手机号码和邮箱的页面------------------------------------------------->
+
+        <!--<div class="mypage_main" style="display:none" id="changeTelAndEmailHtml">-->
+        <div class="mypage_main" style="display:none;height: 800px;" id="changeTelAndEmailHtml">
+            <!--部门列表面包屑导航-->
+            <ol class="breadcrumb my_breadcrumb">
+                <li>
+                    <a href="#">账户设置</a>
+                </li>
+                <li class="active"> 手机号码/邮箱号绑定</li>
+
+            </ol>
+
+            <a style="color: #3CB371 ;font-size: 120%;font-weight: inherit" onclick="closeChangeTelAndEmailHtml()"><i class="glyphicon glyphicon-chevron-left icon text-success"></i> 返回</a>
+
+            <div id="contentChangeTelAndEmail">
+                <div class="col-sm-10" style="padding-left:8%;padding-top:6%;">
+                    <div >
+                        <!--绑定手机内容-->
+                        <div id="BT">
+                            <table class="table ">
+                                <thead>
+                                <tr>
+                                    <th style="color: #00a8f3 ;font-size: 120%;font-weight: inherit">手机号码
+                                        <a style="float: right;top: -10px" href="#" onclick="bindTel()"><i class="glyphicon glyphicon-ok icon text-success"></i>&nbsp;<span>保存</span></a>
+                                    </th>
+                                </tr>
+                                </thead>
+
+                                <tbody>
+                                <tr>
+                                    <td><input type="text" class="form-control" placeholder="未绑定手机号码" id="Tel" value=""></td>
+                                </tr>
+                                <tr>
+                                    <td><input type="text" class="form-control" placeholder="请输入验证码" id="code"></td>
+                                </tr>
+                                <tr>
+                                    <td><input type="button" class="form-control btn-success"  id="sendMessageTime" value="免费获取验证码" onclick="sendMessage()" /> </td>
+                                </tr>
+
+                                </tbody>
+
+                            </table>
+                        </div>
+                        <div style="padding-top:5%;">
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th style="color: #00a8f3 ;font-size: 120%;font-weight: inherit" id="emailBindingTip">邮箱号码
+                                        <a style="float: right;top: -10px" href="#" onclick="bindEmail ()"><i class="glyphicon glyphicon-ok icon text-success"></i>&nbsp;<span>保存</span></a>
+                                    </th>
+                                </tr>
+                                </thead>
+
+                                <tbody>
+                                <tr>
+                                    <td><input type="text" class="form-control" placeholder="未绑定邮箱" id="EmailAddress" value=""></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <!--修改/绑定成功后返回刷新-->
+
+
+        </div>
+        <div id="tip" style="display:none">
+            <span style="color: #56ABE4;font-weight: bold;padding-left: 40%;">修改成功！ <button class="btn btn-group-vertical" onclick="location.reload()">返回</button></span>
+        </div>
+        <!-----------------------------------------------修改手机号码和邮箱的页面------------------------------------------------->
+
+
+        <!-----------------------------------------------修改手密码的页面------------------------------------------------->
+
+        <div class="mypage_main" style="display:none;height: 800px;" id="changePasswordHtml">
+            <!--部门列表面包屑导航-->
+            <ol class="breadcrumb my_breadcrumb">
+                <li>
+                    <a href="#">账户设置</a>
+                </li>
+                <li class="active"> 密码修改</li>
+            </ol>
+
+            <a style="color: #3CB371 ;font-size: 120%;font-weight: inherit" onclick="closeChangePasswordHtml()"><i class="glyphicon glyphicon-chevron-left icon text-success"></i> 返回</a>
+
+            <div id="contentChangePassword">
+                <div class="col-sm-8" style="padding-left:20%;padding-top:5%;">
+
+
+                    <div>
+                        <input type="password" class="form-control" placeholder="原密码" id="OldPwd">
+                        <p></p>
+                        <input type="password" class="form-control" placeholder="新密码" id="NewPwd">
+                        <p></p>
+                        <input type="password" class="form-control" placeholder="确认密码" id="MakeSurePwd">
+                    </div>
+                    <div style="padding-left:25%;padding-top:15%;">
+                        <button id="myenterbutton" class="btn btn-success  col-xs-8" onclick="changePassword()">确认提交</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div id="tip2" style="display:none">
+            <span style="color: #56ABE4;font-weight: bold;padding-left: 40%;">修改成功！ <button class="btn btn-group-vertical" onclick="location.reload()">返回</button></span>
+        </div>
+        <!-----------------------------------------------修改密码的页面------------------------------------------------->
+
+
+        <!-------柱状图------->
+        <div id="showDepartmentAttendance" style="display: none;">
+            <div class="input-group col-md-3" style="top:-15px;left: 70%">
+                <input type="date" class="form-control"placeholder="请输入字段名" id="showDate"/>
+                <span class="input-group-btn">
+                    <button class="btn btn-info btn-search" onclick="sendDateUrl()" >查找</button>
+                </span>
+            </div>
+            <div id="container" style="width: 950px; height: 580px; margin: 0 auto"></div>
+        </div>
+
+
+    </div>
+<!----------------------------------------------/ 部门列表、通知信息、活动/会议信息----------------------------------------------->
+
+
+        <!--发布通知模态框-->
+        <div class="modal fade" id="notifyModal" tabindex="-1" role="dialog" aria-labelledby="notifyModalLabel"  data-backdrop="static">
+            <!--data-backdrop="static"指定一个静态的背景，当用户点击模态框外部时不会关闭模态框-->
+            <!--data-keyboard是指当按下ESC键时关闭模态框，设置为 false 时则按键无效-->
+
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="notifyModalLabel">发布通知</h4>
+                    </div>
+                    <div class="modal-body">
+
+                        <div id="addNotifyHtml"  style="height: 200px;display: block;">
+                            <div style="margin-left: 25%;width: 50%;">
+                                <form class="form-horizontal">
+
+                                    <div class="form-group">
+                                        <label for="notifyTip" style="color: #00a8f3 ;font-size: 120%">通知主题</label>
+                                        <input type="text" class="form-control" id="notifyTip" placeholder="主题">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="notifyContent" style="color: #00a8f3 ;font-size: 120%">通知内容</label>
+                                        <textarea class="form-control" id="notifyContent" rows="8" placeholder="内容"></textarea>
+                                    </div>
+
+                                </form>
+                            </div>
+                            <div style="margin-left: 25%;width: 50%;margin-top: -2%">
+                                <table class="table table-striped">
+                                    <thead>
+                                    <tr>
+                                        <th>
+                                            <h5 style="color: #00a8f3 ;font-size: 120%;">部门</h5>
+                                            <input style="float: right;margin-top: -25px;" type="checkbox" id="addDepartment_checkbox_selectall1" onclick="addDepartment_checkbox_selectall(1)"/>
+                                        </th>
+                                    </tr>
+                                    <tr id="Department1">
+                                        <!--模态框内容-->
+                                    </tr>
+                                    </thead>
+                                </table>
+                            </div>
+                            <!--<button style="width: 50%; margin-left: 25%"type="button" class="btn btn-info btn-lg btn-block">确认发布通知</button>-->
+                        </div>
+
+                    </div>
+                    <div class="modal-footer" style="margin-top: 300px">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">取消关闭</button>
+                        <button type="button" class="btn btn-primary" onclick="sendNotify()">确认新增</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="modal fade" id="activityModal" tabindex="-1" role="dialog" aria-labelledby="activityModalLabel"  data-backdrop="static" >
+            <!--data-backdrop="static"指定一个静态的背景，当用户点击模态框外部时不会关闭模态框-->
+            <!--data-keyboard是指当按下ESC键时关闭模态框，设置为 false 时则按键无效-->
+
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="activityModalLabel">发布通知</h4>
+                    </div>
+                    <div class="modal-body">
+
+                        <div id="addActivityHtml" style="height: 400px;display: block;">
+                            <div style="margin-left: 25%;width: 50%;">
+                                <form class="form-horizontal">
+
+                                    <div class="form-group">
+                                        <label for="activityTip" style="color: #00a8f3 ;font-size: 120%">活动主题</label>
+                                        <input type="text" class="form-control" id="activityTip" placeholder="主题">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="activityAddress" style="color: #00a8f3 ;font-size: 120%">活动地点</label>
+                                        <input type="text" class="form-control" id="activityAddress" placeholder="主题">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="activityContent" style="color: #00a8f3 ;font-size: 120%">活动内容</label>
+                                        <textarea class="form-control" id="activityContent" rows="8" placeholder="内容"></textarea>
+                                    </div>
+                                    <div class="form-group" align="center">
+                                        <label for="ActivityStartTime" style="color: #00a8f3 ;font-size: 120%">起始时间</label>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                        <input type="datetime-local" id="ActivityStartTime"/>
+                                        <label for="ActivityEndTime" style="color: #00a8f3 ;font-size: 120%">截止时间</label>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                        <input type="datetime-local" id="ActivityEndTime"/>
+                                    </div>
+                                </form>
+                            </div>
+                            <div style="margin-left: 25%;width: 50%;height: 120%">
+                                <table class="table table-striped">
+                                    <thead>
+                                    <tr>
+                                        <th>
+                                            <h5 style="color: #00a8f3 ;font-size: 120%">部门</h5>
+                                            <input style="float: right;margin-top: -25px;" type="checkbox" id="addDepartment_checkbox_selectall2" onclick="addDepartment_checkbox_selectall(2)"/>
+                                        </th>
+                                    </tr>
+                                    <tr id="Department2">
+                                        <!--模态框内容-->
+                                    </tr>
+                                    </thead>
+                                </table>
+                            </div>
+                            <!--<button style="width: 50%; margin-left: 25%"type="button" class="btn btn-info btn-lg btn-block">确认新增活动</button>-->
+                        </div>
+
+
+                    </div>
+                    <div class="modal-footer" style="margin-top: 300px">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">取消关闭</button>
+                        <button type="button" class="btn btn-primary" onclick="sendNotify()">确认新增</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="modal" id="themodal2"  tabindex="-1" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <form  method="post"  class="myform" action="CompanyAdmin/uploadExcel"  enctype="multipart/form-data">
+                            <p class="row">
+                                <label for="excel">Excel:</label>
+                                <input type="file" name="file" id="excel">
+                            </p>
+                            <input id="companyid" name="companyid"  value="1"type="text" hidden>
+                            <input type="submit" class="submit" value="提交"/>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+        <div class="modal" id="themodal3"  tabindex="-1" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                        <h4 class="modal-title modalTitle" id="departmentName">部门1</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div  class="panel-body">
+                            <table class="table table-striped table-hover table-bordered">
+                                <thead>
+                                <tr>
+                                    <!--调用全选js函数-->
+                                    <th>姓名</th>
+                                    <th>账户名</th>
+                                    <th>职位</th>
+                                    <th>性别</th>
+                                    <th>联系电话</th>
+                                    <th>邮箱号码</th>
+                                    <th>默认密码</th>
+                                </tr>
+                                </thead>
+
+                                <tbody id="departmentAdmins">
+                                <tr>
+                                    <td>1213123</td>
+                                    <td>Hello</td>
+                                    <td>张三</td>
+                                    <td>男</td>
+                                    <td>13428003404</td>
+                                    <td>13428003404@139.com</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <!--分页-->
+
+                            <!--<div id="departmentAdminPagination" class="pagination">-->
+                            </div>
+
+                        </div>
+                    </div>
+                    <!--<div class="modal-footer">-->
+                        <!--<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>-->
+                    <!--</div>-->
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div>
+        <div class="modal" id="themodal4"  tabindex="-1" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <form  method="post" class="myform">
+                            <p class="row row1">
+                                <label for="departmentName1">部门:</label>
+                                <input type="text" name="departmentName1" id="departmentName1" required>
+                            </p>
+                            <p class="row row1">
+                                <label for="address">地址:</label>
+                                <input type="text" name="address" id="address" required>
+                            </p>
+                            <p class="row row1">
+                                <label for="mac">Mac:</label>
+                                <input type="text" name="mac" id="mac" required>
+                            </p>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" onclick="addDepartment()">提交</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div>
+        <div class="modal" id="themodal5"  tabindex="-1" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <form  method="post" class="myform">
+                            <p class="row row1">
+                                <label for="departmentName2">部门:</label>
+                                <input type="text" name="departmentName2" id="departmentName2" required>
+                            </p>
+                            <p class="row row1">
+                                <label for="address1">地址:</label>
+                                <input type="text" name="address1" id="address1" required>
+                            </p>
+                            <p class="row row1">
+                                <label for="mac1">Mac:</label>
+                                <input type="text" name="mac1" id="mac1" required>
+                            </p>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" onclick="updateDepartment()">提交</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div>
+        <div class="modal" id="themodal6"  tabindex="-1" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                        <h4 class="modal-title modalTitle" id="title">模态弹出窗标题</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p id="content" class="modalContent">内容</p>
+                    </div>
+                    <div class="modal-footer">
+                        <!--<button type="button" class="btn btn-default" onclick="checkApplication()">通过</button>-->
+                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div>
+        <div class="modal" id="companyInformationModal"  tabindex="-1" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                        <h4 class="modal-title modalTitle">修改信息</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form  method="post" class="myform">
+                            <p>
+                               <label for="companyName">公司名称：</label>
+                               <input id="companyName" type="text" class="form-control" name="companyName"/>
+                            </p>
+                            <p>
+                                <label for="companyAddress">公司地址：</label>
+                                <input id="companyAddress" type="text" class="form-control" name="companyAddress"/>
+                            </p>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <!--<button type="button" class="btn btn-default" onclick="checkApplication()">通过</button>-->
+                        <button type="button" class="btn btn-default" data-dismiss="modal" onclick="changeCompanyInformation()">修改</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div>
+
+
+
+</body>
+
+<!----------------------------------- 动态加载------------------------------------------>
+
+<script>
+
+    function showCompanyInformation(){
+        $("#companyInformationModal").modal();
+    }
+
+    function uploadExcel()
+    {
+        $("#companyid").val(companyId);
+        $("#themodal2").modal();
+
+    }
+
+    function changeCompanyInformation(){
+        var companyName1=$("#companyName").val();
+        var companyAddress1=$("#companyAddress").val();
+        $.ajax({
+            type: 'post',
+            url: "CompanyAdmin/updateCompany",
+            data: 'companyid=' + companyId +'&name=' +companyName1+'&address='+companyAddress1,
+            success: function (data) {
+                location.reload();
+            },
+            error: function () {
+//                alert("test  false");
+            }
+        })
+    }
+
+//    注销
+    function outLogin(){
+        var mymessage=confirm("是否确定退出？");
+        if(mymessage==true)
+        {	//传入的是cookie的名称不是cookie的值 应加引号“ ”
+            delCookie("CompanyRepresentativeId");
+            location.reload();
+        }
+        else{}
+
+    }
+    function delCookie(name){
+        var exp = new Date();
+        exp.setTime(exp.getTime() - 10000);
+        document.cookie=name+"=v; expires="+exp.toGMTString();
+    }
+
+
+    function departmentlist_select_all(){
+        for(var i=1;i<=1000;i++)
+        {
+            var cbox_id="my_departmentlist_checkbox_"+i;
+            var cbox=document.getElementById(cbox_id);
+            //alert(cbox.value);
+            if(document.getElementById("my_departmentlist_checkbox_selectall").checked)
+                cbox.checked=true;
+            else
+                cbox.checked=false;;
+        }
+    }
+
+    function departmentAttendlist_select_all(){
+        for(var i=1;i<=1000;i++)
+        {
+            var cbox_id="my_departmentAttendlist_checkbox_"+i;
+            var cbox=document.getElementById(cbox_id);
+            //alert(cbox.value);
+            if(document.getElementById("my_departmentAttendlist_checkbox_selectall").checked)
+                cbox.checked=true;
+            else
+                cbox.checked=false;;
+        }
+    }
+
+    //			待通知信息界面
+    function prepare_notify_select_all(){
+        for(var i=1;i<=1000;i++)
+        {
+            var cbox_id="my_prepare_notify_checkbox_"+i;
+            var cbox=document.getElementById(cbox_id);
+            //alert(cbox.value);
+            if(document.getElementById("my_prepare_notify_checkbox_selectall").checked)
+                cbox.checked=true;
+            else
+                cbox.checked=false;;
+        }
+    }
+
+    //			员工出勤情况记录表界面
+    function attend_select_all(){
+        for(var i=1;i<=1000;i++)
+        {
+            var cbox_id="my_attend_checkbox_"+i;
+            var cbox=document.getElementById(cbox_id);
+            //alert(cbox.value);
+            if(document.getElementById("my_attend_checkbox_selectall").checked)
+                cbox.checked=true;
+            else
+                cbox.checked=false;;
+        }
+    }
+
+    var departmentCheckBoxNum=new Array();
+    var departmentId=new Array();
+    var departmentChecked=new Array();
+    var employeeId=new Array();
+    var adscription=null;//公司管理员所属的公司名称
+    var DepartmentNum=null;
+
+    function addDepartment_checkbox_selectall(j){
+//				alert("company"+j);
+        for(var i=0;i<DepartmentNum;i++)
+        {
+            var cbox_id=j+"addDepartment_checkbox_"+i;
+            var cbox=document.getElementById(cbox_id);
+//                    alert(cbox.checked);
+            if(document.getElementById("addDepartment_checkbox_selectall"+j).checked)
+                cbox.checked=true;
+            else
+                cbox.checked=false;
+        }
+    }
+
+    //对应第j个部门 第k个模态框
+    function departmentsChecked(j,k){
+//				departmentChecked[j]=true;
+        var cbox_id=k+"addDepartment_checkbox_"+j;
+//        alert(cbox_id);
+        if(document.getElementById(cbox_id).checked)departmentChecked[j]=true;
+        else departmentChecked[j]=false;
+//        alert(departmentChecked[j]+"  departmentChecked");
+    }
+
+    //发布通知，加载公司列表
+    function showDepartments(i) {//第i个模态框
+        $.ajax({
+            type: 'post',
+            url: "AdminAccountManagement/selectCompany",
+            data: 'companyrepresentativeid=' + companyRepresentativeId,
+            success: function (data) {
+//						alert(i+" test i");
+//						alert(data[0].companyid);
+                showDepartment(data[0].companyid,i);
+                adscription=data[0].name;
+                document.getElementById("companyName1").innerHTML=adscription;//加载公司名
+                document.getElementById("companyName2").innerHTML=adscription;//加载公司名
+                document.getElementById("companyName3").innerHTML=adscription;//加载公司名
+                document.getElementById("companyName").value=adscription;//加载公司名
+                document.getElementById("companyAddress").value=companyAddress;//加载公司地址
+            },
+            error: function () {
+//                alert("test  false");
+                return;
+            }
+        })
+    }
+
+    function showContent(title,content)
+    {
+        $("#title").text(title);
+        $("#content").text(content);
+        $("#themodal6").modal();
+    }
+
+    function showDepartment(Companyid,j){//第j个模态框
+        $.ajax({
+            type: 'post',
+            url: "AdminAccountManagement/selectDepartment",
+            data: 'companyid=' + Companyid,
+            success: function (data) {
+//                alert("test success");
+                var length = data.length;
+                DepartmentNum=length;
+                $("#Department"+j).html("");
+                for(var i=0;i<length;i++) {
+                    if(data[i].del)DepartmentNum--;
+                    else {
+                        $("#Department" + j)
+                                .append(
+                                '<li style="list-style-type: none;padding-left: 6%; width: 95%;" >'
+                                + '<a href="#subModel' + i + '" data-toggle="collapse"><b>' + data[i].name + '</b></a><input check style="float: right" type="checkbox" id="' + j + 'addDepartment_checkbox_' + i + '" onclick="departmentsChecked(' + i + ',' + j + ')"/><p></p>'
+                                + '</li>'
+                        );
+                        departmentId[i] = data[i].departmentid;
+//							alert(departmentId[i]);
+                    }
+                }
+                document.getElementById("departmentsNum").innerHTML=DepartmentNum;
+            },
+            error: function () {
+//                alert("test  false");
+                return;
+            }
+        });
+    }
+
+    <!---------------------------------- 发布通知  ----------------------------->
+    function sendNotify() {
+        var notifyTip = document.getElementById("notifyTip").value;
+        var notifyContent = document.getElementById("notifyContent").value;
+//        alert("test send Notify");
+//        alert(companyRepresentativeId+" crid");
+        $.ajax({
+            type: 'post',
+            url: "AdminAccountManagement/addNotify",
+            data: 'content=' + notifyContent + '&title=' + notifyTip
+            + '&adscription=' + adscription + '&companyrepresentativeid=' + companyRepresentativeId,
+            //'&departmentids=' + departmentId +
+            success: function (data) {
+//                alert(data["status"]);
+                getDepartmentEmployeeId();
+            },
+            error: function () {
+//                alert("test  false");
+            }
+        })
+    }
+
+    function getDepartmentEmployeeId (){
+//		alert("test getDEid");
+        $.ajax({
+            type: 'post',
+            url: "AdminAccountManagement/getDepartmentEmployeeId",
+            data: 'departmentids=' + departmentId,
+            success: function (data) {
+                var length = data.length;
+                for(var i=0;i<length;i++){
+                    employeeId[i]=data[i].employeeid
+//					alert(employeeId[i]+" EID");
+                }
+                addEmployeeNotify();
+            },
+            error: function () {
+//                alert("test  false");
+            }
+        })
+    }
+
+    function addEmployeeNotify(){
+        //如果部门是全选的
+        if(document.getElementById("addDepartment_checkbox_selectall1").checked){
+            $.ajax({
+                type: 'post',
+                url: "AdminAccountManagement/addEmployeeNotify",
+                data: 'employeeIds=' + employeeId,
+                //'&departmentids=' + departmentId +
+                success: function (data) {
+//                    alert(data["status"]);
+                    window.location.reload();
+                },
+                error: function () {
+//                    alert("test  false");
+                }
+            })
+        }
+        else{
+            var checkedList=new Array();
+            var j=0;
+            for(var i=0;i<DepartmentNum;i++){
+                if(departmentChecked[i])checkedList[j++]=employeeId[i];
+            }
+            $.ajax({
+                type: 'post',
+                url: "AdminAccountManagement/addEmployeeNotify",
+                data: 'employeeIds=' + checkedList,
+                success: function (data) {
+//                    alert(data["status"]);
+                    window.location.reload();
+                },
+                error: function () {
+//                    alert("test  false");
+                }
+            })
+        }
+    }
+    <!--------------------------------------- 发布通知 ----------------------------------------->
+
+
+    <!-------------------------------------- 新增活动/会议 -------------------------------------->
+    function sendActivity(){
+        var activityTip = document.getElementById("Activity_tip_input").value;
+        var activityContent = document.getElementById("reasonActivity_input").value;
+        var startTime = document.getElementById("ActivityStartTime").value;
+        var endTime = document.getElementById("ActivityEndTime").value;
+        var address = document.getElementById("Activity_address").value;
+//		if(activityTip==null||activityContent==null||startTime==null||endTime==null||address==null) {
+//				alert("不能为空");return;
+//		}
+//		else
+//			{
+//        alert("test sendActivity");
+
+        $.ajax({
+            type: 'post',
+            url: "AdminAccountManagement/addActivity",
+            data: 'activityname=' + activityTip + '&content=' + activityContent + '&address=' + address  + '&employeeid=' + '1',//暂时写静态
+//				+ '&starttime=' + startTime + '&endtime=' + endTime ,
+            //'&departmentids=' + departmentId +
+            success: function (data) {
+//                alert(data["status"]);
+                if(data["status"]==true)window.location.reload();
+            },
+            error: function () {
+//                alert("test  false");
+            }
+        })
+//		}
+    }
+
+    <!-------------------------------------- 新增活动/会议 -------------------------------------->
+
+</script>
+
+<script>
+
+    var selectStyle;//选择活动或会议 1-会议 0-活动
+    function selectActivity(){
+        var Activity = document.getElementById("Activity");
+        var Meeting = document.getElementById("Meeting");
+        if(Activity.checked){
+            Meeting.checked=false;
+            selectStyle=0;
+        }
+        else {
+            Meeting.checked=true;
+            selectStyle=1;
+        }
+    }
+    function selectMeeting(){
+        var Activity = document.getElementById("Activity");
+        var Meeting = document.getElementById("Meeting");
+        if(Meeting.checked){
+            Activity.checked=false;
+            selectStyle=1;
+        }
+        else {
+            Activity.checked=true;
+            selectStyle=0;
+        }
+    }
+
+    //提示当前位置，改变标题颜色 目前有3个表格
+    function pointTitle(i){
+        for(var j=1;j<=3;j++){
+            document.getElementById("navTitle"+j).style.color="";
+        }
+        document.getElementById("navTitle"+i).style.color="#E67E22";
+        document.getElementById("changeTelAndEmailHtml").style.display="none";
+        document.getElementById("departmentTitle").style.display="block";
+        document.getElementById("notifyTitle").style.display="block";
+        document.getElementById("activityTitle").style.display="block";
+        document.getElementById("changePasswordHtml").style.display="none";
+        document.getElementById("showDepartmentAttendance").style.display="none";
+    }
+
+    //修改手机号码/邮箱
+    function showChangeTelAndEmailHtml(){
+        document.getElementById("changeTelAndEmailHtml").style.display="block";
+        document.getElementById("departmentTitle").style.display="none";
+//        document.getElementById("scheduleTitle").style.display="none";
+        document.getElementById("notifyTitle").style.display="none";
+        document.getElementById("activityTitle").style.display="none";
+        document.getElementById("changePasswordHtml").style.display="none";
+        document.getElementById("showDepartmentAttendance").style.display="none";
+//        document.getElementById("checkTitle").style.display="none";
+//        document.getElementById("changeTelAndEmailHtml").style.display="block";
+    }
+    function closeChangeTelAndEmailHtml(){
+        document.getElementById("changeTelAndEmailHtml").style.display="none";
+        document.getElementById("changePasswordHtml").style.display="none";
+        document.getElementById("departmentTitle").style.display="block";
+//        document.getElementById("scheduleTitle").style.display="none";
+        document.getElementById("notifyTitle").style.display="block";
+        document.getElementById("activityTitle").style.display="block";
+        document.getElementById("showDepartmentAttendance").style.display="none";
+//        document.getElementById("checkTitle").style.display="none";
+//        document.getElementById("changeTelAndEmailHtml").style.display="block";
+    }
+    function showChangePasswordHtml(){
+        document.getElementById("changeTelAndEmailHtml").style.display="none";
+        document.getElementById("departmentTitle").style.display="none";
+        document.getElementById("notifyTitle").style.display="none";
+        document.getElementById("activityTitle").style.display="none";
+        document.getElementById("showDepartmentAttendance").style.display="none";
+        document.getElementById("changePasswordHtml").style.display="block";
+        document.getElementById("showDepartmentAttendance").style.display="none";
+
+    }
+    function closeChangePasswordHtml(){
+        document.getElementById("changeTelAndEmailHtml").style.display="none";
+        document.getElementById("changePasswordHtml").style.display="none";
+        document.getElementById("departmentTitle").style.display="block";
+//        document.getElementById("scheduleTitle").style.display="none";
+        document.getElementById("notifyTitle").style.display="block";
+        document.getElementById("activityTitle").style.display="block";
+        document.getElementById("showDepartmentAttendance").style.display="none";
+
+//        document.getElementById("checkTitle").style.display="none";
+//        document.getElementById("changeTelAndEmailHtml").style.display="block";
+    }
+
+    var originalTel=null;
+    var originalEmail=null;
+    var originalName=null;
+    //加载手机号码和邮箱
+    function getTelAndEmail(){
+        var tel=document.getElementById("Tel");
+        var email=document.getElementById("EmailAddress");
+        $.ajax({type : 'post',
+            url : "AdminAccountManagement/getCompanyAdminInforMation",
+            data: 'companyrepresentativeid=' + companyRepresentativeId,
+            success : function(data) {
+                tel.value=data[0].telephone;
+                email.value=data[0].email;
+                originalTel=data[0].telephone;
+                originalEmail=data[0].email;
+                originalName=data[0].name;
+                $(".companyAdminName").append(originalName);
+            },
+            error : function() {
+                return;
+            }
+        });
+    }
+
+
+
+    function showAddDepartment()
+    {
+        $("#themodal4").modal();
+    }
+    function addDepartment()
+    {
+        var name=$("#departmentName1").val();
+        var address=$("#address").val();
+        var mac=$("#mac").val();
+        $.ajax({
+            type : 'post',
+            url : "CompanyAdmin/addDepartment",
+            data: 'name='+name+'&address='+address+'&mac='+mac+'&companyid='+companyId,
+            success : function(data) {
+                if(data=="")
+                    alert("添加失败");
+                else
+                    alert("添加成功");
+                getDepartments();
+            },
+            error : function() {
+                alert("添加失败");
+                getDepartments();
+            }
+
+        });
+    }
+    function showUpdateDepartment()
+    {
+        $("#themodal5").modal();
+    }
+    function updateDepartment()
+    {
+        var name=$("#departmentName2").val();
+        var address=$("#address1").val();
+        var mac=$("#mac1").val();
+        var departmentids=new Array();
+        var sign=0;
+        $("#departments input:checked").each(function(i,element)
+        {
+            departmentids[i]=$(element).attr("class");
+            sign++;
+        });
+        if(sign!=0)
+            $.ajax({
+                type : 'post',
+                url : "CompanyAdmin/updateDepartment",
+                data: 'name='+name+'&address='+address+'&mac='+mac+'&companyid='+companyId+'&departmentids='+departmentids,
+                success : function(data) {
+                    if(data=="")
+                        alert("更改失败");
+                    else
+                        alert("更改成功");
+                    getDepartments();
+                },
+                error : function() {
+                    alert("添加失败");
+                    getDepartments();
+                }
+
+            });
+        else
+        {
+            alert("请选择要修改的部门");
+        }
+    }
+
+    function showDepartmentAdmin(departmentid,name)
+    {
+        $("#departmentName").text(name);
+        getDepartmentAdmin(departmentid);
+    }
+    function getDepartmentAdmin(departmentid) {
+
+        $
+                .ajax({
+                    type : 'post',
+                    url : "CompanyAdmin/getDepartmentAdmin",
+                    data: 'departmentid='+departmentid,
+                    success : function(data) {
+                        $(function() {
+
+                            var length = data.length;
+//                            $("#departmentAdminPagination").pagination(length, {
+//                                items_per_page : 5,
+//                                callback : pageselectCallback
+//                            });
+//
+//                            function pageselectCallback(page_index, jq) {
+//                                var items_per_page = 5;
+//                                var max_elem = Math.min((page_index + 1)
+//                                        * items_per_page, length);
+
+                                $("#departmentAdmins").html("");//html() 方法返回或设置被选元素的内容 (inner HTML)。
+//                                for (var i = page_index * items_per_page; i < max_elem; i++) {
+                                for (var i = 0; i < length; i++) {
+                                    var s=i+1;
+                                    var sex="";
+                                    if(data[i].sex==true)
+                                        sex='男';
+                                    else
+                                        sex="女";
+                                    $("#departmentAdmins")
+                                            .append(
+                                            '<tr><td>'
+                                            + data[i].name
+                                            + '</td><td>'
+                                            + data[i].account
+                                            + '</td><td>'
+                                            + data[i].duties
+                                            + '</td><td>'
+                                            + sex
+                                            + '</td><td>'
+                                            + data[i].telephone
+                                            + '</td><td>'
+                                            + data[i].email
+                                            + '</td><td>'
+                                            + '123456'
+                                            + '</td></tr>');
+
+                                }
+                                $("#themodal3").modal();
+//                            }
+                        });
+                        $("#themodal3").modal();
+                    },
+                    error : function() {
+                        $("#themodal3").modal();
+                    }
+                });
+    }
+    function queryActivities() {
+        $
+                .ajax({
+                    type : 'post',
+                    url : "CompanyAdmin/queryActivities",
+                    data: 'companyrepresentativeid='+companyRepresentativeId,
+                    success : function(data) {
+                        $(function() {
+
+                            var length = data.length;
+//                            $("#Pagination2").pagination(length, {
+//                                items_per_page : 10,
+//                                callback : pageselectCallback
+//                            });
+//
+//                            function pageselectCallback(page_index, jq) {
+//                                var items_per_page = 10;
+//                                var max_elem = Math.min((page_index + 1)
+//                                        * items_per_page, length);
+
+                                $("#activities").html("");//html() 方法返回或设置被选元素的内容 (inner HTML)。
+//                                for (var i = page_index * items_per_page; i < max_elem; i++) {
+                                for (var i = 0; i < length; i++) {
+                                    var s=i+1;
+                                    $("#activities")
+                                            .append(
+//                                            '<tr><td><input type="checkbox" id="my_business_trip_checkbox_'+s+'"/></td><td><a onclick=showContent("'+data[i].activityname+'","'+data[i].activityname+'")>'
+                                            '<tr><td><span class="glyphicon glyphicon-info-sign"></span></td><td><a onclick=showContent("'+data[i].activityname+'","'+data[i].activityname+'")>'
+                                            + data[i].activityname
+                                            + '</a></td><td>'
+                                            + (new Date(data[i].starttime)).toLocaleString()
+                                            + '</td><td>'
+                                            + (new Date(data[i].endtime)).toLocaleString()
+                                            + '</td><td>'
+                                            + data[i].address
+                                            + '</td></tr>');
+
+                                }
+                                return false;
+//                            }
+                        });
+                    },
+                    error : function() {
+                        return;
+                    }
+                });
+    }
+    function queryNotifies() {
+        $
+                .ajax({
+                    type : 'post',
+                    url : "CompanyAdmin/queryNotifies",
+                    data: 'companyrepresentativeid='+companyRepresentativeId,
+                    success : function(data) {
+                        $(function() {
+
+                            var length = data.length;
+//                            $("#Pagination3").pagination(length, {
+//                                items_per_page : 10,
+//                                callback : pageselectCallback
+//                            });
+//
+//                            function pageselectCallback(page_index, jq) {
+//                                var items_per_page = 10;
+//                                var max_elem = Math.min((page_index + 1)
+//                                        * items_per_page, length);
+
+                                $("#notifies").html("");//html() 方法返回或设置被选元素的内容 (inner HTML)。
+//                                for (var i = page_index * items_per_page; i < max_elem; i++) {
+                                for (var i = 0; i < length; i++) {
+                                    var s=i+1;
+                                    $("#notifies")
+                                            .append(
+//                                            '<tr><td><input type="checkbox"  id="my_prepare_notify_checkbox_'+s+'"/></td><td><a onclick=showContent("'+data[i].title+'","'+data[i].content+'")>'
+                                            '<tr><td><span class="glyphicon glyphicon-info-sign"></span></td><td><a onclick=showContent("'+data[i].title+'","'+data[i].content+'")>'
+                                            + data[i].title
+                                            + '</a></td><td>'
+                                            + data[i].adscription
+                                            + '</td><td>'
+                                            + (new Date(data[i].notifytime)).toLocaleString()
+                                            + '</td></tr>');
+
+                                }
+                                return false;
+//                            }
+                        });
+                    },
+                    error : function() {
+                        return;
+                    }
+                });
+    }
+
+</script>
+
+
+<!----------------------------------- 动态加载发布通知新增活动以及导入Excel------------------------------------------>
+
+
+<!-- jQuery -->
+<!--<script type="text/javascript" src="js/jquery.pagination.js"></script>-->
+<!--<script src="js/jquery-3.1.1.min.js"></script>-->
+
+<script src="admin/vendor/jquery/jquery.min.js"></script>
+<script src="admin/vendor/jquery/bootstrap.js"></script>
+<script type="text/javascript">
+    +function ($) {
+        $(function(){
+            // class
+            $(document).on('click', '[data-toggle^="class"]', function(e){
+                e && e.preventDefault();
+                console.log('abc');
+                var $this = $(e.target), $class , $target, $tmp, $classes, $targets;
+                !$this.data('toggle') && ($this = $this.closest('[data-toggle^="class"]'));
+                $class = $this.data()['toggle'];
+                $target = $this.data('target') || $this.attr('href');
+                $class && ($tmp = $class.split(':')[1]) && ($classes = $tmp.split(','));
+                $target && ($targets = $target.split(','));
+                $classes && $classes.length && $.each($targets, function( index, value ) {
+                    if ( $classes[index].indexOf( '*' ) !== -1 ) {
+                        var patt = new RegExp( '\\s' +
+                                $classes[index].
+                                        replace( /\*/g, '[A-Za-z0-9-_]+' ).
+                                        split( ' ' ).
+                                        join( '\\s|\\s' ) +
+                                '\\s', 'g' );
+                        $($this).each( function ( i, it ) {
+                            var cn = ' ' + it.className + ' ';
+                            while ( patt.test( cn ) ) {
+                                cn = cn.replace( patt, ' ' );
+                            }
+                            it.className = $.trim( cn );
+                        });
+                    }
+                    ($targets[index] !='#') && $($targets[index]).toggleClass($classes[index]) || $this.toggleClass($classes[index]);
+                });
+                $this.toggleClass('active');
+            });
+
+            // collapse nav
+            $(document).on('click', 'nav a', function (e) {
+                var $this = $(e.target), $active;
+                $this.is('a') || ($this = $this.closest('a'));
+
+                $active = $this.parent().siblings( ".active" );
+                $active && $active.toggleClass('active').find('> ul:visible').slideUp(200);
+
+                ($this.parent().hasClass('active') && $this.next().slideUp(200)) || $this.next().slideDown(200);
+                $this.parent().toggleClass('active');
+
+                $this.next().is('ul') && e.preventDefault();
+
+                setTimeout(function(){ $(document).trigger('updateNav'); }, 300);
+            });
+        });
+    }(jQuery);
+</script>
+
+
+<!--<script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>-->
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/highcharts-3d.js"></script>
+
+<script language="JavaScript">
+
+//    显示部门出勤率柱状图
+    function showDepartmentAttendance(){
+        document.getElementById("showDepartmentAttendance").style.display="block";
+        document.getElementById("changeTelAndEmailHtml").style.display="none";
+        document.getElementById("departmentTitle").style.display="none";
+        document.getElementById("notifyTitle").style.display="none";
+        document.getElementById("activityTitle").style.display="none";
+        document.getElementById("changePasswordHtml").style.display="none";
+//        Graph();
+    }
+
+
+function sendDateUrl(){
+    $
+            .ajax({
+                type : 'post',
+                url : "UserController/go",
+                data: 'employeeids='+1,
+                success : function(data) {
+                },
+                error : function() {
+                }
+            });
+}
+</script>
+
+<!--发送短信验证码以及重新发送验证码倒计时-->
+<script type="text/javascript">
+    var wait=60;
+    function time(o) {
+        if (wait == 0) {
+            o.removeAttribute("disabled");
+            o.value="免费获取验证码";
+            wait = 60;
+        } else {
+            o.setAttribute("disabled", true);
+            o.value=wait+"秒后可以重新发送";
+            wait--;
+            setTimeout(function() {
+                        time(o)
+                    },
+                    1000)
+        }
+
+    }
+    //获取验证码
+    document.getElementById("sendMessageTime").onclick=function()
+    {
+        var tel = document.getElementById("Tel");
+        if(originalTel == tel.value){alert("未修改");}
+        else if(tel.value == null || tel.value == " "){alert("手机号码不能为空");}
+        else {
+            var tel = document.getElementById("Tel");
+//            alert("test value:" + tel.value);
+//            alert("original tel:"+originalTel);
+//            alert("test running bindTel");
+              alert("验证码已发送！");
+            $.ajax({
+                type: 'post',
+                url: "AdminAccountManagement/sendMessageToCompanyAdmin",
+                data: 'companyRepresentativeid=' + companyRepresentativeId + '&telephone=' + tel.value,
+                success: function (data) {
+//                    alert("test success：" + data["status"]);
+                },
+                error: function () {
+//                    alert("test  false：" + data["status"]);
+                    return;
+                }
+            });
+            time(this);
+        }
+    }
+
+    //绑定手机号码
+    function bindTel(){
+        //验证码
+        var code = document.getElementById("code").value;
+        var tel = document.getElementById("Tel");
+//        alert("test code:"+code);
+        $.ajax({
+            type: 'post',
+            url: "AdminAccountManagement/companyAdminBindTelephone",
+            data: 'companyrepresentativeid=' + companyRepresentativeId + '&code=' + code +'&telephone=' + tel.value,
+            success: function (data) {
+//                alert("test status:" + data["status"]);
+                if(data["status"]){
+                    document.getElementById("changeTelAndEmailHtml").style.display="none";
+                    document.getElementById("tip").style.display="block";
+                }
+//                else alert("修改失败");
+            },
+            error: function () {
+//                alert("test  status:" + data["status"]);
+                return;
+            }
+        });
+    }
+    //绑定邮箱
+    function bindEmail(){
+        var email=document.getElementById("EmailAddress");
+//        alert("original email:"+originalEmail);
+//        alert("test value:"+email.value);
+        if(originalTel!=email.value && email.value!=null && email.value!=" ") {
+//            alert("test running bindEmail");
+            $.ajax({
+                type: 'post',
+                url: "AdminAccountManagement/sendEmailCodeToCompanyAdmin",
+                data: 'companyRepresentativeid=' + companyRepresentativeId  + '&email=' + email.value,
+                success: function (data) {
+//                    alert("test success：" + data["status"]);
+                     alert("验证链接已发送！");
+                    $("#emailBindingTip").append("   （请进入邮箱验证确认）");
+                },
+                error: function () {
+//                    alert("test  false：" + data["status"]);
+                    return;
+                }
+            });
+        }
+    }
+
+
+    //修改密码
+    function changePassword(){
+        var OP=document.getElementById("OldPwd").value;//旧密码
+        var NP=document.getElementById("NewPwd").value;//新密码
+        var MSP=document.getElementById("MakeSurePwd").value;//确认密码
+        var flag;
+//        alert(OP);
+//        alert(NP);
+//        alert(MSP);
+        if(OP==NP)alert("新密码与旧密码不能一样");
+        else {
+            $.ajax({
+                type: 'post',
+                url: "AdminAccountManagement/verificationCompanyAdmin",
+                data: 'companyrepresentativeid=' + companyRepresentativeId + '&password=' + OP,
+                success: function (data) {
+//                    alert(data["status"]);
+                    if (data["status"])flag = true;
+                    //旧密码正确则修改密码
+                    if (data["status"]) {
+                        if (NP == MSP && NP != null) {
+                            $.ajax({
+                                type: 'post',
+                                url: "AdminAccountManagement/companyAdminChangePassword",
+                                data: 'companyrepresentativeid=' + companyRepresentativeId + '&password=' + MSP,
+                                success: function (data) {
+                                    if (data["status"] && flag) {
+                                        document.getElementById("changePasswordHtml").style.display = "none";
+                                        document.getElementById("tip2").style.display = "block";
+                                    }
+                                },
+                                error: function () {
+//                                    alert(data["status"] + "修改密码失败");
+                                }
+                            });
+                        }
+                        else {
+                            alert("请重新确认新密码");
+                        }
+                    }
+                    else alert("原密码输入有误！");
+
+                },
+                error: function (data) {
+//                    alert(data["status"] + "原密码验证失败");
+                }
+            });
+        }
+    }
+
+
+</script>
+<!--/发送短信验证码以及重新发送验证码倒计时-->
+
+</html>

@@ -4,6 +4,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import pojo.TbCompany;
+import utils.GetId;
 
 import static org.junit.Assert.*;
 
@@ -43,5 +45,29 @@ public class CompanyAdminServiceTest {
     @Test
     public void testQueryNotifies() throws Exception {
         companyAdminService.queryNotifies("1");
+    }
+
+    @Test
+    public void testAddOneDepartment() throws Exception {
+
+    }
+
+    @Test
+    public void testAutoAddCompany() throws Exception {
+        companyAdminService.autoAddCompany("201704241323231");
+    }
+
+    @Test
+    public void testSelectCompany() throws Exception {
+        companyAdminService.selectCompany("201704241323231");
+    }
+
+    @Test
+    public void testUpdateCompany() throws Exception {
+        TbCompany company=new TbCompany();
+        company.setCompanyid("201704241323231");
+        company.setAddress("77");
+        company.setName("777");
+        companyAdminService.updateCompany(company);
     }
 }

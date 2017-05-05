@@ -1,5 +1,8 @@
 package pojo;
 
+import javafx.util.converter.TimeStringConverter;
+
+import java.sql.Timestamp;
 import java.util.Date;
 
 /**
@@ -13,6 +16,17 @@ public class TbDailyAttendanceVo extends TbDailyattendance{
     private Date d1;
     private Date d2;
     private String name;
+    private Timestamp entertime;
+    private Timestamp outtime;
+
+    @Override
+    public Timestamp getOuttime() {
+        return outtime;
+    }
+
+    public void setOuttime(Timestamp outtime) {
+        this.outtime = outtime;
+    }
 
     private String departmentid;
 
@@ -78,5 +92,14 @@ public class TbDailyAttendanceVo extends TbDailyattendance{
 
     public void setDate(String date) {
         this.date = date;
+    }
+
+    @Override
+    public Timestamp getEntertime() {
+        return entertime;
+    }
+
+    public void setEntertime(Timestamp entertime) {
+        this.entertime = entertime;
     }
 }
